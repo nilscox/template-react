@@ -10,12 +10,7 @@
   "globals": {
     "process": "readonly"
   },
-  "plugins": [
-    "simple-import-sort",
-    "@typescript-eslint",
-    "react",
-    "react-hooks"
-  ],
+  "plugins": ["simple-import-sort", "@typescript-eslint"],
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
@@ -29,14 +24,11 @@
     "react/react-in-jsx-scope": "off",
     "react/prop-types": "off",
     "react/display-name": "off",
-    "simple-import-sort/imports": ["warn", {
-      "groups": [
-        ["^(react|react-dom)$"],
-        ["^[@a-z]"],
-        ["^src/"],
-        ["^../"],
-        ["^./"]
-      ]
-    }]
+    "simple-import-sort/imports": [
+      "warn",
+      {
+        "groups": [["^(react|react-dom)$"], ["^[@a-z]"], ["^src/"], ["^../"], ["^./"]]
+      }
+    ]
   }
 }
