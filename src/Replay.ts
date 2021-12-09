@@ -1,67 +1,66 @@
-import { Chunk } from './Chunk';
+import { ChunkAddition, ChunkRemoval } from './Chunk';
 
 export type CursorPosition = [number, number];
 
+type ReplayAction = ChunkAddition | ChunkRemoval;
+
 export class Replay {
-  private currentChunkIndex: number;
+  private currentActionIndex: number;
 
-  private constructor(readonly chunks: Chunk[] = []) {
-    this.currentChunkIndex = chunks.length;
+  private constructor(readonly actions: ReplayAction[] = []) {
+    this.currentActionIndex = actions.length;
   }
 
-  static create(chunks?: Chunk[]) {
-    return new Replay(chunks ?? []);
+  static create(action?: ReplayAction[]) {
+    return new Replay(action ?? []);
   }
 
-  private get lastChunk(): Chunk {
-    return this.chunks[this.chunks.length - 1];
-  }
-
-  get currentChunk(): Chunk {
-    return this.chunks[this.currentChunkIndex];
+  get currentAction(): ReplayAction {
+    return this.actions[this.currentActionIndex];
   }
 
   get cursorPosition(): CursorPosition {
-    if (!this.currentChunk) {
-      return this.lastChunk.finalCursorPosition;
+    if (!this.currentAction) {
+      const lastAction = this.actions[this.actions.length - 1];
+      return lastAction.finalCursorPosition;
     }
 
-    return this.currentChunk.initialCursorPosition;
+    return this.currentAction.initialCursorPosition;
   }
 
   get nextCursorPosition(): CursorPosition {
-    if (!this.currentChunk) {
-      throw new Error('Replay.nextCursorPosition: no current chunk');
+    if (!this.currentAction) {
+      throw new Error('Replay.nextCursorPosition: no current action');
     }
 
-    return this.currentChunk.finalCursorPosition;
+    return this.currentAction.finalCursorPosition;
   }
 
   get progress() {
-    return this.currentChunkIndex / this.chunks.length;
+    return this.currentActionIndex / this.actions.length;
   }
 
-  addChunk(chunk: Chunk) {
-    this.chunks.push(chunk);
-    this.currentChunkIndex++;
+  addChunk(chunk: ChunkAddition | ChunkRemoval) {
+    this.actions.push(chunk);
+    this.currentActionIndex++;
   }
 
   reset() {
-    this.currentChunkIndex = 0;
+    this.currentActionIndex = 0;
   }
 
-  nextChunk() {
-    if (this.currentChunkIndex === this.chunks.length) {
-      throw new Error('Replay.nextChunk: already on the last chunk');
+  nextAction() {
+    if (this.currentActionIndex === this.actions.length) {
+      throw new Error('Replay.nextAction: already on the last action');
     }
 
-    this.currentChunkIndex++;
+    this.currentActionIndex++;
   }
 
   get code() {
     // prettier-ignore
-    return this.chunks
-      .slice(0, this.currentChunkIndex)
+    return this.actions
+      .slice(0, this.currentActionIndex)
       .reduce((code, chunk) => chunk.apply(code), '');
   }
 }

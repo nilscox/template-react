@@ -5,13 +5,13 @@ import { Replay } from './Replay';
 
 const typeDelay = 12;
 const cursorMovementDelay = 300;
-const chunkDelay = 500;
+const chunkDelay = 700;
 
 // const typeDelay = 120;
 // const cursorMovementDelay = 300;
 // const chunkDelay = 500;
 
-const skipToChunk = 1;
+const skipToChunk = 8;
 
 type ReplayEditorProps = {
   replay: Replay;
@@ -29,7 +29,7 @@ export const ReplayEditor: React.FC<ReplayEditorProps> = ({ replay }) => {
     replay.reset();
 
     for (let i = 0; i < skipToChunk; ++i) {
-      replay.nextChunk();
+      replay.nextAction();
     }
 
     editor.setValue(replay.code);
@@ -64,13 +64,20 @@ export const ReplayEditor: React.FC<ReplayEditorProps> = ({ replay }) => {
     };
 
     while (replay.progress < 1) {
-      await playChunk(replay.currentChunk);
-      replay.nextChunk();
+      await playChunk(replay.currentAction);
+      replay.nextAction();
 
       await new Promise((r) => setTimeout(r, chunkDelay));
     }
 
-    await playChunk(replay.currentChunk);
+    await playChunk(replay.currentAction);
+
+    editor.setSelections([
+      { selectionStartLineNumber: 17, selectionStartColumn: 1, positionLineNumber: 21, positionColumn: 1 },
+      { selectionStartLineNumber: 22, selectionStartColumn: 1, positionLineNumber: 24, positionColumn: 1 },
+      { selectionStartLineNumber: 24, selectionStartColumn: 1, positionLineNumber: 24, positionColumn: 13 },
+      { selectionStartLineNumber: 24, selectionStartColumn: 29, positionLineNumber: 24, positionColumn: 30 },
+    ]);
   };
 
   return (
@@ -79,7 +86,7 @@ export const ReplayEditor: React.FC<ReplayEditorProps> = ({ replay }) => {
       height="calc(100vh - 24px)"
       value={replay.code}
       language="typescript"
-      theme="light"
+      theme="vs-dark"
       options={{
         autoClosingBrackets: 'never',
         autoIndent: 'none',

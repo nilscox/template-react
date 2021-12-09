@@ -8,7 +8,7 @@ describe('Replay', () => {
     const chunk = ChunkAddition.create(1, 'code');
     const replay = Replay.create([chunk]);
 
-    expect(replay.chunks).toEqual([chunk]);
+    expect(replay.actions).toEqual([chunk]);
   });
 
   const chunk1 = ChunkAddition.create(1, 'hello');
@@ -36,15 +36,15 @@ describe('Replay', () => {
     expect(replay.cursorPosition).toEqual([1, 1]);
     expect(replay.nextCursorPosition).toEqual([1, 6]);
 
-    replay.nextChunk();
+    replay.nextAction();
     expect(replay.cursorPosition).toEqual([1, 6]);
     expect(replay.nextCursorPosition).toEqual([1, 16]);
 
-    replay.nextChunk();
+    replay.nextAction();
     expect(replay.cursorPosition).toEqual([1, 10]);
     expect(replay.nextCursorPosition).toEqual([1, 6]);
 
-    replay.nextChunk();
+    replay.nextAction();
     expect(replay.cursorPosition).toEqual([1, 6]);
     expect(() => replay.nextCursorPosition).toThrow();
   });
@@ -58,13 +58,13 @@ describe('Replay', () => {
     replay.reset();
     expect(replay.progress).toEqual(0);
 
-    replay.nextChunk();
+    replay.nextAction();
     expect(replay.progress).toEqual(1 / 3);
 
-    replay.nextChunk();
+    replay.nextAction();
     expect(replay.progress).toEqual(2 / 3);
 
-    replay.nextChunk();
+    replay.nextAction();
     expect(replay.progress).toEqual(3 / 3);
   });
 
@@ -76,15 +76,15 @@ describe('Replay', () => {
     replay.reset();
     expect(replay.code).toEqual('');
 
-    replay.nextChunk();
+    replay.nextAction();
     expect(replay.code).toEqual('hello');
 
-    replay.nextChunk();
+    replay.nextAction();
     expect(replay.code).toEqual('hello the world');
 
-    replay.nextChunk();
+    replay.nextAction();
     expect(replay.code).toEqual('hello world');
 
-    expect(() => replay.nextChunk()).toThrow();
+    expect(() => replay.nextAction()).toThrow();
   });
 });

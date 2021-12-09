@@ -44,8 +44,6 @@ export const testReplay = () => {
     '',
   ]));
 
-  return replay;
-
   addChunk([1, 19], ', createStore');
 
   addChunk(10, lines([
@@ -82,7 +80,6 @@ export const testReplay = () => {
 
   removeChunk([21, 16], [21, 37]);
   addChunk([21, 16], 'increment()');
-
 
   removeChunk(17, 20);
 
