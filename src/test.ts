@@ -1,30 +1,18 @@
-import { ChunkAddition, ChunkRemoval } from './Chunk';
+import { EraseCode } from './actions/EraseCode';
+import { TypeCode } from './actions/TypeCode';
 import { Replay } from './Replay';
 
 export const testReplay = () => {
   const replay = Replay.create();
 
-  const trim = (str: string) => str.replace(/^[ \n]*\n|[ \n]*$/g, '');
   const lines = (lines: string[]) => lines.join('\n') + '\n';
 
-  const addChunk = (position: number | [number, number], code: string) => {
-    if (typeof position === 'number') {
-      position = [position, 1];
-    }
-
-    replay.addChunk(ChunkAddition.create(position, code));
+  const addChunk = (...params: Parameters<typeof TypeCode.create>) => {
+    replay.addAction(TypeCode.create(...params));
   };
 
-  const removeChunk = (start: number | [number, number], end: number | [number, number]) => {
-    if (typeof start === 'number') {
-      start = [start, 1];
-    }
-
-    if (typeof end === 'number') {
-      end = [end, 1];
-    }
-
-    replay.addChunk(ChunkRemoval.create(start, end));
+  const deleteChunk = (...params: Parameters<typeof EraseCode.create>) => {
+    replay.addAction(EraseCode.create(...params));
   };
 
   // 1
@@ -78,15 +66,15 @@ export const testReplay = () => {
     '});'
   ]));
 
-  removeChunk([21, 16], [21, 37]);
+  deleteChunk([21, 16], [21, 37]);
   addChunk([21, 16], 'increment()');
 
-  removeChunk(17, 20);
+  deleteChunk(17, 20);
 
-  removeChunk(17, 18);
-  removeChunk(18, 20);
-  removeChunk(18, [18, 13]);
-  removeChunk([18, 17], [18, 18]);
+  deleteChunk(17, 18);
+  deleteChunk(18, 20);
+  deleteChunk(18, [18, 13]);
+  deleteChunk([18, 17], [18, 18]);
 
   addChunk(6, lines([
     '',
@@ -135,10 +123,10 @@ export const testReplay = () => {
     'type AppAction = IncrementAction | IncrementByAmountAction;'
   ]));
 
-  removeChunk([23, 37], [23, 46]);
+  deleteChunk([23, 37], [23, 46]);
   addChunk([23, 37], 'AppAction');
 
-  removeChunk([1, 10], [1, 21]);
+  deleteChunk([1, 10], [1, 21]);
 
   // 4
 
@@ -154,24 +142,24 @@ export const testReplay = () => {
     '}',
   ]))
 
-  removeChunk([13, 21], [15, 3]);
+  deleteChunk([13, 21], [15, 3]);
   addChunk([13, 21], [
     ' => {',
     '  return createAction(\'increment\');',
     '}',
   ].join('\n'));
 
-  removeChunk([22, 43], [25, 3]);
+  deleteChunk([22, 43], [25, 3]);
   addChunk([22, 43], [
     ' => {',
     '  return createAction(\'incrementByAmount\', { amount });',
     '}',
   ].join('\n'));
 
-  removeChunk(8, 12);
-  removeChunk(12, 17);
+  deleteChunk(8, 12);
+  deleteChunk(12, 17);
 
-  removeChunk([17, 18], [17, 59]);
+  deleteChunk([17, 18], [17, 59]);
   addChunk([17, 18], 'ReturnType<typeof increment | typeof incrementByAmount>');
 
   return replay;

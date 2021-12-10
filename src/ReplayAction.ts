@@ -1,3 +1,5 @@
+import { editor } from 'monaco-editor';
+
 import { CursorPosition } from './Replay';
 
 export abstract class ReplayAction {
@@ -12,5 +14,13 @@ export abstract class ReplayAction {
     return this.nextAction?.finalCursorPosition;
   }
 
-  abstract apply(code: string): string | void;
+  protected async wait(ms: number) {
+    await new Promise((r) => setTimeout(r, ms));
+  }
+
+  apply(code: string): string {
+    return this.prevAction?.apply(code) ?? '';
+  }
+
+  abstract playForward(editor: editor.IEditor): Promise<void>;
 }

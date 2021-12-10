@@ -1,30 +1,31 @@
 import { expect } from 'earljs';
 
-import { ChunkAddition, ChunkRemoval } from './Chunk';
+import { EraseCode } from './actions/EraseCode';
+import { TypeCode } from './actions/TypeCode';
 import { Replay } from './Replay';
 
 describe('Replay', () => {
   it('creates an replay', () => {
-    const chunk = ChunkAddition.create(1, 'code');
+    const chunk = TypeCode.create(1, 'code');
     const replay = Replay.create([chunk]);
 
     expect(replay.actions).toEqual([chunk]);
   });
 
-  const chunk1 = ChunkAddition.create(1, 'hello');
-  const chunk2 = ChunkAddition.create([1, 6], ' the world');
-  const chunk3 = ChunkRemoval.create([1, 6], [1, 10]);
+  const chunk1 = TypeCode.create(1, 'hello');
+  const chunk2 = TypeCode.create([1, 6], ' the world');
+  const chunk3 = EraseCode.create([1, 6], [1, 10]);
 
   it('adds chunks to a replay', () => {
     const replay = Replay.create([chunk1]);
 
     expect(replay.code).toEqual('hello');
 
-    replay.addChunk(chunk2);
+    replay.addAction(chunk2);
     replay.nextAction();
     expect(replay.code).toEqual('hello the world');
 
-    replay.addChunk(chunk3);
+    replay.addAction(chunk3);
     replay.nextAction();
     expect(replay.code).toEqual('hello world');
   });
@@ -52,7 +53,7 @@ describe('Replay', () => {
   });
 
   it("computes a replay's current progress", () => {
-    const chunk = ChunkAddition.create([0, 0], 'hello');
+    const chunk = TypeCode.create(1, 'hello');
     const replay = Replay.create([chunk, chunk, chunk]);
 
     expect(replay.progress).toEqual(1);

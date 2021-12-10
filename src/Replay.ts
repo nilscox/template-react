@@ -1,4 +1,3 @@
-import { ChunkAddition, ChunkRemoval } from './Chunk';
 import { ReplayAction } from './ReplayAction';
 
 export type CursorPosition = [number, number];
@@ -49,8 +48,8 @@ export class Replay {
     return this.currentActionIndex / this.actions.length;
   }
 
-  addChunk(chunk: ChunkAddition | ChunkRemoval) {
-    this.actions.push(chunk);
+  addAction(action: ReplayAction) {
+    this.actions.push(action);
   }
 
   reset() {
@@ -69,6 +68,6 @@ export class Replay {
     // prettier-ignore
     return this.actions
       .slice(0, this.currentActionIndex)
-      .reduce((code, chunk) => chunk.apply(code) ?? code, '');
+      .reduce((code, action) => action.apply(code) ?? code, '');
   }
 }

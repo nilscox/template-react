@@ -1,0 +1,37 @@
+import { editor } from 'monaco-editor';
+
+import { ChunkAddition } from '../Chunk';
+import { CursorPosition } from '../Replay';
+import { ReplayAction } from '../ReplayAction';
+
+export class TypeCode extends ReplayAction {
+  private constructor(readonly chunk: ChunkAddition) {
+    super();
+  }
+
+  static create(position: number | CursorPosition, code: string) {
+    return new TypeCode(ChunkAddition.create(position, code));
+  }
+
+  override get initialCursorPosition(): CursorPosition | undefined {
+    return this.chunk.initialCursorPosition;
+  }
+
+  override get finalCursorPosition(): CursorPosition | undefined {
+    return this.chunk.finalCursorPosition;
+  }
+
+  apply = this.chunk.apply.bind(this.chunk);
+
+  async playForward(editor: editor.IEditor) {
+    const { line, column, code } = this.chunk;
+
+    editor.setPosition({ lineNumber: line, column });
+    await this.wait(500);
+
+    for (const char of code) {
+      editor.trigger('keyboard', 'type', { text: char });
+      await this.wait(12);
+    }
+  }
+}
