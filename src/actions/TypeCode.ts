@@ -5,12 +5,18 @@ import { CursorPosition } from '../Replay';
 import { ReplayAction } from '../ReplayAction';
 
 export class TypeCode extends ReplayAction {
+  type = 'TypeCode';
+
   private constructor(readonly chunk: ChunkAddition) {
     super();
   }
 
-  static create(position: number | CursorPosition, code: string) {
+  static create(position: CursorPosition, code: string) {
     return new TypeCode(ChunkAddition.create(position, code));
+  }
+
+  static from(object: any) {
+    return new TypeCode(ChunkAddition.from(object.chunk));
   }
 
   override get initialCursorPosition(): CursorPosition | undefined {
@@ -27,11 +33,11 @@ export class TypeCode extends ReplayAction {
     const { line, column, code } = this.chunk;
 
     editor.setPosition({ lineNumber: line, column });
-    await this.wait(500);
+    await this.wait(300);
 
     for (const char of code) {
       editor.trigger('keyboard', 'type', { text: char });
-      await this.wait(12);
+      await this.wait(10);
     }
   }
 }

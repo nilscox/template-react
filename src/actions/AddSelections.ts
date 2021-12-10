@@ -4,6 +4,8 @@ import { Range } from '../Replay';
 import { ReplayAction } from '../ReplayAction';
 
 export class AddSelections extends ReplayAction {
+  type = 'AddSelections';
+
   private constructor(readonly selections: Range[]) {
     super();
   }

@@ -3,6 +3,8 @@ import { editor } from 'monaco-editor';
 import { CursorPosition } from './Replay';
 
 export abstract class ReplayAction {
+  abstract type: string;
+
   prevAction?: ReplayAction;
   nextAction?: ReplayAction;
 

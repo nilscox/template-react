@@ -3,6 +3,8 @@ import { editor } from 'monaco-editor';
 import { ReplayAction } from '../ReplayAction';
 
 export class DeleteSelection extends ReplayAction {
+  type = 'DeleteSelection';
+
   private constructor() {
     super();
   }

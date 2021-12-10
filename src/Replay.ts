@@ -1,7 +1,12 @@
+import { TypeCode } from './actions/TypeCode';
 import { ReplayAction } from './ReplayAction';
 
-export type CursorPosition = [number, number];
+export type CursorPosition = number | [number, number];
 export type Range = [CursorPosition, CursorPosition];
+
+const actionClasses: Record<ReplayAction['type'], { from(object: any): ReplayAction }> = {
+  TypeCode,
+};
 
 export class Replay {
   private currentActionIndex: number;
@@ -12,6 +17,18 @@ export class Replay {
 
   static create(action?: ReplayAction[]) {
     return new Replay(action ?? []);
+  }
+
+  static from(object: any) {
+    const instantiateAction = (action: any) => {
+      return actionClasses[action.type].from(action);
+    };
+
+    const replay = Replay.create(object.actions.map(instantiateAction));
+
+    replay.currentActionIndex = object.currentActionIndex;
+
+    return replay;
   }
 
   get currentAction(): ReplayAction | undefined {

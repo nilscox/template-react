@@ -2,7 +2,7 @@ import Editor, { OnMount } from '@monaco-editor/react';
 
 import { Replay } from './Replay';
 
-const chunkDelay = 500;
+const chunkDelay = 200;
 const skipToChunk = 0;
 
 type ReplayEditorProps = {

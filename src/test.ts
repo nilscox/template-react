@@ -1,85 +1,92 @@
 import { AddSelections } from './actions/AddSelections';
 import { DeleteSelection } from './actions/DeleteSelection';
 import { EraseCode } from './actions/EraseCode';
+import { InsertLinesAbove } from './actions/InsertLinesAbove';
 import { TypeCode } from './actions/TypeCode';
 import { Replay } from './Replay';
+import { ReplayAction } from './ReplayAction';
 
 export const testReplay = () => {
   const replay = Replay.create();
 
-  const lines = (lines: string[]) => lines.join('\n') + '\n';
+  const lines = (lines: string[]) => lines.join('\n');
 
-  const addChunk = (...params: Parameters<typeof TypeCode.create>) => {
-    replay.addAction(TypeCode.create(...params));
+  const helper = <Action extends { create(...args: any[]): ReplayAction }>(action: Action) => {
+    return (...args: Parameters<Action['create']>) => {
+      replay.addAction(action.create(...args));
+    };
   };
 
-  const deleteChunk = (...params: Parameters<typeof EraseCode.create>) => {
-    replay.addAction(EraseCode.create(...params));
-  };
-
-  const setSelections = (...params: Parameters<typeof AddSelections.create>) => {
-    replay.addAction(AddSelections.create(...params));
-  };
-
-  const deleteSelection = (...params: Parameters<typeof DeleteSelection.create>) => {
-    replay.addAction(DeleteSelection.create(...params));
-  };
+  const typeCode = helper(TypeCode);
+  const eraseCode = helper(EraseCode);
+  const insertLinesAbove = helper(InsertLinesAbove);
+  const addSelections = helper(AddSelections);
+  const deleteSelection = helper(DeleteSelection);
 
   // 1
 
-  addChunk(1, lines([
+  typeCode(1, lines([
     "import { AnyAction } from 'redux';",
     '',
     'const reducer = (state = 0, action: AnyAction): number => {',
     '  return state;',
     '};',
+    ''
   ]));
 
-  addChunk(4, lines([
+  insertLinesAbove(4, 2);
+
+  typeCode(4, lines([
     "  if (action.type === 'increment') {",
     '    return state + 1;',
     '  }',
-    '',
   ]));
 
-  addChunk([1, 19], ', createStore');
+  typeCode([1, 19], ', createStore');
 
-  addChunk(10, lines([
+  typeCode(10, lines([
     '',
     'const store = createStore(reducer);',
+    ''
   ]));
 
-  addChunk(12, lines([
+  typeCode(12, lines([
     '',
     '// read the state',
-    'console.log(store.getState()); // 0'
+    'console.log(store.getState()); // 0',
+    ''
   ]));
 
-  addChunk(15, lines([
+
+  typeCode(15, lines([
     '',
     '// update the state',
-    'store.dispatch({ type: \'increment\' });'
+    'store.dispatch({ type: \'increment\' });',
+    ''
   ]));
 
-  addChunk(18, lines([
+  typeCode(18, lines([
     '',
     '// read the state',
-    'console.log(store.getState()); // 1'
+    'console.log(store.getState()); // 1',
+    ''
   ]));
 
   // 2
 
-  addChunk(2, lines([
+  insertLinesAbove(2, 1);
+
+  typeCode(2, lines([
     '',
     'const increment = () => ({',
     '  type: \'increment\',',
-    '});'
+    '});',
   ]));
 
-  deleteChunk([21, 16], [21, 37]);
-  addChunk([21, 16], 'increment()');
+  eraseCode([21, 16], [21, 37]);
+  typeCode([21, 16], 'increment()');
 
-  setSelections([
+  addSelections([
     [[17, 1], [21, 1]],
     [[22, 1], [24, 1]],
     [[24, 1], [24, 13]],
@@ -88,22 +95,26 @@ export const testReplay = () => {
 
   deleteSelection();
 
-  addChunk(6, lines([
+  typeCode(6, lines([
     '',
     'const incrementByAmount = (amount: number) => ({',
     '  type: \'incrementByAmount\',',
     '  amount,',
     '});',
+    '',
   ]));
 
-  addChunk(16, lines([
-    '',
+  insertLinesAbove(17, 2);
+
+  typeCode(16, lines([
     '  if (action.type === \'incrementByAmount\') {',
     '    return state + action.amount;',
     '  }',
   ]));
 
-  addChunk(28, lines([
+  return replay;
+
+  typeCode(28, lines([
     '',
     'store.dispatch(incrementByAmount(5));',
     'store.getState(); // 6',
@@ -111,16 +122,16 @@ export const testReplay = () => {
 
   // 3
 
-  addChunk(2, lines([
+  typeCode(2, lines([
     '',
     'type IncrementAction = {',
     '  type: \'increment\';',
     '};',
   ]));
 
-  addChunk([7, 21], ': IncrementAction');
+  typeCode([7, 21], ': IncrementAction');
 
-  addChunk(10, lines([
+  typeCode(10, lines([
     '',
     'type IncrementByAmountAction = {',
     '  type: \'incrementByAmount\';',
@@ -128,51 +139,51 @@ export const testReplay = () => {
     '};',
   ]));
 
-  addChunk([16, 43], ': IncrementByAmountAction');
+  typeCode([16, 43], ': IncrementByAmountAction');
 
-  addChunk(20, lines([
+  typeCode(20, lines([
     '',
     'type AppAction = IncrementAction | IncrementByAmountAction;'
   ]));
 
-  deleteChunk([23, 37], [23, 46]);
-  addChunk([23, 37], 'AppAction');
+  eraseCode([23, 37], [23, 46]);
+  typeCode([23, 37], 'AppAction');
 
-  deleteChunk([1, 10], [1, 21]);
+  eraseCode([1, 10], [1, 21]);
 
   // 4
 
-  addChunk(2, lines([
+  typeCode(2, lines([
     '',
     'type Action<Type extends string, Payload> = { type: Type } & Payload;',
   ]))
 
-  addChunk(4, lines([
+  typeCode(4, lines([
     '',
     'function createAction<Type extends string, Payload>(type: Type, payload?: Payload): Action<Type, Payload> {',
     '  return { type, ...payload } as Action<Type, Payload>;',
     '}',
   ]))
 
-  deleteChunk([13, 21], [15, 3]);
-  addChunk([13, 21], [
+  eraseCode([13, 21], [15, 3]);
+  typeCode([13, 21], [
     ' => {',
     '  return createAction(\'increment\');',
     '}',
   ].join('\n'));
 
-  deleteChunk([22, 43], [25, 3]);
-  addChunk([22, 43], [
+  eraseCode([22, 43], [25, 3]);
+  typeCode([22, 43], [
     ' => {',
     '  return createAction(\'incrementByAmount\', { amount });',
     '}',
   ].join('\n'));
 
-  deleteChunk(8, 12);
-  deleteChunk(12, 17);
+  eraseCode(8, 12);
+  eraseCode(12, 17);
 
-  deleteChunk([17, 18], [17, 59]);
-  addChunk([17, 18], 'ReturnType<typeof increment | typeof incrementByAmount>');
+  eraseCode([17, 18], [17, 59]);
+  typeCode([17, 18], 'ReturnType<typeof increment | typeof incrementByAmount>');
 
   return replay;
 };

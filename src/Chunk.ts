@@ -7,7 +7,7 @@ export interface Chunk {
   apply(code: string): string;
 }
 
-const getCursorPosition = (position: number | CursorPosition) => {
+export const getCursorPosition = (position: CursorPosition) => {
   if (typeof position === 'number') {
     return [position, 1];
   }
@@ -23,7 +23,7 @@ export class ChunkRemoval implements Chunk {
     readonly endColumn: number,
   ) {}
 
-  static create(start: number | CursorPosition, end: number | CursorPosition) {
+  static create(start: CursorPosition, end: CursorPosition) {
     const [startLine, startColumn] = getCursorPosition(start);
     const [endLine, endColumn] = getCursorPosition(end);
 
@@ -63,7 +63,7 @@ export class ChunkRemoval implements Chunk {
 export class ChunkAddition implements Chunk {
   private constructor(readonly code: string, readonly line: number, readonly column: number) {}
 
-  static create(position: number | CursorPosition, code: string) {
+  static create(position: CursorPosition, code: string) {
     if (code === '') {
       throw new Error('ChunkAddition.create: code should not be empty');
     }
@@ -71,6 +71,10 @@ export class ChunkAddition implements Chunk {
     const [line, column] = getCursorPosition(position);
 
     return new ChunkAddition(code, line, column);
+  }
+
+  static from(object: any) {
+    return new ChunkAddition(object.code, object.line, object.column);
   }
 
   get initialCursorPosition(): CursorPosition {
