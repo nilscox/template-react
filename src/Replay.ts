@@ -1,8 +1,7 @@
 import { ChunkAddition, ChunkRemoval } from './Chunk';
+import { ReplayAction } from './ReplayAction';
 
 export type CursorPosition = [number, number];
-
-type ReplayAction = ChunkAddition | ChunkRemoval;
 
 export class Replay {
   private currentActionIndex: number;
@@ -15,25 +14,35 @@ export class Replay {
     return new Replay(action ?? []);
   }
 
-  get currentAction(): ReplayAction {
+  get currentAction(): ReplayAction | undefined {
     return this.actions[this.currentActionIndex];
+  }
+
+  set currentAction(action: ReplayAction | undefined) {
+    if (!action) {
+      this.currentActionIndex = this.actions.length;
+      return;
+    }
+
+    const index = this.actions.indexOf(action);
+
+    if (index < 0) {
+      throw new Error('Replay.currentAction setter: action not found');
+    }
+
+    this.currentActionIndex = index;
   }
 
   get cursorPosition(): CursorPosition {
     if (!this.currentAction) {
-      const lastAction = this.actions[this.actions.length - 1];
-      return lastAction.finalCursorPosition;
+      return this.actions[this.actions.length - 1].finalCursorPosition ?? [1, 1];
     }
 
-    return this.currentAction.initialCursorPosition;
+    return this.currentAction?.initialCursorPosition || [1, 1];
   }
 
-  get nextCursorPosition(): CursorPosition {
-    if (!this.currentAction) {
-      throw new Error('Replay.nextCursorPosition: no current action');
-    }
-
-    return this.currentAction.finalCursorPosition;
+  get nextCursorPosition(): CursorPosition | undefined {
+    return this.currentAction?.finalCursorPosition;
   }
 
   get progress() {
@@ -42,7 +51,6 @@ export class Replay {
 
   addChunk(chunk: ChunkAddition | ChunkRemoval) {
     this.actions.push(chunk);
-    this.currentActionIndex++;
   }
 
   reset() {
@@ -61,6 +69,6 @@ export class Replay {
     // prettier-ignore
     return this.actions
       .slice(0, this.currentActionIndex)
-      .reduce((code, chunk) => chunk.apply(code), '');
+      .reduce((code, chunk) => chunk.apply(code) ?? code, '');
   }
 }

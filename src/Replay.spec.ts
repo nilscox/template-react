@@ -21,9 +21,11 @@ describe('Replay', () => {
     expect(replay.code).toEqual('hello');
 
     replay.addChunk(chunk2);
+    replay.nextAction();
     expect(replay.code).toEqual('hello the world');
 
     replay.addChunk(chunk3);
+    replay.nextAction();
     expect(replay.code).toEqual('hello world');
   });
 
@@ -46,7 +48,7 @@ describe('Replay', () => {
 
     replay.nextAction();
     expect(replay.cursorPosition).toEqual([1, 6]);
-    expect(() => replay.nextCursorPosition).toThrow();
+    expect(replay.nextCursorPosition).toEqual(undefined);
   });
 
   it("computes a replay's current progress", () => {
