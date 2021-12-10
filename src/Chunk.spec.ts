@@ -7,16 +7,16 @@ describe('ChunkAddition', () => {
     const chunk = ChunkAddition.create(1, 'hello');
 
     expect(chunk.code).toEqual('hello');
-    expect(chunk.line).toEqual(0);
-    expect(chunk.column).toEqual(0);
+    expect(chunk.line).toEqual(1);
+    expect(chunk.column).toEqual(1);
   });
 
   it('creates a chunk of code on the second line sixth column', () => {
     const chunk = ChunkAddition.create([2, 6], 'hello');
 
     expect(chunk.code).toEqual('hello');
-    expect(chunk.line).toEqual(1);
-    expect(chunk.column).toEqual(5);
+    expect(chunk.line).toEqual(2);
+    expect(chunk.column).toEqual(6);
   });
 
   it('fails to create a code chunk when the code is an empty string', () => {
@@ -51,21 +51,21 @@ describe('ChunkRemoval', () => {
   it('creates a chunk removing the first line', () => {
     const chunk = ChunkRemoval.create(1, 2);
 
-    expect(chunk.startLine).toEqual(0);
-    expect(chunk.startColumn).toEqual(0);
+    expect(chunk.startLine).toEqual(1);
+    expect(chunk.startColumn).toEqual(1);
 
-    expect(chunk.endLine).toEqual(1);
-    expect(chunk.endColumn).toEqual(0);
+    expect(chunk.endLine).toEqual(2);
+    expect(chunk.endColumn).toEqual(1);
   });
 
   it('creates a chunk removing a chunk of code', () => {
     const chunk = ChunkRemoval.create([2, 6], [4, 8]);
 
-    expect(chunk.startLine).toEqual(1);
-    expect(chunk.startColumn).toEqual(5);
+    expect(chunk.startLine).toEqual(2);
+    expect(chunk.startColumn).toEqual(6);
 
-    expect(chunk.endLine).toEqual(3);
-    expect(chunk.endColumn).toEqual(7);
+    expect(chunk.endLine).toEqual(4);
+    expect(chunk.endColumn).toEqual(8);
   });
 
   it('fails to create a code chunk when the first position is after the end position', () => {

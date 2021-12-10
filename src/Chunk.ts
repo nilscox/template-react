@@ -34,28 +34,28 @@ export class ChunkRemoval implements Chunk {
       throw new Error(`ChunkRemoval.create: start ${startStr} should be before end ${endStr}`);
     }
 
-    return new ChunkRemoval(startLine - 1, startColumn - 1, endLine - 1, endColumn - 1);
+    return new ChunkRemoval(startLine, startColumn, endLine, endColumn);
   }
 
   get initialCursorPosition(): CursorPosition {
-    return [this.endLine + 1, this.endColumn + 1];
+    return [this.endLine, this.endColumn];
   }
 
   get finalCursorPosition(): CursorPosition {
-    return [this.startLine + 1, this.startColumn + 1];
+    return [this.startLine, this.startColumn];
   }
 
   apply(code: string) {
     const lines = code.split('\n');
 
-    const lineBefore = lines[this.startLine].slice(0, this.startColumn);
-    const lineAfter = lines[this.endLine].slice(this.endColumn);
+    const lineBefore = lines[this.startLine - 1].slice(0, this.startColumn - 1);
+    const lineAfter = lines[this.endLine - 1].slice(this.endColumn - 1);
 
     // prettier-ignore
     return [
-      ...lines.slice(0, this.startLine),
+      ...lines.slice(0, this.startLine - 1),
       [lineBefore, lineAfter].join(''),
-      ...lines.slice(this.endLine + 1),
+      ...lines.slice(this.endLine),
     ].join('\n');
   }
 }
@@ -70,33 +70,33 @@ export class ChunkAddition implements Chunk {
 
     const [line, column] = getCursorPosition(position);
 
-    return new ChunkAddition(code, line - 1, column - 1);
+    return new ChunkAddition(code, line, column);
   }
 
   get initialCursorPosition(): CursorPosition {
-    return [this.line + 1, this.column + 1];
+    return [this.line, this.column];
   }
 
   get finalCursorPosition(): CursorPosition {
     const lines = this.code.split('\n');
 
     if (lines.length === 1) {
-      return [this.line + 1, this.column + 1 + this.code.length];
+      return [this.line, this.column + this.code.length];
     }
 
-    return [this.line + lines.length, lines[lines.length - 1].length];
+    return [this.line - 1 + lines.length, lines[lines.length - 1].length];
   }
 
   apply(code: string) {
     const lines = code.split('\n');
 
-    const lineBefore = lines[this.line].slice(0, this.column);
-    const lineAfter = lines[this.line].slice(this.column);
+    const lineBefore = lines[this.line - 1].slice(0, this.column - 1);
+    const lineAfter = lines[this.line - 1].slice(this.column - 1);
 
     return [
-      ...lines.slice(0, this.line),
+      ...lines.slice(0, this.line - 1),
       [lineBefore, this.code, lineAfter].join(''),
-      ...lines.slice(this.line + 1),
+      ...lines.slice(this.line),
     ].join('\n');
   }
 }
