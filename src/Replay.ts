@@ -1,6 +1,7 @@
 import { ReplayAction } from './ReplayAction';
 
 export type CursorPosition = [number, number];
+export type Range = [CursorPosition, CursorPosition];
 
 export class Replay {
   private currentActionIndex: number;

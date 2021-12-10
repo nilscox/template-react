@@ -1,3 +1,5 @@
+import { AddSelections } from './actions/AddSelections';
+import { DeleteSelection } from './actions/DeleteSelection';
 import { EraseCode } from './actions/EraseCode';
 import { TypeCode } from './actions/TypeCode';
 import { Replay } from './Replay';
@@ -13,6 +15,14 @@ export const testReplay = () => {
 
   const deleteChunk = (...params: Parameters<typeof EraseCode.create>) => {
     replay.addAction(EraseCode.create(...params));
+  };
+
+  const setSelections = (...params: Parameters<typeof AddSelections.create>) => {
+    replay.addAction(AddSelections.create(...params));
+  };
+
+  const deleteSelection = (...params: Parameters<typeof DeleteSelection.create>) => {
+    replay.addAction(DeleteSelection.create(...params));
   };
 
   // 1
@@ -69,12 +79,14 @@ export const testReplay = () => {
   deleteChunk([21, 16], [21, 37]);
   addChunk([21, 16], 'increment()');
 
-  deleteChunk(17, 20);
+  setSelections([
+    [[17, 1], [21, 1]],
+    [[22, 1], [24, 1]],
+    [[24, 1], [24, 13]],
+    [[24, 29], [24, 30]],
+  ]);
 
-  deleteChunk(17, 18);
-  deleteChunk(18, 20);
-  deleteChunk(18, [18, 13]);
-  deleteChunk([18, 17], [18, 18]);
+  deleteSelection();
 
   addChunk(6, lines([
     '',
