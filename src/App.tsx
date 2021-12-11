@@ -1,8 +1,3 @@
-/** @jsx jsx */
-import { Fragment } from 'react';
-
-import { jsx } from '@emotion/react';
-
 import { Replay } from './Replay';
 import { ReplayEditor } from './ReplayEditor';
 import { testReplay } from './test';
@@ -25,11 +20,11 @@ export const App: React.FC = () => {
   // }
 
   return (
-    <Fragment>
+    <>
       <ReplayEditor replay={replay} />
       <ReplayTimeline replay={replay} />
       <ReplayProperties replay={replay} />
-    </Fragment>
+    </>
   );
 };
 
@@ -37,45 +32,26 @@ const ReplayTimeline: React.FC<{ replay: Replay }> = ({ replay }) => {
   const progress = 0.4;
 
   return (
-    <Fragment>
-      <div
-        css={{
-          height: 28,
-          background: '#333',
-          borderTop: '1px solid #666',
-          borderBottom: '1px solid #666',
-          position: 'relative',
-        }}
-      >
-        <div
-          css={{
-            height: '100%',
-            background: '#666',
-            position: 'absolute',
-            width: progress * 100 + '%',
-          }}
-        />
-      </div>
-    </Fragment>
+    <div className="bg-dark border-y border-light relative h-[28px]">
+      <div className="h-full bg-light absolute" style={{ width: progress * 100 + '%' }} />
+    </div>
   );
 };
 
 const ReplayProperties: React.FC<{ replay: Replay }> = ({ replay }) => {
   return (
-    <Fragment>
-      <div css={{ height: 400, background: '#222', display: 'flex', flexDirection: 'row' }}>
-        <div css={{ flex: 1, borderRight: '2px solid #666' }}>
-          <ActionsList replay={replay} />
-        </div>
-        <div css={{ flex: 3 }}></div>
+    <div className="h-[400px] bg-dark flex flex-row">
+      <div className="flex-grow border-r-2 border-light">
+        <ActionsList replay={replay} />
       </div>
-    </Fragment>
+      <div className="flex-3"></div>
+    </div>
   );
 };
 
 const ActionsList: React.FC<{ replay: Replay }> = () => {
   return (
-    <ul css={{ maxHeight: '100%', overflow: 'auto', margin: 0 }}>
+    <ul className="max-h-full overflow-auto margin-0">
       {replay.actions.map((action, n) => (
         <li key={n}>{action.type}</li>
       ))}

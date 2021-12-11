@@ -4,7 +4,6 @@
     "moduleResolution": "node",
     "strict": true,
     "esModuleInterop": true,
-    "jsx": "react-jsx",
-    "jsxImportSource": "@emotion/react"
+    "jsx": "react-jsx"
   }
 }
