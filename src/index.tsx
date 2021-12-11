@@ -1,21 +1,13 @@
 import ReactDOM from 'react-dom';
 
 import { Provider } from 'react-redux';
-import { AnyAction, createStore } from 'redux';
 
 import './index.css';
 
 import { App } from './App';
+import { store } from './domain/store';
 
-const reducer = (state = null, action: AnyAction) => {
-  if (action.type === 'setReplay') {
-    return action.replay;
-  }
-
-  return state;
-};
-
-const store = createStore(reducer);
+(window as any).store = store;
 
 ReactDOM.render(
   <Provider store={store}>

@@ -1,0 +1,384 @@
+{
+  "actions": [
+    {
+      "type": "TypeCode",
+      "position": {
+        "line": 1,
+        "column": 1
+      },
+      "code": "import { AnyAction } from 'redux';\n\nconst reducer = (state = 0, action: AnyAction): number => {\n  return state;\n};\n",
+      "prepare": {}
+    },
+    {
+      "type": "TypeCode",
+      "position": {
+        "line": 4,
+        "column": 1
+      },
+      "code": "  if (action.type === 'increment') {\n    return state + 1;\n  }",
+      "prepare": {
+        "insertLinesBelow": 2
+      }
+    },
+    {
+      "type": "TypeCode",
+      "position": {
+        "line": 1,
+        "column": 19
+      },
+      "code": ", createStore",
+      "prepare": {}
+    },
+    {
+      "type": "TypeCode",
+      "position": {
+        "line": 10,
+        "column": 1
+      },
+      "code": "\nconst store = createStore(reducer);\n",
+      "prepare": {}
+    },
+    {
+      "type": "TypeCode",
+      "position": {
+        "line": 12,
+        "column": 1
+      },
+      "code": "\n// read the state\nconsole.log(store.getState()); // 0\n",
+      "prepare": {}
+    },
+    {
+      "type": "TypeCode",
+      "position": {
+        "line": 15,
+        "column": 1
+      },
+      "code": "\n// update the state\nstore.dispatch({ type: 'increment' });\n",
+      "prepare": {}
+    },
+    {
+      "type": "TypeCode",
+      "position": {
+        "line": 18,
+        "column": 1
+      },
+      "code": "\n// read the state\nconsole.log(store.getState()); // 1\n",
+      "prepare": {}
+    },
+    {
+      "type": "TypeCode",
+      "position": {
+        "line": 2,
+        "column": 1
+      },
+      "code": "\nconst increment = () => ({\n  type: 'increment',\n});",
+      "prepare": {
+        "insertLinesBelow": 1
+      }
+    },
+    {
+      "type": "EraseCode",
+      "start": {
+        "line": 21,
+        "column": 16
+      },
+      "end": {
+        "line": 21,
+        "column": 37
+      }
+    },
+    {
+      "type": "TypeCode",
+      "position": {
+        "line": 21,
+        "column": 16
+      },
+      "code": "increment()",
+      "prepare": {}
+    },
+    {
+      "type": "AddSelections",
+      "ranges": [
+        [
+          {
+            "line": 17,
+            "column": 1
+          },
+          {
+            "line": 21,
+            "column": 1
+          }
+        ],
+        [
+          {
+            "line": 22,
+            "column": 1
+          },
+          {
+            "line": 24,
+            "column": 1
+          }
+        ],
+        [
+          {
+            "line": 24,
+            "column": 1
+          },
+          {
+            "line": 24,
+            "column": 13
+          }
+        ],
+        [
+          {
+            "line": 24,
+            "column": 29
+          },
+          {
+            "line": 24,
+            "column": 30
+          }
+        ]
+      ]
+    },
+    {
+      "type": "DeleteSelection"
+    },
+    {
+      "type": "TypeCode",
+      "position": {
+        "line": 6,
+        "column": 1
+      },
+      "code": "const incrementByAmount = (amount: number) => ({\n  type: 'incrementByAmount',\n  amount,\n});",
+      "prepare": {
+        "insertLinesAbove": 1,
+        "insertLinesBelow": 1
+      }
+    },
+    {
+      "type": "TypeCode",
+      "position": {
+        "line": 16,
+        "column": 1
+      },
+      "code": "  if (action.type === 'incrementByAmount') {\n    return state + action.amount;\n  }",
+      "prepare": {
+        "insertLinesAbove": 1,
+        "insertLinesBelow": 1
+      }
+    },
+    {
+      "type": "TypeCode",
+      "position": {
+        "line": 28,
+        "column": 1
+      },
+      "code": "\nstore.dispatch(incrementByAmount(5));\nstore.getState(); // 6",
+      "prepare": {
+        "insertLinesBelow": 1
+      }
+    },
+    {
+      "type": "TypeCode",
+      "position": {
+        "line": 2,
+        "column": 1
+      },
+      "code": "\ntype IncrementAction = {\n  type: 'increment';\n};",
+      "prepare": {
+        "insertLinesBelow": 1
+      }
+    },
+    {
+      "type": "TypeCode",
+      "position": {
+        "line": 7,
+        "column": 21
+      },
+      "code": ": IncrementAction",
+      "prepare": {}
+    },
+    {
+      "type": "TypeCode",
+      "position": {
+        "line": 10,
+        "column": 1
+      },
+      "code": "\ntype IncrementByAmountAction = {\n  type: 'incrementByAmount';\n  amount: number;\n};",
+      "prepare": {
+        "insertLinesBelow": 1
+      }
+    },
+    {
+      "type": "TypeCode",
+      "position": {
+        "line": 16,
+        "column": 43
+      },
+      "code": ": IncrementByAmountAction",
+      "prepare": {}
+    },
+    {
+      "type": "TypeCode",
+      "position": {
+        "line": 20,
+        "column": 1
+      },
+      "code": "\ntype AppAction = IncrementAction | IncrementByAmountAction;",
+      "prepare": {
+        "insertLinesBelow": 1
+      }
+    },
+    {
+      "type": "EraseCode",
+      "start": {
+        "line": 23,
+        "column": 37
+      },
+      "end": {
+        "line": 23,
+        "column": 46
+      }
+    },
+    {
+      "type": "TypeCode",
+      "position": {
+        "line": 23,
+        "column": 37
+      },
+      "code": "AppAction",
+      "prepare": {}
+    },
+    {
+      "type": "EraseCode",
+      "start": {
+        "line": 1,
+        "column": 10
+      },
+      "end": {
+        "line": 1,
+        "column": 21
+      }
+    },
+    {
+      "type": "TypeCode",
+      "position": {
+        "line": 2,
+        "column": 1
+      },
+      "code": "\ntype Action<Type extends string, Payload> = { type: Type } & Payload;",
+      "prepare": {
+        "insertLinesBelow": 1
+      }
+    },
+    {
+      "type": "TypeCode",
+      "position": {
+        "line": 4,
+        "column": 1
+      },
+      "code": "\nfunction createAction<Type extends string, Payload>(type: Type, payload?: Payload): Action<Type, Payload> {\n  return { type, ...payload } as Action<Type, Payload>;\n}",
+      "prepare": {
+        "insertLinesBelow": 1
+      }
+    },
+    {
+      "type": "EraseCode",
+      "start": {
+        "line": 13,
+        "column": 21
+      },
+      "end": {
+        "line": 15,
+        "column": 3
+      }
+    },
+    {
+      "type": "TypeCode",
+      "position": {
+        "line": 13,
+        "column": 21
+      },
+      "code": " => {\n  return createAction('increment');\n}",
+      "prepare": {}
+    },
+    {
+      "type": "EraseCode",
+      "start": {
+        "line": 22,
+        "column": 43
+      },
+      "end": {
+        "line": 25,
+        "column": 3
+      }
+    },
+    {
+      "type": "TypeCode",
+      "position": {
+        "line": 22,
+        "column": 43
+      },
+      "code": " => {\n  return createAction('incrementByAmount', { amount });\n}",
+      "prepare": {}
+    },
+    {
+      "type": "AddSelections",
+      "ranges": [
+        [
+          {
+            "line": 8,
+            "column": 1
+          },
+          {
+            "line": 12,
+            "column": 1
+          }
+        ]
+      ]
+    },
+    {
+      "type": "DeleteSelection"
+    },
+    {
+      "type": "AddSelections",
+      "ranges": [
+        [
+          {
+            "line": 12,
+            "column": 1
+          },
+          {
+            "line": 17,
+            "column": 1
+          }
+        ]
+      ]
+    },
+    {
+      "type": "DeleteSelection"
+    },
+    {
+      "type": "EraseCode",
+      "start": {
+        "line": 17,
+        "column": 18
+      },
+      "end": {
+        "line": 17,
+        "column": 59
+      }
+    },
+    {
+      "type": "TypeCode",
+      "position": {
+        "line": 17,
+        "column": 18
+      },
+      "code": "ReturnType<typeof increment | typeof incrementByAmount>",
+      "prepare": {}
+    }
+  ],
+  "currentActionIndex": 0
+}

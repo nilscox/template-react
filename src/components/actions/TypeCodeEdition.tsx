@@ -1,7 +1,7 @@
-import { TypeCode } from '../../actions/TypeCode';
+import { TypeCodeAction } from '../../domain/replay.slice';
 
 type TypeCodeEditionProps = {
-  typeCode: TypeCode;
+  typeCode: TypeCodeAction;
 };
 
 export const TypeCodeEdition: React.FC<TypeCodeEditionProps> = ({ typeCode }) => {
@@ -28,20 +28,20 @@ export const TypeCodeEdition: React.FC<TypeCodeEditionProps> = ({ typeCode }) =>
 
           <label className="flex flex-row items-center gap-4">
             Insert
-            <input type="number" value={typeCode.prepare.insertLinesBefore ?? 0} />
+            <input type="number" value={typeCode.prepare.insertLinesAbove ?? 0} onChange={() => {}} />
             line(s) above the cursor
           </label>
 
           <label className="flex flex-row items-center gap-4">
             Insert
-            <input type="number" value={typeCode.prepare.insertLinesBefore ?? 0} />
+            <input type="number" value={typeCode.prepare.insertLinesBelow ?? 0} onChange={() => {}} />
             line(s) below the cursor
           </label>
         </div>
 
         <div className="flex flex-col card flex-3 gap-4">
           <div className="text-lg">Code</div>
-          <textarea className="bg-darker" rows={8} value={typeCode.code} spellCheck="false" />
+          <textarea className="bg-darker" rows={8} value={typeCode.code} spellCheck="false" onChange={() => {}} />
         </div>
       </div>
     </div>

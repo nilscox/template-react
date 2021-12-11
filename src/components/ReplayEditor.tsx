@@ -1,49 +1,28 @@
-import Editor, { OnMount } from '@monaco-editor/react';
+import MonacoEditor, { OnMount } from '@monaco-editor/react';
+import { useDispatch } from 'react-redux';
 
 import { useReplay } from '../App';
-import { Editor as MyEditor } from '../Editor';
+import { Editor } from '../Editor';
 import { TimeManager } from '../TimeManager';
 
-const skip = 0;
-
 export const ReplayEditor: React.FC = () => {
-  const replay = useReplay();
+  const dispatch = useDispatch();
 
-  const handleMount: OnMount = async (ed, monaco) => {
+  const handleMount: OnMount = async (editor, monaco) => {
     monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions({
       noSemanticValidation: true,
       noSyntaxValidation: true,
     });
 
-    const time = new TimeManager();
-    const editor = new MyEditor(ed, time);
-
-    // time.delays.betweenCharacters = 500;
-
-    replay.time = time;
-
-    ed.focus();
-    replay.reset();
-
-    time.immediate = true;
-
-    while (replay.progress < 1) {
-      if (replay.actions[skip] === replay.currentAction) {
-        time.immediate = false;
-      }
-
-      await replay.currentAction?.play(editor);
-      replay.nextAction();
-
-      await time.wait('betweenActions');
-    }
-
-    await replay.currentAction?.play(editor);
+    dispatch((dispatch: any, _getState: any, dependencies: any) => {
+      dependencies.editor = new Editor(editor, new TimeManager());
+      dispatch({ type: 'setEditorReady', ready: true });
+    });
   };
 
   return (
     <>
-      <Editor
+      <MonacoEditor
         className="monaco-editor"
         language="typescript"
         theme="vs-dark"
