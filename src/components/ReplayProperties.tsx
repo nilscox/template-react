@@ -2,13 +2,15 @@ import { createSelector } from '@reduxjs/toolkit';
 import cx from 'classnames';
 import { useDispatch } from 'react-redux';
 
-import { useCurrentAction, useReplay, useSelector } from '../App';
-import { selectReplay, setCurrentActionIndex } from '../domain/replay.slice';
+import { useCurrentAction, useSelector } from '../App';
+import { ReplayAction, selectReplay, setCurrentActionIndex } from '../domain/replay.slice';
 
+import { AddSelectionsEdition } from './actions/AddSelectionsEdition';
+import { DeleteSelectionEdition } from './actions/DeleteSelectionEdition';
+import { EraseCodeEdition } from './actions/EraseCodeEdition';
 import { TypeCodeEdition } from './actions/TypeCodeEdition';
 
 export const ReplayProperties: React.FC = () => {
-  const replay = useReplay();
   const action = useCurrentAction();
 
   return (
@@ -16,9 +18,32 @@ export const ReplayProperties: React.FC = () => {
       <div className="flex-grow border-r-2 border-light">
         <ActionsList />
       </div>
-      <div className="flex-3">{action && <TypeCodeEdition typeCode={action} />}</div>
+      <div className="flex-3">{action && <ReplayActionEdition action={action} />}</div>
     </div>
   );
+};
+
+type ReplayActionEditionProps = {
+  action: ReplayAction;
+};
+
+const ReplayActionEdition: React.FC<ReplayActionEditionProps> = ({ action }) => {
+  switch (action.type) {
+    case 'TypeCode':
+      return <TypeCodeEdition typeCode={action} />;
+
+    case 'EraseCode':
+      return <EraseCodeEdition eraseCode={action} />;
+
+    case 'AddSelections':
+      return <AddSelectionsEdition addSelections={action} />;
+
+    case 'DeleteSelection':
+      return <DeleteSelectionEdition deleteSelection={action} />;
+
+    default:
+      return null;
+  }
 };
 
 const selectActionsVM = createSelector(selectReplay, (replay) => {

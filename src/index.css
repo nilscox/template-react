@@ -38,7 +38,7 @@ textarea {
 }
 
 input[type='number'] {
-  @apply bg-darker px-1;
+  @apply bg-transparent px-1;
   max-width: 32px;
 }
 
