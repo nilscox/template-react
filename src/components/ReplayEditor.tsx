@@ -1,20 +1,14 @@
-/** @jsx jsx */
-import { Fragment } from 'react';
-
-import { jsx } from '@emotion/react';
 import Editor, { OnMount } from '@monaco-editor/react';
 
-import { Editor as MyEditor } from './Editor';
-import { Replay } from './Replay';
-import { TimeManager } from './TimeManager';
+import { useReplay } from '../App';
+import { Editor as MyEditor } from '../Editor';
+import { TimeManager } from '../TimeManager';
 
 const skip = 30;
 
-type ReplayEditorProps = {
-  replay: Replay;
-};
+export const ReplayEditor: React.FC = () => {
+  const replay = useReplay();
 
-export const ReplayEditor: React.FC<ReplayEditorProps> = ({ replay }) => {
   const handleMount: OnMount = async (ed, monaco) => {
     monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions({
       noSemanticValidation: true,
@@ -48,10 +42,9 @@ export const ReplayEditor: React.FC<ReplayEditorProps> = ({ replay }) => {
   };
 
   return (
-    <Fragment>
+    <>
       <Editor
         className="monaco-editor"
-        // height="calc(100vh - 24px)"
         language="typescript"
         theme="vs-dark"
         options={{
@@ -71,7 +64,13 @@ export const ReplayEditor: React.FC<ReplayEditorProps> = ({ replay }) => {
         }}
         onMount={handleMount}
       />
-      <div css={{ background: '#292929', color: '#CCC', textAlign: 'right', padding: '2px 12px' }}>Ln 4, Col 45</div>
-    </Fragment>
+      <StatusBar />
+    </>
   );
+};
+
+const StatusBar = () => {
+  const replay = useReplay();
+
+  return <div className="bg-dark-alternate text-right py-1 px-4">Ln 4, Col 45</div>;
 };

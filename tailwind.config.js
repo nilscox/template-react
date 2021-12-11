@@ -6,6 +6,7 @@ module.exports = {
   theme: {
     colors: {
       dark: '#222',
+      'dark-alternate': '#292929',
       light: '#666',
     },
     flex: {
