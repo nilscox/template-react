@@ -1,3 +1,7 @@
+html {
+  font-size: 12px;
+}
+
 html,
 body,
 #app {
@@ -6,8 +10,35 @@ body,
 
 body {
   margin: 0;
+  font-family: monospace;
+  color: #fff;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
 }
 
 .monaco-editor {
-  overflow: hidden;
+  flex: 1;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #333;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
