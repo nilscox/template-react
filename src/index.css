@@ -2,8 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .card {
+    @apply bg-dark-alternate p-4 rounded shadow-sm shadow-muted/50;
+  }
+}
+
 html {
-  font-size: 12px;
+  font-size: 14px;
 }
 
 html,
@@ -15,12 +21,37 @@ body,
 body {
   margin: 0;
   font-family: monospace;
-  color: #fff;
+  color: #ddd;
 }
 
 #app {
   display: flex;
   flex-direction: column;
+}
+
+* {
+  outline: none;
+}
+
+textarea {
+  @apply p-4;
+}
+
+input[type='number'] {
+  @apply bg-darker px-1;
+  max-width: 32px;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
 }
 
 .monaco-editor {
