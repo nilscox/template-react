@@ -1,4 +1,4 @@
-import { CursorPosition } from './Replay';
+import { CursorPosition } from './CursorPosition';
 
 export interface Chunk {
   readonly initialCursorPosition: CursorPosition;

@@ -1,28 +1,26 @@
-import { editor } from 'monaco-editor';
-
-import { CursorPosition } from './Replay';
+import { Editor } from './Editor';
+import { Replay } from './Replay';
+import { TimeManager } from './TimeManager';
 
 export abstract class ReplayAction {
   abstract type: string;
 
-  prevAction?: ReplayAction;
-  nextAction?: ReplayAction;
+  protected replay?: Replay;
 
-  get initialCursorPosition(): CursorPosition | undefined {
-    return this.prevAction?.initialCursorPosition;
+  protected prevAction?: ReplayAction;
+  protected nextAction?: ReplayAction;
+
+  get time() {
+    return this.replay?.time;
   }
 
-  get finalCursorPosition(): CursorPosition | undefined {
-    return this.nextAction?.finalCursorPosition;
+  setReplay(replay: Replay) {
+    this.replay = replay;
   }
 
-  protected async wait(ms: number) {
-    await new Promise((r) => setTimeout(r, ms));
-  }
+  abstract play(editor: Editor): Promise<void>;
 
-  apply(code: string): string {
-    return this.prevAction?.apply(code) ?? '';
-  }
-
-  abstract playForward(editor: editor.IEditor): Promise<void>;
+  protected wait = async (...params: Parameters<TimeManager['wait']>) => {
+    await this.time?.wait(...params);
+  };
 }

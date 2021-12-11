@@ -1,46 +1,52 @@
 import Editor, { OnMount } from '@monaco-editor/react';
 
+import { Editor as MyEditor } from './Editor';
 import { Replay } from './Replay';
+import { TimeManager } from './TimeManager';
 
-const chunkDelay = 200;
-const skipToChunk = 0;
+const skip = 0;
 
 type ReplayEditorProps = {
   replay: Replay;
 };
 
 export const ReplayEditor: React.FC<ReplayEditorProps> = ({ replay }) => {
-  const handleMount: OnMount = async (editor, monaco) => {
+  const handleMount: OnMount = async (ed, monaco) => {
     monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions({
       noSemanticValidation: true,
       noSyntaxValidation: true,
     });
 
-    editor.focus();
+    const time = new TimeManager();
+    const editor = new MyEditor(ed, time);
 
+    // time.delays.betweenCharacters = 500;
+
+    replay.time = time;
+
+    ed.focus();
     replay.reset();
 
-    for (let i = 0; i < skipToChunk; ++i) {
-      replay.nextAction();
-    }
-
-    editor.setValue(replay.code);
+    time.immediate = true;
 
     while (replay.progress < 1) {
-      await replay.currentAction?.playForward(editor);
+      if (replay.actions[skip] === replay.currentAction) {
+        time.immediate = false;
+      }
+
+      await replay.currentAction?.play(editor);
       replay.nextAction();
 
-      await new Promise((r) => setTimeout(r, chunkDelay));
+      await time.wait('betweenActions');
     }
 
-    await replay.currentAction?.playForward(editor);
+    await replay.currentAction?.play(editor);
   };
 
   return (
     <Editor
       className="monaco-editor"
       height="calc(100vh - 24px)"
-      value={replay.code}
       language="typescript"
       theme="vs-dark"
       options={{
@@ -52,7 +58,9 @@ export const ReplayEditor: React.FC<ReplayEditorProps> = ({ replay }) => {
         autoSurround: 'never',
         formatOnType: false,
         quickSuggestions: false,
+        codeLens: false,
         scrollBeyondLastLine: false,
+        hover: { enabled: false },
         minimap: { enabled: false },
         lightbulb: { enabled: false },
       }}

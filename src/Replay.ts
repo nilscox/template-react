@@ -1,7 +1,8 @@
 import { TypeCode } from './actions/TypeCode';
+import { CursorPosition } from './CursorPosition';
 import { ReplayAction } from './ReplayAction';
+import { TimeManager } from './TimeManager';
 
-export type CursorPosition = number | [number, number];
 export type Range = [CursorPosition, CursorPosition];
 
 const actionClasses: Record<ReplayAction['type'], { from(object: any): ReplayAction }> = {
@@ -11,12 +12,10 @@ const actionClasses: Record<ReplayAction['type'], { from(object: any): ReplayAct
 export class Replay {
   private currentActionIndex: number;
 
-  private constructor(readonly actions: ReplayAction[] = []) {
-    this.currentActionIndex = actions.length;
-  }
+  time = new TimeManager();
 
-  static create(action?: ReplayAction[]) {
-    return new Replay(action ?? []);
+  constructor(readonly actions: ReplayAction[] = []) {
+    this.currentActionIndex = actions.length;
   }
 
   static from(object: any) {
@@ -24,7 +23,7 @@ export class Replay {
       return actionClasses[action.type].from(action);
     };
 
-    const replay = Replay.create(object.actions.map(instantiateAction));
+    const replay = new Replay(object.actions.map(instantiateAction));
 
     replay.currentActionIndex = object.currentActionIndex;
 
@@ -50,24 +49,13 @@ export class Replay {
     this.currentActionIndex = index;
   }
 
-  get cursorPosition(): CursorPosition {
-    if (!this.currentAction) {
-      return this.actions[this.actions.length - 1].finalCursorPosition ?? [1, 1];
-    }
-
-    return this.currentAction?.initialCursorPosition || [1, 1];
-  }
-
-  get nextCursorPosition(): CursorPosition | undefined {
-    return this.currentAction?.finalCursorPosition;
-  }
-
   get progress() {
     return this.currentActionIndex / this.actions.length;
   }
 
   addAction(action: ReplayAction) {
     this.actions.push(action);
+    action.setReplay(this);
   }
 
   reset() {
@@ -80,12 +68,5 @@ export class Replay {
     }
 
     this.currentActionIndex++;
-  }
-
-  get code() {
-    // prettier-ignore
-    return this.actions
-      .slice(0, this.currentActionIndex)
-      .reduce((code, action) => action.apply(code) ?? code, '');
   }
 }

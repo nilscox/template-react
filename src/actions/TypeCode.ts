@@ -1,43 +1,34 @@
-import { editor } from 'monaco-editor';
-
-import { ChunkAddition } from '../Chunk';
-import { CursorPosition } from '../Replay';
+import { CursorPosition } from '../CursorPosition';
+import { Editor } from '../Editor';
 import { ReplayAction } from '../ReplayAction';
+
+type PrepareTypeCode = {
+  insertLinesBefore?: number;
+  insertLinesAfter?: number;
+};
 
 export class TypeCode extends ReplayAction {
   type = 'TypeCode';
 
-  private constructor(readonly chunk: ChunkAddition) {
+  constructor(readonly position: CursorPosition, readonly code: string, readonly prepare: PrepareTypeCode = {}) {
     super();
   }
 
-  static create(position: CursorPosition, code: string) {
-    return new TypeCode(ChunkAddition.create(position, code));
-  }
-
   static from(object: any) {
-    return new TypeCode(ChunkAddition.from(object.chunk));
+    return new TypeCode(object.position, object.code);
   }
 
-  override get initialCursorPosition(): CursorPosition | undefined {
-    return this.chunk.initialCursorPosition;
-  }
+  async play(editor: Editor) {
+    editor.position = this.position;
+    await this.wait('afterCursorMovement');
 
-  override get finalCursorPosition(): CursorPosition | undefined {
-    return this.chunk.finalCursorPosition;
-  }
+    await editor.insertLinesBeforeCursor(this.prepare.insertLinesBefore ?? 0);
+    await editor.insertLinesAfterCursor(this.prepare.insertLinesAfter ?? 0);
 
-  apply = this.chunk.apply.bind(this.chunk);
-
-  async playForward(editor: editor.IEditor) {
-    const { line, column, code } = this.chunk;
-
-    editor.setPosition({ lineNumber: line, column });
-    await this.wait(300);
-
-    for (const char of code) {
-      editor.trigger('keyboard', 'type', { text: char });
-      await this.wait(10);
+    if (this.time?.immediate) {
+      editor.insert(this.code);
+    } else {
+      await editor.type(this.code);
     }
   }
 }

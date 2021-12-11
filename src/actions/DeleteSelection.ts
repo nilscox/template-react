@@ -1,25 +1,16 @@
-import { editor } from 'monaco-editor';
-
+import { Editor } from '../Editor';
 import { ReplayAction } from '../ReplayAction';
 
 export class DeleteSelection extends ReplayAction {
   type = 'DeleteSelection';
+  typeSpeed?: number;
 
-  private constructor() {
+  constructor() {
     super();
   }
 
-  static create() {
-    return new DeleteSelection();
-  }
-
-  async playForward(editor: editor.IEditor) {
-    editor.trigger('keyboard', 'deleteLeft', {});
-
-    const position = editor.getPosition();
-
-    if (position) {
-      editor.setPosition(position);
-    }
+  async play(editor: Editor) {
+    editor.backspace();
+    editor.clearMultiCursor();
   }
 }
