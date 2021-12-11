@@ -72,5 +72,5 @@ export const ReplayEditor: React.FC = () => {
 const StatusBar = () => {
   const replay = useReplay();
 
-  return <div className="bg-dark-alternate text-right py-1 px-4">Ln 4, Col 45</div>;
+  return <div className="px-4 py-1 text-right bg-dark-alternate">Ln 4, Col 45</div>;
 };

@@ -9,7 +9,7 @@ export const ReplayProperties: React.FC = () => {
   const replay = useReplay();
 
   return (
-    <div className="h-[400px] bg-dark flex flex-row">
+    <div className="flex flex-row h-[400px] bg-dark">
       <div className="flex-grow border-r-2 border-light">
         <ActionsList />
       </div>
@@ -24,7 +24,7 @@ export const ActionsList: React.FC = () => {
   const replay = useReplay();
 
   return (
-    <ul className="max-h-full overflow-auto margin-0 bg-dark-alternate flex flex-col gap-[2px]">
+    <ul className="flex flex-col max-h-full overflow-auto margin-0 bg-dark-alternate gap-[2px]">
       {replay.actions.map((action, n) => (
         <li
           key={n}
