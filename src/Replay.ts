@@ -1,3 +1,8 @@
+import { AddSelections } from './actions/AddSelections';
+import { DeleteSelection } from './actions/DeleteSelection';
+import { EraseCode } from './actions/EraseCode';
+import { InsertLines } from './actions/InsertLines';
+import { SetCursorPosition } from './actions/SetCursorPosition';
 import { TypeCode } from './actions/TypeCode';
 import { CursorPosition } from './CursorPosition';
 import { ReplayAction } from './ReplayAction';
@@ -7,6 +12,11 @@ export type Range = [CursorPosition, CursorPosition];
 
 const actionClasses: Record<ReplayAction['type'], { from(object: any): ReplayAction }> = {
   TypeCode,
+  SetCursorPosition,
+  InsertLines,
+  EraseCode,
+  DeleteSelection,
+  AddSelections,
 };
 
 export class Replay {
@@ -25,9 +35,18 @@ export class Replay {
 
     const replay = new Replay(object.actions.map(instantiateAction));
 
+    replay.actions.forEach((action) => action.setReplay(replay));
+
     replay.currentActionIndex = object.currentActionIndex;
 
     return replay;
+  }
+
+  toJson() {
+    return {
+      actions: this.actions.map((action) => action.toJson()),
+      currentActionIndex: this.currentActionIndex,
+    };
   }
 
   get currentAction(): ReplayAction | undefined {

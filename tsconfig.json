@@ -4,6 +4,9 @@
     "moduleResolution": "node",
     "strict": true,
     "esModuleInterop": true,
-    "jsx": "react-jsx"
-  }
+    "jsx": "react-jsx",
+    "outDir": "dist",
+    "skipLibCheck": true
+  },
+  "include": ["src"]
 }

@@ -7,9 +7,6 @@ export abstract class ReplayAction {
 
   protected replay?: Replay;
 
-  protected prevAction?: ReplayAction;
-  protected nextAction?: ReplayAction;
-
   get time() {
     return this.replay?.time;
   }
@@ -18,6 +15,7 @@ export abstract class ReplayAction {
     this.replay = replay;
   }
 
+  abstract toJson(): object;
   abstract play(editor: Editor): Promise<void>;
 
   protected wait = async (...params: Parameters<TimeManager['wait']>) => {

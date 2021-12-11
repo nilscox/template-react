@@ -5,8 +5,14 @@ export class DeleteSelection extends ReplayAction {
   type = 'DeleteSelection';
   typeSpeed?: number;
 
-  constructor() {
-    super();
+  static from(_object: any) {
+    return new DeleteSelection();
+  }
+
+  toJson() {
+    return {
+      type: this.type,
+    };
   }
 
   async play(editor: Editor) {

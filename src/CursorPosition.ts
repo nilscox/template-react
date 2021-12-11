@@ -24,4 +24,15 @@ export class CursorPosition {
   toString() {
     return `[${this.values.join(', ')}]`;
   }
+
+  static from(object: any) {
+    return new CursorPosition(object.line, object.column);
+  }
+
+  toJson() {
+    return {
+      line: this.line,
+      column: this.column,
+    };
+  }
 }

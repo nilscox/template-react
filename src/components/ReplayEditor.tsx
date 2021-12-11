@@ -4,7 +4,7 @@ import { useReplay } from '../App';
 import { Editor as MyEditor } from '../Editor';
 import { TimeManager } from '../TimeManager';
 
-const skip = 30;
+const skip = 0;
 
 export const ReplayEditor: React.FC = () => {
   const replay = useReplay();

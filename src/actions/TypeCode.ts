@@ -15,7 +15,16 @@ export class TypeCode extends ReplayAction {
   }
 
   static from(object: any) {
-    return new TypeCode(object.position, object.code);
+    return new TypeCode(CursorPosition.from(object.position), object.code, object.prepare);
+  }
+
+  toJson() {
+    return {
+      type: this.type,
+      position: this.position.toJson(),
+      code: this.code,
+      prepare: this.prepare,
+    };
   }
 
   async play(editor: Editor) {

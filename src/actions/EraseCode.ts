@@ -9,6 +9,18 @@ export class EraseCode extends ReplayAction {
     super();
   }
 
+  static from(object: any) {
+    return new EraseCode(CursorPosition.from(object.start), CursorPosition.from(object.end));
+  }
+
+  toJson() {
+    return {
+      type: this.type,
+      start: this.start.toJson(),
+      end: this.end.toJson(),
+    };
+  }
+
   async play(editor: Editor) {
     editor.position = this.end;
     await this.wait('afterCursorMovement');

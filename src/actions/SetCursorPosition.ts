@@ -9,6 +9,17 @@ export class SetCursorPosition extends ReplayAction {
     super();
   }
 
+  static from(object: any) {
+    return new SetCursorPosition(CursorPosition.from(object.position));
+  }
+
+  toJson() {
+    return {
+      type: this.type,
+      position: this.position.toJson(),
+    };
+  }
+
   async play(editor: Editor) {
     editor.position = this.position;
   }

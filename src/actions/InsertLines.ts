@@ -15,18 +15,29 @@ export class InsertLines extends ReplayAction {
     this.linesAfter = where.linesAfter ?? 0;
   }
 
+  static from(object: any) {
+    return new InsertLines(object.position, object);
+  }
+
+  toJson() {
+    return {
+      type: this.type,
+      position: this.position.toJson(),
+      linesAfter: this.linesAfter,
+      linesBefore: this.linesBefore,
+    };
+  }
+
   async play(editor: Editor) {
     editor.position = this.position;
     await this.wait('afterCursorMovement');
 
     for (let i = 0; i < this.linesBefore; ++i) {
-      editor.insertLinesBeforeCursor();
-      await this.wait('betweenCharacters');
+      await editor.insertLinesBeforeCursor(1);
     }
 
     for (let i = 0; i < this.linesAfter; ++i) {
-      editor.insertLinesAfterCursor();
-      await this.wait('betweenCharacters');
+      await editor.insertLinesAfterCursor(1);
     }
   }
 }

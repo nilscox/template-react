@@ -166,3 +166,5 @@ export const testReplay = () => {
 
   return builder.get();
 };
+
+// console.log(inspect(testReplay().toJson(), false, null, true));
