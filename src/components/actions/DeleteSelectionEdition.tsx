@@ -1,4 +1,4 @@
-import { DeleteSelectionAction } from '../../domain/replay.slice';
+import { DeleteSelectionAction } from '../../domain/types/actions';
 
 type DeleteSelectionEditionProps = {
   deleteSelection: DeleteSelectionAction;

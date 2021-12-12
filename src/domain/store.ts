@@ -1,11 +1,11 @@
-import { configureStore, ThunkAction as ReduxThunkAction } from '@reduxjs/toolkit';
+import { AnyAction, configureStore, ThunkAction as ReduxThunkAction } from '@reduxjs/toolkit';
 
 import { Editor } from '../Editor';
 import { Scheduler } from '../Scheduler';
 
-import { editorReducer } from './editor.slice';
-import { ReplayAction, replayReducer } from './replay.slice';
-import { uiReducer } from './ui.slice';
+import { editorReducer } from './slices/editor.slice';
+import { replayReducer } from './slices/replay.slice';
+import { uiReducer } from './slices/ui.slice';
 
 type Dependencies = {
   editor: Editor;
@@ -36,6 +36,4 @@ export type State = ReturnType<GetState>;
 
 export type Dispatch = typeof store.dispatch;
 
-export type ThunkAction<ReturnType = void> = ReduxThunkAction<ReturnType, State, Dependencies, ReplayAction>;
-
-export type AsyncThunk = { dispatch: Dispatch; state: State; extra: Dependencies };
+export type ThunkAction<ReturnType = void> = ReduxThunkAction<ReturnType, State, Dependencies, AnyAction>;

@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux';
 
-import { nextAction } from '../domain/nextAction';
-import { selectPropertiesEditionVisible } from '../domain/ui.selectors';
-import { setPropertiesEditionVisible } from '../domain/ui.slice';
+import { selectPropertiesEditionVisible } from '../domain/slices/ui.selectors';
+import { setPropertiesEditionVisible } from '../domain/slices/ui.slice';
+import { nextAction } from '../domain/usecases/nextAction';
 
 export const StatusBar: React.FC = () => {
   const dispatch = useDispatch();

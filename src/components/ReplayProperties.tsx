@@ -3,10 +3,10 @@ import cx from 'classnames';
 import { useDispatch } from 'react-redux';
 
 import { useCurrentAction, useSelector } from '../App';
-import { selectReplay } from '../domain/replay.selectors';
-import { ReplayAction } from '../domain/replay.slice';
-import { setCurrentAction } from '../domain/setCurrentAction';
-import { selectPropertiesEditionVisible } from '../domain/ui.selectors';
+import { selectReplay } from '../domain/slices/replay.selectors';
+import { selectPropertiesEditionVisible } from '../domain/slices/ui.selectors';
+import { ReplayAction } from '../domain/types/actions';
+import { setCurrentAction } from '../domain/usecases/setCurrentAction';
 
 import { AddSelectionsEdition } from './actions/AddSelectionsEdition';
 import { DeleteSelectionEdition } from './actions/DeleteSelectionEdition';

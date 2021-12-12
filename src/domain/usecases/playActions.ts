@@ -1,17 +1,16 @@
-import { Editor } from '../Editor';
-import { Range } from '../Range';
-import { Scheduler } from '../Scheduler';
-
-import { selectIsEditorReady } from './editor.selectors';
-import { ReplayAction } from './replay.slice';
-import { ThunkAction } from './store';
+import { Editor } from '../../Editor';
+import { Range } from '../../Range';
+import { Scheduler } from '../../Scheduler';
+import { selectIsEditorReady } from '../slices/editor.selectors';
+import { ThunkAction } from '../store';
+import { ReplayAction } from '../types/actions';
 
 export const playActions = (actions: ReplayAction[]): ThunkAction<Promise<void>> => {
   return async (dispatch, getState, { editor, scheduler }) => {
     const editorReady = selectIsEditorReady(getState());
 
     if (!editorReady) {
-      throw new Error('replay/playTo: editor is not ready');
+      throw new Error('playActions: editor is not ready');
     }
 
     for (const action of actions) {

@@ -1,8 +1,9 @@
-import { selectIsEditorReady } from './editor.selectors';
+import { selectIsEditorReady } from '../slices/editor.selectors';
+import { selectCurrentAction, selectReplay } from '../slices/replay.selectors';
+import { setCurrentActionIndex } from '../slices/replay.slice';
+import { ThunkAction } from '../store';
+
 import { playActions } from './playActions';
-import { selectCurrentAction, selectReplay } from './replay.selectors';
-import { setCurrentActionIndex } from './replay.slice';
-import { ThunkAction } from './store';
 
 export const nextAction = (): ThunkAction<Promise<void>> => {
   return async (dispatch, getState) => {

@@ -1,7 +1,7 @@
 import MonacoEditor, { OnMount } from '@monaco-editor/react';
 import { useDispatch } from 'react-redux';
 
-import { setEditorReady } from '../domain/editor.slice';
+import { setEditorReady } from '../domain/slices/editor.slice';
 import { Editor } from '../Editor';
 
 import { StatusBar } from './StatusBar';

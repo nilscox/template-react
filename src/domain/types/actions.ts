@@ -1,14 +1,14 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-import { Position } from '../Position';
+import { Position } from '../../Position';
 
 // cursor movement
 
-export type SetCursorPositionAction = {
+type SetCursorPositionAction = {
   type: 'SetCursorPosition';
   id: string;
   position: Position;
 };
+
+export default SetCursorPositionAction;
 
 export type CursorMovementAction = SetCursorPositionAction;
 
@@ -58,32 +58,3 @@ export type InsertLinesAction = {
 export type TextEditionAction = TypeCodeAction | EraseCodeAction | InsertLinesAction;
 
 export type ReplayAction = CursorMovementAction | SelectionAction | TextEditionAction;
-
-export type Replay = {
-  actions: ReplayAction[];
-  currentActionIndex: number;
-};
-
-const initialState: Replay = {
-  actions: [],
-  currentActionIndex: 0,
-};
-
-const replaySlice = createSlice({
-  name: 'replay',
-  initialState,
-  reducers: {
-    setReplay(_state, action: PayloadAction<Replay>) {
-      return action.payload;
-    },
-    addAction(state, action: PayloadAction<ReplayAction>) {
-      state.actions.push(action.payload);
-    },
-    setCurrentActionIndex(state, action: PayloadAction<number>) {
-      state.currentActionIndex = action.payload;
-    },
-  },
-});
-
-export const { setReplay, addAction, setCurrentActionIndex } = replaySlice.actions;
-export const replayReducer = replaySlice.reducer;

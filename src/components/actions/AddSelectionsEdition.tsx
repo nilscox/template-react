@@ -1,4 +1,4 @@
-import { AddSelectionsAction } from '../../domain/replay.slice';
+import { AddSelectionsAction } from '../../domain/types/actions';
 import { CursorPositionInput } from '../CursorPositionInput';
 
 type AddSelectionsEditionProps = {

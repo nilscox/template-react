@@ -1,4 +1,4 @@
-import { TypeCodeAction } from '../../domain/replay.slice';
+import { TypeCodeAction } from '../../domain/types/actions';
 import { CursorPositionInput } from '../CursorPositionInput';
 
 type TypeCodeEditionProps = {

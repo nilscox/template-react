@@ -6,11 +6,11 @@ import { useDispatch, useSelector as useReduxSelector } from 'react-redux';
 import { ReplayEditor } from './components/ReplayEditor';
 import { ReplayProperties } from './components/ReplayProperties';
 import { ReplayTimeline } from './components/ReplayTimeline';
-import { selectIsEditorReady } from './domain/editor.selectors';
-import { playActions } from './domain/playActions';
-import { selectCurrentAction, selectReplay } from './domain/replay.selectors';
-import { Replay, setReplay } from './domain/replay.slice';
+import { selectIsEditorReady } from './domain/slices/editor.selectors';
+import { selectCurrentAction, selectReplay } from './domain/slices/replay.selectors';
+import { Replay, setReplay } from './domain/slices/replay.slice';
 import { State } from './domain/store';
+import { playActions } from './domain/usecases/playActions';
 import replayInput from './replay.json';
 
 export const useSelector = <Result, Params extends unknown[]>(

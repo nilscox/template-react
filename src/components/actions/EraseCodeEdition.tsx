@@ -1,4 +1,4 @@
-import { EraseCodeAction } from '../../domain/replay.slice';
+import { EraseCodeAction } from '../../domain/types/actions';
 import { CursorPositionInput } from '../CursorPositionInput';
 
 type EraseCodeEditionProps = {

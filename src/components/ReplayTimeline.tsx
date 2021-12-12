@@ -1,7 +1,7 @@
 import { createSelector } from '@reduxjs/toolkit';
 
 import { useSelector } from '../App';
-import { selectReplay } from '../domain/replay.selectors';
+import { selectReplay } from '../domain/slices/replay.selectors';
 
 const selectReplayProgress = createSelector(selectReplay, (replay) => {
   if (!replay.actions.length) {
