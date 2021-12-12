@@ -1,8 +1,10 @@
 import MonacoEditor, { OnMount } from '@monaco-editor/react';
 import { useDispatch } from 'react-redux';
 
-import { nextAction } from '../domain/nextAction';
+import { setEditorReady } from '../domain/editor.slice';
 import { Editor } from '../Editor';
+
+import { StatusBar } from './StatusBar';
 
 export const ReplayEditor: React.FC = () => {
   const dispatch = useDispatch();
@@ -15,7 +17,7 @@ export const ReplayEditor: React.FC = () => {
 
     dispatch((dispatch: any, _getState: any, dependencies: any) => {
       dependencies.editor = new Editor(editor, dependencies.scheduler);
-      dispatch({ type: 'setEditorReady', ready: true });
+      dispatch(setEditorReady(true));
     });
   };
 
@@ -44,20 +46,5 @@ export const ReplayEditor: React.FC = () => {
       />
       <StatusBar />
     </>
-  );
-};
-
-const StatusBar = () => {
-  const dispatch = useDispatch();
-
-  return (
-    <div className="flex flex-row justify-between px-4 py-1 text-right bg-dark-alternate">
-      <div>
-        <button style={{ lineHeight: 0 }} className="text-lg" onClick={() => dispatch(nextAction())}>
-          ▶
-        </button>
-      </div>
-      <div>Ln 4, Col 45</div>
-    </div>
   );
 };

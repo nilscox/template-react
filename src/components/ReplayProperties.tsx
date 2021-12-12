@@ -6,6 +6,7 @@ import { useCurrentAction, useSelector } from '../App';
 import { selectReplay } from '../domain/replay.selectors';
 import { ReplayAction } from '../domain/replay.slice';
 import { setCurrentAction } from '../domain/setCurrentAction';
+import { selectPropertiesEditionVisible } from '../domain/ui.selectors';
 
 import { AddSelectionsEdition } from './actions/AddSelectionsEdition';
 import { DeleteSelectionEdition } from './actions/DeleteSelectionEdition';
@@ -14,6 +15,11 @@ import { TypeCodeEdition } from './actions/TypeCodeEdition';
 
 export const ReplayProperties: React.FC = () => {
   const action = useCurrentAction();
+  const visible = useSelector(selectPropertiesEditionVisible);
+
+  if (!visible) {
+    return null;
+  }
 
   return (
     <div className="flex flex-row h-[400px] bg-dark">

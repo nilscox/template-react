@@ -1,9 +1,11 @@
-import { configureStore, Reducer, ThunkAction as ReduxThunkAction } from '@reduxjs/toolkit';
+import { configureStore, ThunkAction as ReduxThunkAction } from '@reduxjs/toolkit';
 
 import { Editor } from '../Editor';
+import { Scheduler } from '../Scheduler';
 
+import { editorReducer } from './editor.slice';
 import { ReplayAction, replayReducer } from './replay.slice';
-import { Scheduler } from './Scheduler';
+import { uiReducer } from './ui.slice';
 
 type Dependencies = {
   editor: Editor;
@@ -15,22 +17,11 @@ const dependencies: Dependencies = {
   scheduler: new Scheduler(),
 };
 
-const editorReducer: Reducer<{ ready: boolean }> = (state = { ready: false }, action) => {
-  if (action.type === 'setEditorReady') {
-    return { ready: action.ready };
-  }
-
-  return state;
-};
-
-export const selectIsEditorReady = (state: State) => {
-  return state.editor.ready;
-};
-
 export const store = configureStore({
   reducer: {
     replay: replayReducer,
     editor: editorReducer,
+    ui: uiReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

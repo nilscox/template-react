@@ -1,8 +1,8 @@
 import { editor } from 'monaco-editor';
 
-import { Scheduler } from './domain/Scheduler';
 import { Position } from './Position';
 import { Range } from './Range';
+import { Scheduler } from './Scheduler';
 
 export class Editor {
   constructor(private readonly editor: editor.ICodeEditor, private readonly scheduler: Scheduler) {}

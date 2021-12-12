@@ -1,9 +1,10 @@
 import { Editor } from '../Editor';
 import { Range } from '../Range';
+import { Scheduler } from '../Scheduler';
 
+import { selectIsEditorReady } from './editor.selectors';
 import { ReplayAction } from './replay.slice';
-import { Scheduler } from './Scheduler';
-import { selectIsEditorReady, ThunkAction } from './store';
+import { ThunkAction } from './store';
 
 export const playActions = (actions: ReplayAction[]): ThunkAction<Promise<void>> => {
   return async (dispatch, getState, { editor, scheduler }) => {
@@ -26,10 +27,11 @@ const playAction = async (action: ReplayAction, editor: Editor, scheduler: Sched
   switch (action.type) {
     case 'TypeCode':
       editor.position = action.position;
-      await scheduler.wait('afterCursorMovement');
 
       await editor.insertLinesAbove(action.prepare.insertLinesAbove);
       await editor.insertLinesBelow(action.prepare.insertLinesBelow);
+
+      await scheduler.wait('afterCursorMovement');
 
       if (scheduler.immediate) {
         editor.insert(action.code);
