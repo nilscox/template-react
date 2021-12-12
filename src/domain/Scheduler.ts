@@ -1,5 +1,5 @@
-export class TimeManager {
-  immediate = false;
+export class Scheduler {
+  immediate = true;
 
   delays = {
     betweenActions: 1000,
@@ -7,7 +7,7 @@ export class TimeManager {
     betweenCharacters: 15,
   };
 
-  async wait(kind: keyof TimeManager['delays']) {
+  async wait(kind: keyof Scheduler['delays']) {
     if (this.immediate) {
       return;
     }

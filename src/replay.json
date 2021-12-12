@@ -2,6 +2,7 @@
   "actions": [
     {
       "type": "TypeCode",
+      "id": "9deb0661-95a9-40bf-9c66-0ac7234ba78b",
       "position": {
         "line": 1,
         "column": 1
@@ -11,6 +12,7 @@
     },
     {
       "type": "TypeCode",
+      "id": "f4009d70-e9bf-4687-aadb-4be981e94d8c",
       "position": {
         "line": 4,
         "column": 1
@@ -22,6 +24,7 @@
     },
     {
       "type": "TypeCode",
+      "id": "1dbc1232-12b8-4a36-9b63-a73f5ae134ae",
       "position": {
         "line": 1,
         "column": 19
@@ -31,6 +34,7 @@
     },
     {
       "type": "TypeCode",
+      "id": "1c396012-7903-4635-b72f-21d71e28bac9",
       "position": {
         "line": 10,
         "column": 1
@@ -40,6 +44,7 @@
     },
     {
       "type": "TypeCode",
+      "id": "d3485465-9a29-40b4-9933-4601af03ce94",
       "position": {
         "line": 12,
         "column": 1
@@ -49,6 +54,7 @@
     },
     {
       "type": "TypeCode",
+      "id": "5a432d4a-0283-4771-baca-2b9d1a8e1276",
       "position": {
         "line": 15,
         "column": 1
@@ -58,6 +64,7 @@
     },
     {
       "type": "TypeCode",
+      "id": "94072f23-4ede-4e78-9b9c-27fb5e8c478a",
       "position": {
         "line": 18,
         "column": 1
@@ -67,6 +74,7 @@
     },
     {
       "type": "TypeCode",
+      "id": "8a01d3b0-d0aa-4323-b8e1-9ce38a97f7ad",
       "position": {
         "line": 2,
         "column": 1
@@ -78,6 +86,7 @@
     },
     {
       "type": "EraseCode",
+      "id": "e20c3441-f530-49d7-9149-100e8a0ff9b3",
       "start": {
         "line": 21,
         "column": 16
@@ -89,6 +98,7 @@
     },
     {
       "type": "TypeCode",
+      "id": "6c1a566b-42f9-4581-9ac8-7e35a4f85b04",
       "position": {
         "line": 21,
         "column": 16
@@ -98,6 +108,7 @@
     },
     {
       "type": "AddSelections",
+      "id": "3c027b41-842c-4b8b-bbbf-00ff11fe74fb",
       "ranges": [
         [
           {
@@ -142,10 +153,12 @@
       ]
     },
     {
-      "type": "DeleteSelection"
+      "type": "DeleteSelection",
+      "id": "2fabfb97-d70a-4d0c-a637-4f4dcc2d5aaf"
     },
     {
       "type": "TypeCode",
+      "id": "86020c33-66d1-4ddb-8c23-dac7234b0a26",
       "position": {
         "line": 6,
         "column": 1
@@ -158,6 +171,7 @@
     },
     {
       "type": "TypeCode",
+      "id": "99f1f02b-f7f6-407c-bef6-b09cddcfdc81",
       "position": {
         "line": 16,
         "column": 1
@@ -170,6 +184,7 @@
     },
     {
       "type": "TypeCode",
+      "id": "9cbeab4d-c571-4ed1-8724-c8432b3da659",
       "position": {
         "line": 28,
         "column": 1
@@ -181,6 +196,7 @@
     },
     {
       "type": "TypeCode",
+      "id": "d6f07439-8ce2-44e6-a295-3c5b20cd276d",
       "position": {
         "line": 2,
         "column": 1
@@ -192,6 +208,7 @@
     },
     {
       "type": "TypeCode",
+      "id": "e1a4a550-6226-4053-8012-9b5ca0738b8e",
       "position": {
         "line": 7,
         "column": 21
@@ -201,6 +218,7 @@
     },
     {
       "type": "TypeCode",
+      "id": "ab9bc6f0-01fa-4745-a0f7-854640a6cfca",
       "position": {
         "line": 10,
         "column": 1
@@ -212,6 +230,7 @@
     },
     {
       "type": "TypeCode",
+      "id": "344df002-5833-4036-ab1b-4aee55197513",
       "position": {
         "line": 16,
         "column": 43
@@ -221,6 +240,7 @@
     },
     {
       "type": "TypeCode",
+      "id": "b0c8bbb6-4316-4597-8a74-217b0b6d1ba3",
       "position": {
         "line": 20,
         "column": 1
@@ -232,6 +252,7 @@
     },
     {
       "type": "EraseCode",
+      "id": "2e6187d4-3b28-4232-9132-c6a0a863cf14",
       "start": {
         "line": 23,
         "column": 37
@@ -243,6 +264,7 @@
     },
     {
       "type": "TypeCode",
+      "id": "8d8492f5-9d04-427a-820c-8272c55f6519",
       "position": {
         "line": 23,
         "column": 37
@@ -252,6 +274,7 @@
     },
     {
       "type": "EraseCode",
+      "id": "569d9ba8-4002-427a-9a64-18f4c30a23f2",
       "start": {
         "line": 1,
         "column": 10
@@ -263,6 +286,7 @@
     },
     {
       "type": "TypeCode",
+      "id": "8034fb80-e4f5-47a2-b8c9-2fdfad95b662",
       "position": {
         "line": 2,
         "column": 1
@@ -274,6 +298,7 @@
     },
     {
       "type": "TypeCode",
+      "id": "aa26da10-f48c-4039-953e-aec6095760ac",
       "position": {
         "line": 4,
         "column": 1
@@ -285,6 +310,7 @@
     },
     {
       "type": "EraseCode",
+      "id": "6f91af57-239a-4b47-b282-03aa5d6c110e",
       "start": {
         "line": 13,
         "column": 21
@@ -296,6 +322,7 @@
     },
     {
       "type": "TypeCode",
+      "id": "9d573458-48bd-46b3-b05d-89ba583bd560",
       "position": {
         "line": 13,
         "column": 21
@@ -305,6 +332,7 @@
     },
     {
       "type": "EraseCode",
+      "id": "f34cfd76-fab5-435f-bed4-ac1477ac3309",
       "start": {
         "line": 22,
         "column": 43
@@ -316,6 +344,7 @@
     },
     {
       "type": "TypeCode",
+      "id": "e6a48ebd-2138-4e2d-9152-d89197703db8",
       "position": {
         "line": 22,
         "column": 43
@@ -325,6 +354,7 @@
     },
     {
       "type": "AddSelections",
+      "id": "37084ca4-2244-431c-80d9-5575d4956368",
       "ranges": [
         [
           {
@@ -339,10 +369,12 @@
       ]
     },
     {
-      "type": "DeleteSelection"
+      "type": "DeleteSelection",
+      "id": "2ea88333-11df-4658-8e27-3c290166fe2d"
     },
     {
       "type": "AddSelections",
+      "id": "77accd97-90fd-4516-87ad-7d42fda32d59",
       "ranges": [
         [
           {
@@ -357,10 +389,12 @@
       ]
     },
     {
-      "type": "DeleteSelection"
+      "type": "DeleteSelection",
+      "id": "3a93375d-d352-4909-9205-164c2d111350"
     },
     {
       "type": "EraseCode",
+      "id": "b1d86256-211b-41d4-a74b-ab6fa24bc5cc",
       "start": {
         "line": 17,
         "column": 18
@@ -372,6 +406,7 @@
     },
     {
       "type": "TypeCode",
+      "id": "2b293c8b-f129-4914-b8a8-7a959cf18abf",
       "position": {
         "line": 17,
         "column": 18

@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux';
 
 import { useReplay } from '../App';
 import { Editor } from '../Editor';
-import { TimeManager } from '../TimeManager';
 
 export const ReplayEditor: React.FC = () => {
   const dispatch = useDispatch();
@@ -15,7 +14,7 @@ export const ReplayEditor: React.FC = () => {
     });
 
     dispatch((dispatch: any, _getState: any, dependencies: any) => {
-      dependencies.editor = new Editor(editor, new TimeManager());
+      dependencies.editor = new Editor(editor, dependencies.scheduler);
       dispatch({ type: 'setEditorReady', ready: true });
     });
   };

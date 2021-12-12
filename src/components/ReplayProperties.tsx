@@ -3,7 +3,9 @@ import cx from 'classnames';
 import { useDispatch } from 'react-redux';
 
 import { useCurrentAction, useSelector } from '../App';
-import { ReplayAction, selectReplay, setCurrentActionIndex } from '../domain/replay.slice';
+import { selectReplay } from '../domain/replay.selectors';
+import { ReplayAction } from '../domain/replay.slice';
+import { setCurrentAction } from '../domain/setCurrentAction';
 
 import { AddSelectionsEdition } from './actions/AddSelectionsEdition';
 import { DeleteSelectionEdition } from './actions/DeleteSelectionEdition';
@@ -69,7 +71,7 @@ export const ActionsList: React.FC = () => {
             action.isCurrent && '!bg-dark-alternate cursor-default text-xl',
             !action.isPlayed && 'text-muted',
           )}
-          onClick={() => dispatch(setCurrentActionIndex(n))}
+          onClick={() => dispatch(setCurrentAction(action.id))}
         >
           <div className="flex-grow">{action.type}</div>
           {action.isCurrent && <div className="text-3xl text-muted">{'➜'}</div>}

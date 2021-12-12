@@ -1,11 +1,13 @@
-export class CursorPosition {
+import { IPosition as MonacoIPosition, Position as MonacoPosition } from 'monaco-editor';
+
+export class Position {
   constructor(readonly line: number, readonly column = 1) {}
 
-  equals(other: CursorPosition) {
+  equals(other: Position) {
     return this.line === other.line && this.column === other.column;
   }
 
-  isBefore(other: CursorPosition) {
+  isBefore(other: Position) {
     if (this.line === other.line) {
       return this.column < other.column;
     }
@@ -13,7 +15,7 @@ export class CursorPosition {
     return this.line < other.line;
   }
 
-  isAfter(other: CursorPosition) {
+  isAfter(other: Position) {
     return !this.isBefore(other);
   }
 
@@ -26,12 +28,23 @@ export class CursorPosition {
   }
 
   static from(object: any) {
-    return new CursorPosition(object.line, object.column);
+    return new Position(object.line, object.column);
   }
 
   toJson() {
     return {
       line: this.line,
+      column: this.column,
+    };
+  }
+
+  static fromMonaco(position: MonacoPosition) {
+    return new Position(position.lineNumber, position.column);
+  }
+
+  toMonaco(): MonacoIPosition {
+    return {
+      lineNumber: this.line,
       column: this.column,
     };
   }

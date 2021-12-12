@@ -1,16 +1,12 @@
-import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { State } from './store';
-
-export type Position = {
-  line: number;
-  column: number;
-};
+import { Position } from '../Position';
 
 // cursor movement
 
 export type SetCursorPositionAction = {
   type: 'SetCursorPosition';
+  id: string;
   position: Position;
 };
 
@@ -20,11 +16,13 @@ export type CursorMovementAction = SetCursorPositionAction;
 
 export type AddSelectionsAction = {
   type: 'AddSelections';
+  id: string;
   ranges: Array<[Position, Position]>;
 };
 
 export type DeleteSelectionAction = {
   type: 'DeleteSelection';
+  id: string;
 };
 
 export type SelectionAction = AddSelectionsAction | DeleteSelectionAction;
@@ -33,6 +31,7 @@ export type SelectionAction = AddSelectionsAction | DeleteSelectionAction;
 
 export type TypeCodeAction = {
   type: 'TypeCode';
+  id: string;
   position: Position;
   code: string;
   prepare: {
@@ -43,16 +42,14 @@ export type TypeCodeAction = {
 
 export type EraseCodeAction = {
   type: 'EraseCode';
-  position: Position;
-  code: string;
-  prepare: {
-    insertLinesAbove: number;
-    insertLinesBelow: number;
-  };
+  id: string;
+  start: Position;
+  end: Position;
 };
 
 export type InsertLinesAction = {
   type: 'InsertLines';
+  id: string;
   position: Position;
   insertLinesAbove: number;
   insertLinesBelow: number;
@@ -90,9 +87,3 @@ const replaySlice = createSlice({
 
 export const { setReplay, addAction, setCurrentActionIndex } = replaySlice.actions;
 export const replayReducer = replaySlice.reducer;
-
-export const selectReplay = (state: State) => state.replay;
-
-export const selectCurrentAction = createSelector(selectReplay, (replay) => {
-  return replay.actions[replay.currentActionIndex];
-});
