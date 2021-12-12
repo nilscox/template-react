@@ -1,7 +1,7 @@
 import MonacoEditor, { OnMount } from '@monaco-editor/react';
 import { useDispatch } from 'react-redux';
 
-import { useReplay } from '../App';
+import { nextAction } from '../domain/nextAction';
 import { Editor } from '../Editor';
 
 export const ReplayEditor: React.FC = () => {
@@ -48,7 +48,16 @@ export const ReplayEditor: React.FC = () => {
 };
 
 const StatusBar = () => {
-  const replay = useReplay();
+  const dispatch = useDispatch();
 
-  return <div className="px-4 py-1 text-right bg-dark-alternate">Ln 4, Col 45</div>;
+  return (
+    <div className="flex flex-row justify-between px-4 py-1 text-right bg-dark-alternate">
+      <div>
+        <button style={{ lineHeight: 0 }} className="text-lg" onClick={() => dispatch(nextAction())}>
+          ▶
+        </button>
+      </div>
+      <div>Ln 4, Col 45</div>
+    </div>
+  );
 };

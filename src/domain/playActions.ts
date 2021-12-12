@@ -21,6 +21,8 @@ export const playActions = (actions: ReplayAction[]): ThunkAction<Promise<void>>
 };
 
 const playAction = async (action: ReplayAction, editor: Editor, scheduler: Scheduler) => {
+  editor.focus();
+
   switch (action.type) {
     case 'TypeCode':
       editor.position = action.position;

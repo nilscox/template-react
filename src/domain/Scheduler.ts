@@ -1,5 +1,5 @@
 export class Scheduler {
-  immediate = true;
+  immediate = false;
 
   delays = {
     betweenActions: 1000,

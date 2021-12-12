@@ -27,7 +27,7 @@ export class Position {
     return `[${this.values.join(', ')}]`;
   }
 
-  static from(object: any) {
+  static from(object: { line: number; column: number }) {
     return new Position(object.line, object.column);
   }
 

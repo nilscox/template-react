@@ -28,14 +28,17 @@ export const setCurrentAction = (actionId: string): ThunkAction<Promise<void>> =
     }
 
     editor.focus();
+    scheduler.immediate = true;
 
     if (index < currentActionIndex) {
       editor.clear();
-      await dispatch(playActions(replay.actions.slice(0, index + 1)));
+      await dispatch(playActions(replay.actions.slice(0, index)));
     }
 
     if (index > currentActionIndex) {
-      await dispatch(playActions(replay.actions.slice(currentActionIndex + 1, index + 1)));
+      await dispatch(playActions(replay.actions.slice(currentActionIndex, index)));
     }
+
+    scheduler.immediate = false;
   };
 };

@@ -28,7 +28,6 @@ export class Editor {
   }
 
   focus() {
-    console.log(this.editor);
     this.editor.focus();
   }
 
@@ -62,7 +61,7 @@ export class Editor {
   async erase(until: Position) {
     while (!this.position.equals(until)) {
       if (this.position.isBefore(until)) {
-        throw new Error(`current position ${this.position.toString()} is before ${until}`);
+        throw new Error(`current position ${this.position.toString()} is before ${until.toString()}`);
       }
 
       this.backspace();

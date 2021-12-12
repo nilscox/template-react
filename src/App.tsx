@@ -38,7 +38,7 @@ export const App: React.FC = () => {
 
   useEffect(() => {
     if (isEditorReady) {
-      dispatch(playActions(replay.actions.slice(0, replay.currentActionIndex + 1)));
+      dispatch(playActions(replay.actions.slice(0, replay.currentActionIndex)));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isEditorReady]);

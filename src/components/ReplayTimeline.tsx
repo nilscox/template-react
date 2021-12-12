@@ -15,8 +15,8 @@ export const ReplayTimeline: React.FC = () => {
   const progress = useSelector(selectReplayProgress);
 
   return (
-    <div className="relative bg-dark border-y border-light h-[28px]">
-      <div className="absolute h-full bg-light" style={{ width: progress * 100 + '%' }} />
+    <div className="relative border-y bg-dark border-light min-h-[12px]">
+      <div className="absolute h-full bg-light" style={{ width: `${progress * 100}%` }} />
     </div>
   );
 };
