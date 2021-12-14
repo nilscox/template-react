@@ -1,11 +1,20 @@
-import { TypeCodeAction } from '../../domain/types/actions';
+import { useDispatch } from 'react-redux';
+
+import { updateDraftAction } from '../../domain/slices/editor.slice';
+import { DraftTypeCodeAction } from '../../domain/types/entities';
 import { CursorPositionInput } from '../CursorPositionInput';
 
 type TypeCodeEditionProps = {
-  typeCode: TypeCodeAction;
+  action: DraftTypeCodeAction;
 };
 
-export const TypeCodeEdition: React.FC<TypeCodeEditionProps> = ({ typeCode }) => {
+export const TypeCodeEdition: React.FC<TypeCodeEditionProps> = ({ action }) => {
+  const dispatch = useDispatch();
+
+  const handleChange = (path: string, value: string) => {
+    dispatch(updateDraftAction({ path, value }));
+  };
+
   return (
     <div className="flex flex-col h-full p-8 overflow-auto gap-8">
       <div>
@@ -20,29 +29,43 @@ export const TypeCodeEdition: React.FC<TypeCodeEditionProps> = ({ typeCode }) =>
           <div className="flex flex-col gap-2">
             Start position
             <CursorPositionInput
-              line={typeCode.position.line}
-              onLineChange={() => {}}
-              column={typeCode.position.column}
-              onColumnChange={() => {}}
+              line={action.position.line}
+              onLineChange={(line) => handleChange('position.line', line)}
+              column={action.position.column}
+              onColumnChange={(column) => handleChange('position.column', column)}
             />
           </div>
 
           <label className="flex flex-row items-center gap-4">
             Insert
-            <input type="number" value={typeCode.prepare.insertLinesAbove ?? 0} onChange={() => {}} />
+            <input
+              type="number"
+              value={action.prepare.insertLinesAbove ?? 0}
+              onChange={(e) => handleChange('prepare.insertLinesAbove', e.target.value)}
+            />
             line(s) above the cursor
           </label>
 
           <label className="flex flex-row items-center gap-4">
             Insert
-            <input type="number" value={typeCode.prepare.insertLinesBelow ?? 0} onChange={() => {}} />
+            <input
+              type="number"
+              value={action.prepare.insertLinesBelow ?? 0}
+              onChange={(e) => handleChange('prepare.insertLinesBelow', e.target.value)}
+            />
             line(s) below the cursor
           </label>
         </div>
 
         <div className="flex flex-col card flex-3 gap-4">
           <div className="text-lg">Code</div>
-          <textarea className="bg-darker" rows={8} value={typeCode.code} spellCheck="false" onChange={() => {}} />
+          <textarea
+            className="bg-darker"
+            rows={8}
+            value={action.code}
+            spellCheck="false"
+            onChange={(e) => handleChange('code', e.target.value)}
+          />
         </div>
       </div>
     </div>

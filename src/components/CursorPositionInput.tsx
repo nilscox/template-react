@@ -1,8 +1,8 @@
 type CursorPositionInputProps = {
-  line: number;
-  onLineChange: (line: number) => void;
-  column: number;
-  onColumnChange: (column: number) => void;
+  line: string;
+  onLineChange: (line: string) => void;
+  column: string;
+  onColumnChange: (column: string) => void;
 };
 
 export const CursorPositionInput: React.FC<CursorPositionInputProps> = ({
@@ -14,11 +14,11 @@ export const CursorPositionInput: React.FC<CursorPositionInputProps> = ({
   <div className="flex flex-row">
     <label>
       Ln
-      <input className="mx-2" type="number" value={line} onChange={(e) => onLineChange(Number(e.target.value))} />
+      <input className="mx-2" type="number" min={1} value={line} onChange={(e) => onLineChange(e.target.value)} />
     </label>
     <label>
       Col
-      <input className="mx-2" type="number" value={column} onChange={(e) => onColumnChange(Number(e.target.value))} />
+      <input className="mx-2" type="number" min={1} value={column} onChange={(e) => onColumnChange(e.target.value)} />
     </label>
   </div>
 );

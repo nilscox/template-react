@@ -4,6 +4,7 @@ import { Editors } from '../Editor';
 import { Scheduler } from '../Scheduler';
 
 import { editorReducer } from './slices/editor.slice';
+import { rendererReducer } from './slices/renderer.slice';
 import { replayReducer } from './slices/replay.slice';
 import { uiReducer } from './slices/ui.slice';
 
@@ -20,6 +21,7 @@ const dependencies = {
 export const store = configureStore({
   reducer: {
     replay: replayReducer,
+    renderer: rendererReducer,
     editor: editorReducer,
     ui: uiReducer,
   },

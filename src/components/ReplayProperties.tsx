@@ -3,13 +3,12 @@ import cx from 'classnames';
 import { useDispatch } from 'react-redux';
 
 import { useSelector } from '../App';
+import { selectDraftAction } from '../domain/slices/editor.selectors';
 import { selectCurrentAction, selectReplay } from '../domain/slices/replay.selectors';
 import { selectPropertiesEditionVisible } from '../domain/slices/ui.selectors';
-import { ReplayAction } from '../domain/types/actions';
+import { DraftEraseCodeAction, DraftTypeCodeAction, ReplayAction } from '../domain/types/entities';
 import { setCurrentAction } from '../domain/usecases/setCurrentAction';
 
-import { AddSelectionsEdition } from './actions/AddSelectionsEdition';
-import { DeleteSelectionEdition } from './actions/DeleteSelectionEdition';
 import { EraseCodeEdition } from './actions/EraseCodeEdition';
 import { TypeCodeEdition } from './actions/TypeCodeEdition';
 
@@ -35,19 +34,20 @@ type ReplayActionEditionProps = {
   action: ReplayAction;
 };
 
-const ReplayActionEdition: React.FC<ReplayActionEditionProps> = ({ action }) => {
-  switch (action.type) {
+const ReplayActionEdition: React.FC<ReplayActionEditionProps> = () => {
+  const currentAction = useSelector(selectCurrentAction);
+  const draftAction = useSelector(selectDraftAction);
+
+  if (!draftAction) {
+    return null;
+  }
+
+  switch (currentAction.type) {
     case 'TypeCode':
-      return <TypeCodeEdition typeCode={action} />;
+      return <TypeCodeEdition action={draftAction as DraftTypeCodeAction} />;
 
     case 'EraseCode':
-      return <EraseCodeEdition eraseCode={action} />;
-
-    case 'AddSelections':
-      return <AddSelectionsEdition addSelections={action} />;
-
-    case 'DeleteSelection':
-      return <DeleteSelectionEdition deleteSelection={action} />;
+      return <EraseCodeEdition action={draftAction as DraftEraseCodeAction} />;
 
     default:
       return null;
@@ -59,6 +59,7 @@ const selectActionsVM = createSelector(selectReplay, (replay) => {
     ...action,
     isCurrent: n === replay.currentActionIndex,
     isPlayed: n <= replay.currentActionIndex,
+    summary: action.type === 'TypeCode' ? action.code : '',
   }));
 });
 
@@ -81,7 +82,7 @@ export const ActionsList: React.FC = () => {
         >
           <div className="flex-grow">
             <div className="inline-block w-[120px]">{action.type}</div>
-            <code className="text-xs text-muted">{action.code}</code>
+            <code className="text-xs text-muted">{action.summary}</code>
           </div>
           {action.isCurrent && <div className="text-3xl text-muted">{'➜'}</div>}
         </li>

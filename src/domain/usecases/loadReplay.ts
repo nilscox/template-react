@@ -1,12 +1,14 @@
 import { setReplay } from '../slices/replay.slice';
 import { ThunkAction } from '../store';
-import { Replay, ReplayAction } from '../types/entities';
+import { BaseAction, Replay, ReplayAction } from '../types/entities';
 
 import { playAction } from './playActions';
 import { setCurrentAction } from './setCurrentAction';
 
+export type ReplayActionDto = Omit<ReplayAction, keyof BaseAction>;
+
 export type ReplayDto = Pick<Replay, 'currentActionIndex'> & {
-  actions: Array<Pick<ReplayAction, 'type'>>;
+  actions: ReplayActionDto[];
 };
 
 export const loadReplay = (replayDto: ReplayDto): ThunkAction => {
@@ -16,12 +18,12 @@ export const loadReplay = (replayDto: ReplayDto): ThunkAction => {
     const actions: ReplayAction[] = [];
 
     for (const actionDto of replayDto.actions) {
-      const action: ReplayAction = {
+      const action = {
         ...actionDto,
         id: Math.random().toString().slice(-6),
         codeBefore: editors.textEditor.value,
         codeAfter: '',
-      };
+      } as ReplayAction;
 
       await dispatch(playAction(action));
 

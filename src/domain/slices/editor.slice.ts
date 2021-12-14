@@ -1,13 +1,15 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
+import { DraftAction } from '../types/entities';
 
 type EditorState = {
-  textEditorReady: boolean;
   diffEditorReady: boolean;
+  draftAction?: DraftAction;
 };
 
 const initialState: EditorState = {
   diffEditorReady: false,
-  textEditorReady: false,
+  draftAction: undefined,
 };
 
 const editorSlice = createSlice({
@@ -15,13 +17,21 @@ const editorSlice = createSlice({
   initialState,
   reducers: {
     diffEditorReady(state) {
-      state.textEditorReady = true;
-    },
-    editorReady(state) {
       state.diffEditorReady = true;
+    },
+    setDraftAction(state, { payload: action }: PayloadAction<DraftAction>) {
+      state.draftAction = action;
+    },
+    updateDraftAction(state, { payload: { path, value } }: PayloadAction<{ path: string; value: string }>) {
+      const obj = path
+        .split('.')
+        .slice(0, -1)
+        .reduce((state, key) => state[key], state.draftAction as any);
+
+      obj[path.split('.').slice(-1)[0]] = value;
     },
   },
 });
 
-export const { editorReady, diffEditorReady } = editorSlice.actions;
+export const { diffEditorReady, setDraftAction, updateDraftAction } = editorSlice.actions;
 export const editorReducer = editorSlice.reducer;
