@@ -1,14 +1,27 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
+
+type EditorState = {
+  textEditorReady: boolean;
+  diffEditorReady: boolean;
+};
+
+const initialState: EditorState = {
+  diffEditorReady: false,
+  textEditorReady: false,
+};
 
 const editorSlice = createSlice({
   name: 'editor',
-  initialState: { ready: false },
+  initialState,
   reducers: {
-    setEditorReady(state, action: PayloadAction<boolean>) {
-      state.ready = action.payload;
+    diffEditorReady(state) {
+      state.textEditorReady = true;
+    },
+    editorReady(state) {
+      state.diffEditorReady = true;
     },
   },
 });
 
-export const { setEditorReady } = editorSlice.actions;
+export const { editorReady, diffEditorReady } = editorSlice.actions;
 export const editorReducer = editorSlice.reducer;

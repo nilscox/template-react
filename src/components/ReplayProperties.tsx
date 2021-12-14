@@ -23,10 +23,10 @@ export const ReplayProperties: React.FC = () => {
 
   return (
     <div className="flex flex-row h-[400px] bg-dark">
-      <div className="flex-grow border-r-2 border-light">
+      <div className="border-r-2 min-w-sm border-light">
         <ActionsList />
       </div>
-      <div className="flex-3">{action && <ReplayActionEdition action={action} />}</div>
+      <div className="flex-grow">{action && <ReplayActionEdition action={action} />}</div>
     </div>
   );
 };
@@ -79,7 +79,10 @@ export const ActionsList: React.FC = () => {
           )}
           onClick={() => dispatch(setCurrentAction(action.id))}
         >
-          <div className="flex-grow">{action.type}</div>
+          <div className="flex-grow">
+            <div className="inline-block w-[120px]">{action.type}</div>
+            <code className="text-xs text-muted">{action.code}</code>
+          </div>
           {action.isCurrent && <div className="text-3xl text-muted">{'➜'}</div>}
         </li>
       ))}

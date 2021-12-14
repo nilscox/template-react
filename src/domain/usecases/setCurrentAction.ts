@@ -1,16 +1,9 @@
-import { selectIsEditorReady } from '../slices/editor.selectors';
 import { selectAction, selectCurrentAction, selectReplay } from '../slices/replay.selectors';
 import { setCurrentActionIndex } from '../slices/replay.slice';
 import { ThunkAction } from '../store';
 
 export const setCurrentAction = (actionId: string): ThunkAction => {
-  return (dispatch, getState, { editor }) => {
-    const editorReady = selectIsEditorReady(getState());
-
-    if (!editorReady) {
-      throw new Error('replay/playTo: editor is not ready');
-    }
-
+  return (dispatch, getState, { editors }) => {
     const replay = selectReplay(getState());
     const currentAction = selectCurrentAction(getState());
     const action = selectAction(getState(), actionId);
@@ -26,7 +19,18 @@ export const setCurrentAction = (actionId: string): ThunkAction => {
       dispatch(setCurrentActionIndex(index));
     }
 
-    editor.value = action.codeAfter;
-    editor.focus();
+    editors.diffEditor.valueBefore = action.codeBefore;
+    editors.diffEditor.valueAfter = action.codeAfter;
+
+    editors.textEditor.value = action.codeBefore;
+    editors.textEditor.focus();
+
+    if (action.type === 'TypeCode') {
+      editors.textEditor.position = action.position;
+    }
+
+    if (action.type === 'EraseCode') {
+      editors.textEditor.position = action.end;
+    }
   };
 };

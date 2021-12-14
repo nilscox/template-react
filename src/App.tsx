@@ -5,11 +5,12 @@ import { useDispatch, useSelector as useReduxSelector } from 'react-redux';
 
 import { ReplayEditor } from './components/ReplayEditor';
 import { ReplayProperties } from './components/ReplayProperties';
+import { ReplayRenderer } from './components/ReplayRenderer';
 import { ReplayTimeline } from './components/ReplayTimeline';
-import { selectIsEditorReady } from './domain/slices/editor.selectors';
+import { selectAreEditorsReady } from './domain/slices/editor.selectors';
 import { State } from './domain/store';
 import { loadReplay, ReplayDto } from './domain/usecases/loadReplay';
-import replay from './replay.json';
+import replay from './replay_.json';
 
 export const useSelector = <Result, Params extends unknown[]>(
   selector: Selector<State, Result, Params>,
@@ -20,19 +21,26 @@ export const useSelector = <Result, Params extends unknown[]>(
 
 export const App: React.FC = () => {
   const dispatch = useDispatch();
-  const isEditorReady = useSelector(selectIsEditorReady);
+  const areEditorsReady = useSelector(selectAreEditorsReady);
 
   useEffect(() => {
-    if (isEditorReady) {
+    if (areEditorsReady) {
       dispatch(loadReplay(replay as ReplayDto));
     }
-  }, [dispatch, isEditorReady]);
+  }, [dispatch, areEditorsReady]);
 
   return (
-    <>
-      <ReplayEditor />
-      <ReplayTimeline />
+    <div className="flex flex-col flex-grow h-full max-h-full overflow-hidden">
+      <div className="flex flex-row flex-grow">
+        <div className="w-1/2">
+          <ReplayEditor />
+        </div>
+        <div className="w-1/2">
+          <ReplayRenderer />
+        </div>
+      </div>
+
       <ReplayProperties />
-    </>
+    </div>
   );
 };

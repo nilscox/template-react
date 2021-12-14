@@ -10,7 +10,7 @@ export type ReplayDto = Pick<Replay, 'currentActionIndex'> & {
 };
 
 export const loadReplay = (replayDto: ReplayDto): ThunkAction => {
-  return async (dispatch, _getState, { editor, scheduler }) => {
+  return async (dispatch, _getState, { editors, scheduler }) => {
     scheduler.immediate = true;
 
     const actions: ReplayAction[] = [];
@@ -19,13 +19,13 @@ export const loadReplay = (replayDto: ReplayDto): ThunkAction => {
       const action: ReplayAction = {
         ...actionDto,
         id: Math.random().toString().slice(-6),
-        codeBefore: editor.value,
+        codeBefore: editors.textEditor.value,
         codeAfter: '',
       };
 
       await dispatch(playAction(action));
 
-      action.codeAfter = editor.value;
+      action.codeAfter = editors.textEditor.value;
 
       actions.push(action);
     }

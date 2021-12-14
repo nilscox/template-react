@@ -1,20 +1,20 @@
 import { AnyAction, configureStore, ThunkAction as ReduxThunkAction } from '@reduxjs/toolkit';
 
-import { Editor } from '../Editor';
+import { Editors } from '../Editor';
 import { Scheduler } from '../Scheduler';
 
 import { editorReducer } from './slices/editor.slice';
 import { replayReducer } from './slices/replay.slice';
 import { uiReducer } from './slices/ui.slice';
 
-export type Dependencies = {
-  editor: Editor;
-  scheduler: Scheduler;
-};
+export type Dependencies = typeof dependencies;
 
-const dependencies: Dependencies = {
-  editor: null as never,
-  scheduler: new Scheduler(),
+const scheduler = new Scheduler();
+const editors = new Editors(scheduler);
+
+const dependencies = {
+  editors,
+  scheduler,
 };
 
 export const store = configureStore({

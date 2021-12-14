@@ -1,19 +1,19 @@
-import { Editor } from '../../Editor';
+import { TextEditor } from '../../Editor';
 import { Scheduler } from '../../Scheduler';
 import { ThunkAction } from '../store';
 import { EraseCodeAction, ReplayAction, TypeCodeAction } from '../types/entities';
 
 export const playAction = (action: ReplayAction): ThunkAction => {
-  return async (dispatch, getState, { editor, scheduler }) => {
+  return async (dispatch, getState, { editors, scheduler }) => {
     const playFunc = { TypeCode, EraseCode }[action.type];
 
-    editor.focus();
-    await playFunc(action as any, editor, scheduler);
+    editors.textEditor.focus();
+    await playFunc(action, editors.textEditor, scheduler);
     await scheduler.wait('betweenActions');
   };
 };
 
-const TypeCode = async (action: TypeCodeAction, editor: Editor, scheduler: Scheduler) => {
+const TypeCode = async (action: TypeCodeAction, editor: TextEditor, scheduler: Scheduler) => {
   editor.position = action.position;
 
   await editor.insertLinesAbove(action.prepare.insertLinesAbove);
@@ -28,7 +28,7 @@ const TypeCode = async (action: TypeCodeAction, editor: Editor, scheduler: Sched
   }
 };
 
-const EraseCode = async (action: EraseCodeAction, editor: Editor, scheduler: Scheduler) => {
+const EraseCode = async (action: EraseCodeAction, editor: TextEditor, scheduler: Scheduler) => {
   editor.position = action.end;
   await scheduler.wait('afterCursorMovement');
 

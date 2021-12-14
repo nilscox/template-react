@@ -1,29 +1,29 @@
-import { DiffEditor, DiffOnMount } from '@monaco-editor/react';
+import MonacoEditor, { OnMount } from '@monaco-editor/react';
 import { useDispatch } from 'react-redux';
 
-import { setDiffEditor } from '../domain/usecases/setEditors';
+import { setEditor } from '../domain/usecases/setEditors';
 
 import { StatusBar } from './StatusBar';
 
-export const ReplayEditor: React.FC = () => {
+export const ReplayRenderer: React.FC = () => {
   const dispatch = useDispatch();
 
-  const handleMount: DiffOnMount = (editor, monaco) => {
+  const handleMount: OnMount = (editor, monaco) => {
     monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions({
       noSemanticValidation: true,
       noSyntaxValidation: true,
     });
 
-    dispatch(setDiffEditor(editor, monaco));
+    dispatch(setEditor(editor));
   };
 
   return (
     <>
-      <DiffEditor
+      <MonacoEditor
         className="monaco-editor"
-        originalLanguage="typescript"
-        modifiedLanguage="typescript"
+        language="typescript"
         theme="vs-dark"
+        height="500px"
         options={{
           autoClosingBrackets: 'never',
           autoIndent: 'none',
@@ -38,11 +38,10 @@ export const ReplayEditor: React.FC = () => {
           hover: { enabled: false },
           minimap: { enabled: false },
           lightbulb: { enabled: false },
-          renderOverviewRuler: false,
         }}
         onMount={handleMount}
       />
-      {/* <StatusBar /> */}
+      <StatusBar />
     </>
   );
 };
