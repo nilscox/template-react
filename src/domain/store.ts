@@ -7,7 +7,7 @@ import { editorReducer } from './slices/editor.slice';
 import { replayReducer } from './slices/replay.slice';
 import { uiReducer } from './slices/ui.slice';
 
-type Dependencies = {
+export type Dependencies = {
   editor: Editor;
   scheduler: Scheduler;
 };

@@ -7,11 +7,9 @@ import { ReplayEditor } from './components/ReplayEditor';
 import { ReplayProperties } from './components/ReplayProperties';
 import { ReplayTimeline } from './components/ReplayTimeline';
 import { selectIsEditorReady } from './domain/slices/editor.selectors';
-import { selectCurrentAction, selectReplay } from './domain/slices/replay.selectors';
-import { Replay, setReplay } from './domain/slices/replay.slice';
 import { State } from './domain/store';
-import { playActions } from './domain/usecases/playActions';
-import replayInput from './replay.json';
+import { loadReplay, ReplayDto } from './domain/usecases/loadReplay';
+import replay from './replay.json';
 
 export const useSelector = <Result, Params extends unknown[]>(
   selector: Selector<State, Result, Params>,
@@ -20,29 +18,15 @@ export const useSelector = <Result, Params extends unknown[]>(
   return useReduxSelector((state: State) => selector(state, ...params));
 };
 
-export const useReplay = () => {
-  return useSelector(selectReplay);
-};
-
-export const useCurrentAction = () => {
-  return useSelector(selectCurrentAction);
-};
-
 export const App: React.FC = () => {
   const dispatch = useDispatch();
   const isEditorReady = useSelector(selectIsEditorReady);
-  const replay = useReplay();
-
-  useEffect(() => {
-    dispatch(setReplay(replayInput as Replay));
-  }, [dispatch]);
 
   useEffect(() => {
     if (isEditorReady) {
-      dispatch(playActions(replay.actions.slice(0, replay.currentActionIndex)));
+      dispatch(loadReplay(replay as ReplayDto));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isEditorReady]);
+  }, [dispatch, isEditorReady]);
 
   return (
     <>

@@ -3,10 +3,8 @@ import { selectAction, selectCurrentAction, selectReplay } from '../slices/repla
 import { setCurrentActionIndex } from '../slices/replay.slice';
 import { ThunkAction } from '../store';
 
-import { playActions } from './playActions';
-
-export const setCurrentAction = (actionId: string): ThunkAction<Promise<void>> => {
-  return async (dispatch, getState, { editor, scheduler }) => {
+export const setCurrentAction = (actionId: string): ThunkAction => {
+  return (dispatch, getState, { editor }) => {
     const editorReady = selectIsEditorReady(getState());
 
     if (!editorReady) {
@@ -14,7 +12,6 @@ export const setCurrentAction = (actionId: string): ThunkAction<Promise<void>> =
     }
 
     const replay = selectReplay(getState());
-    const { currentActionIndex } = replay;
     const currentAction = selectCurrentAction(getState());
     const action = selectAction(getState(), actionId);
 
@@ -29,18 +26,7 @@ export const setCurrentAction = (actionId: string): ThunkAction<Promise<void>> =
       dispatch(setCurrentActionIndex(index));
     }
 
+    editor.value = action.codeAfter;
     editor.focus();
-    scheduler.immediate = true;
-
-    if (index < currentActionIndex) {
-      editor.clear();
-      await dispatch(playActions(replay.actions.slice(0, index)));
-    }
-
-    if (index > currentActionIndex) {
-      await dispatch(playActions(replay.actions.slice(currentActionIndex, index)));
-    }
-
-    scheduler.immediate = false;
   };
 };

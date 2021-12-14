@@ -2,8 +2,8 @@ import { createSelector } from '@reduxjs/toolkit';
 import cx from 'classnames';
 import { useDispatch } from 'react-redux';
 
-import { useCurrentAction, useSelector } from '../App';
-import { selectReplay } from '../domain/slices/replay.selectors';
+import { useSelector } from '../App';
+import { selectCurrentAction, selectReplay } from '../domain/slices/replay.selectors';
 import { selectPropertiesEditionVisible } from '../domain/slices/ui.selectors';
 import { ReplayAction } from '../domain/types/actions';
 import { setCurrentAction } from '../domain/usecases/setCurrentAction';
@@ -14,7 +14,7 @@ import { EraseCodeEdition } from './actions/EraseCodeEdition';
 import { TypeCodeEdition } from './actions/TypeCodeEdition';
 
 export const ReplayProperties: React.FC = () => {
-  const action = useCurrentAction();
+  const action = useSelector(selectCurrentAction);
   const visible = useSelector(selectPropertiesEditionVisible);
 
   if (!visible) {

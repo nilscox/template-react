@@ -2,6 +2,7 @@ import MonacoEditor, { OnMount } from '@monaco-editor/react';
 import { useDispatch } from 'react-redux';
 
 import { setEditorReady } from '../domain/slices/editor.slice';
+import { Dependencies, Dispatch, GetState } from '../domain/store';
 import { Editor } from '../Editor';
 
 import { StatusBar } from './StatusBar';
@@ -9,13 +10,13 @@ import { StatusBar } from './StatusBar';
 export const ReplayEditor: React.FC = () => {
   const dispatch = useDispatch();
 
-  const handleMount: OnMount = async (editor, monaco) => {
+  const handleMount: OnMount = (editor, monaco) => {
     monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions({
       noSemanticValidation: true,
       noSyntaxValidation: true,
     });
 
-    dispatch((dispatch: any, _getState: any, dependencies: any) => {
+    dispatch((dispatch: Dispatch, _getState: GetState, dependencies: Dependencies) => {
       dependencies.editor = new Editor(editor, dependencies.scheduler);
       dispatch(setEditorReady(true));
     });

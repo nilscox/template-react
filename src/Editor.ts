@@ -11,6 +11,10 @@ export class Editor {
     return this.editor.getValue();
   }
 
+  set value(value: string) {
+    this.editor.setValue(value);
+  }
+
   get position(): Position {
     return Position.fromMonaco(this.editor.getPosition()!);
   }

@@ -1,11 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { ReplayAction } from '../types/actions';
-
-export type Replay = {
-  actions: ReplayAction[];
-  currentActionIndex: number;
-};
+import { Replay, ReplayAction } from '../types/entities';
 
 const initialState: Replay = {
   actions: [],

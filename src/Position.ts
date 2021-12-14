@@ -1,7 +1,13 @@
 import { IPosition as MonacoIPosition, Position as MonacoPosition } from 'monaco-editor';
 
 export class Position {
-  constructor(readonly line: number, readonly column = 1) {}
+  line: number;
+  column: number;
+
+  constructor(line: number, column = 1) {
+    this.line = line;
+    this.column = column;
+  }
 
   equals(other: Position) {
     return this.line === other.line && this.column === other.column;
