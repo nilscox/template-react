@@ -56,6 +56,15 @@ export class TextEditor {
     }
   }
 
+  addPositionListener(listener: (position: Position) => void) {
+    this.editor.onDidChangeCursorPosition((e) =>
+      listener({
+        line: e.position.lineNumber,
+        column: e.position.column,
+      }),
+    );
+  }
+
   backspace() {
     this.trigger('keyboard', 'deleteLeft');
   }
