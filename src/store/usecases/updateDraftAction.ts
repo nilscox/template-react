@@ -1,14 +1,11 @@
-import { draftToAction, InvalidDraftActionError } from '../draftActionMap';
+import { InvalidActionError } from '../../domain/InvalidActionError';
 import { selectDraftAction } from '../slices/editor.selectors';
 import { updateDraftAction as updateDraftActionAction } from '../slices/editor.slice';
 import { selectCurrentAction } from '../slices/replay.selectors';
-import { replaceAction } from '../slices/replay.slice';
 import { ThunkAction } from '../store';
 
-import { playAction } from './playActions';
-
 export const updateDraftAction = (path: string, value: string): ThunkAction => {
-  return async (dispatch, getState, { editors }) => {
+  return (dispatch, getState) => {
     dispatch(updateDraftActionAction({ path, value }));
 
     const action = selectCurrentAction(getState());
@@ -19,14 +16,9 @@ export const updateDraftAction = (path: string, value: string): ThunkAction => {
     }
 
     try {
-      const newAction = draftToAction(draftAction);
-
-      editors.textEditor.value = action.codeBefore;
-      await dispatch(playAction(newAction));
-
-      dispatch(replaceAction({ id: action.id, action: { ...action, ...newAction } }));
+      // todo
     } catch (error) {
-      if (error instanceof InvalidDraftActionError) {
+      if (error instanceof InvalidActionError) {
         return;
       }
 

@@ -1,8 +1,9 @@
-import { actionToDraft } from '../draftActionMap';
 import { setDraftAction } from '../slices/editor.slice';
 import { selectAction, selectCurrentAction, selectReplay } from '../slices/replay.selectors';
 import { setCurrentActionIndex } from '../slices/replay.slice';
 import { ThunkAction } from '../store';
+
+import { instantiateAction } from './loadReplay';
 
 export const setCurrentAction = (actionId: string): ThunkAction => {
   return (dispatch, getState, { editors }) => {
@@ -35,6 +36,6 @@ export const setCurrentAction = (actionId: string): ThunkAction => {
       editors.textEditor.position = action.end;
     }
 
-    dispatch(setDraftAction(actionToDraft(action)));
+    dispatch(setDraftAction(instantiateAction(action).toDraft()));
   };
 };

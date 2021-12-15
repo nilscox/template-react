@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import './index.css';
 
 import { App } from './App';
-import { store } from './domain/store';
+import { store } from './store/store';
 
 (window as any).store = store;
 

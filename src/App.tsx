@@ -7,10 +7,10 @@ import { ReplayEditor } from './components/ReplayEditor';
 import { ReplayProperties } from './components/ReplayProperties';
 import { ReplayRenderer } from './components/ReplayRenderer';
 import { ReplayTimeline } from './components/ReplayTimeline';
-import { selectAreEditorsReady } from './domain/slices/editor.selectors';
-import { State } from './domain/store';
-import { loadReplay, ReplayDto } from './domain/usecases/loadReplay';
-import replay from './replay_.json';
+import replay from './replay_2.json';
+import { selectAreEditorsReady } from './store/slices/editor.selectors';
+import { State } from './store/store';
+import { loadReplay, ReplayDto } from './store/usecases/loadReplay';
 
 export const useSelector = <Result, Params extends unknown[]>(
   selector: Selector<State, Result, Params>,

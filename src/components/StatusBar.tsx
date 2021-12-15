@@ -3,9 +3,9 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { useSelector } from '../App';
-import { selectAreEditorsReady } from '../domain/slices/editor.selectors';
-import { Dependencies } from '../domain/store';
-import { Position } from '../domain/types/entities';
+import { selectAreEditorsReady } from '../store/slices/editor.selectors';
+import { Dependencies } from '../store/store';
+import { Position } from '../store/types/entities';
 
 export const StatusBar: React.FC = () => {
   const areEditorsReady = useSelector(selectAreEditorsReady);

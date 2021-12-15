@@ -3,11 +3,11 @@ import cx from 'classnames';
 import { useDispatch } from 'react-redux';
 
 import { useSelector } from '../App';
-import { selectDraftAction } from '../domain/slices/editor.selectors';
-import { selectCurrentAction, selectReplay } from '../domain/slices/replay.selectors';
-import { selectPropertiesEditionVisible } from '../domain/slices/ui.selectors';
-import { DraftEraseCodeAction, DraftTypeCodeAction, ReplayAction } from '../domain/types/entities';
-import { setCurrentAction } from '../domain/usecases/setCurrentAction';
+import { selectDraftAction } from '../store/slices/editor.selectors';
+import { selectCurrentAction, selectReplay } from '../store/slices/replay.selectors';
+import { selectPropertiesEditionVisible } from '../store/slices/ui.selectors';
+import { DraftEraseCodeAction, DraftTypeCodeAction, ReplayAction } from '../store/types/entities';
+import { setCurrentAction } from '../store/usecases/setCurrentAction';
 
 import { EraseCodeEdition } from './actions/EraseCodeEdition';
 import { TypeCodeEdition } from './actions/TypeCodeEdition';
@@ -22,7 +22,7 @@ export const ReplayProperties: React.FC = () => {
 
   return (
     <div className="flex flex-row h-[400px] bg-dark">
-      <div className="border-r-2 min-w-sm border-light">
+      <div className="max-w-sm border-r-2 min-w-sm border-light">
         <ActionsList />
       </div>
       <div className="flex-grow">{action && <ReplayActionEdition action={action} />}</div>
@@ -80,9 +80,9 @@ export const ActionsList: React.FC = () => {
           )}
           onClick={() => dispatch(setCurrentAction(action.id))}
         >
-          <div className="flex-grow">
-            <div className="inline-block w-[120px]">{action.type}</div>
-            <code className="text-xs text-muted">{action.summary}</code>
+          <div className="flex-grow overflow-x-hidden">
+            <div>{action.type}</div>
+            <div className="overflow-hidden text-xs text-muted whitespace-nowrap text-ellipsis">{action.summary}</div>
           </div>
           {action.isCurrent && <div className="text-3xl text-muted">{'➜'}</div>}
         </li>

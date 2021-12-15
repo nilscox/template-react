@@ -1,7 +1,7 @@
 import MonacoEditor, { OnMount } from '@monaco-editor/react';
 import { useDispatch } from 'react-redux';
 
-import { setEditor } from '../domain/usecases/setEditors';
+import { setEditor } from '../store/usecases/setEditors';
 
 import { StatusBar } from './StatusBar';
 

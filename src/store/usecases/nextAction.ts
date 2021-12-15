@@ -2,8 +2,8 @@ import { selectCurrentAction, selectReplay } from '../slices/replay.selectors';
 import { setCurrentActionIndex } from '../slices/replay.slice';
 import { ThunkAction } from '../store';
 
-export const nextAction = (): ThunkAction<Promise<void>> => {
-  return async (dispatch, getState, { editors }) => {
+export const nextAction = (): ThunkAction => {
+  return (dispatch, getState, { editors }) => {
     const replay = selectReplay(getState());
 
     dispatch(setCurrentActionIndex(replay.currentActionIndex + 1));

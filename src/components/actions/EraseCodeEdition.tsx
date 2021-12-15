@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 
-import { updateDraftAction } from '../../domain/slices/editor.slice';
-import { DraftEraseCodeAction } from '../../domain/types/entities';
+import { updateDraftAction } from '../../store/slices/editor.slice';
+import { DraftEraseCodeAction } from '../../store/types/entities';
 import { CursorPositionInput } from '../CursorPositionInput';
 
 type EraseCodeEditionProps = {

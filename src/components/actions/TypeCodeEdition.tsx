@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 
-import { DraftTypeCodeAction } from '../../domain/types/entities';
-import { updateDraftAction } from '../../domain/usecases/updateDraftAction';
+import { DraftTypeCodeAction } from '../../store/types/entities';
+import { updateDraftAction } from '../../store/usecases/updateDraftAction';
 import { CursorPositionInput } from '../CursorPositionInput';
 
 type TypeCodeEditionProps = {

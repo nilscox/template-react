@@ -1,7 +1,7 @@
 import { DiffEditor, DiffOnMount } from '@monaco-editor/react';
 import { useDispatch } from 'react-redux';
 
-import { setDiffEditor } from '../domain/usecases/setEditors';
+import { setDiffEditor } from '../store/usecases/setEditors';
 
 import { StatusBar } from './StatusBar';
 
