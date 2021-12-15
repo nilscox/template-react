@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 
-import { updateDraftAction } from '../../domain/slices/editor.slice';
 import { DraftTypeCodeAction } from '../../domain/types/entities';
+import { updateDraftAction } from '../../domain/usecases/updateDraftAction';
 import { CursorPositionInput } from '../CursorPositionInput';
 
 type TypeCodeEditionProps = {
@@ -12,7 +12,7 @@ export const TypeCodeEdition: React.FC<TypeCodeEditionProps> = ({ action }) => {
   const dispatch = useDispatch();
 
   const handleChange = (path: string, value: string) => {
-    dispatch(updateDraftAction({ path, value }));
+    dispatch(updateDraftAction(path, value));
   };
 
   return (

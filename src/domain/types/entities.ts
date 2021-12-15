@@ -1,13 +1,7 @@
 export type Position = { line: number; column: number };
 export type Range = { start: Position; end: Position };
 
-export type BaseAction = {
-  id: string;
-  codeBefore: string;
-  codeAfter: string;
-};
-
-export type TypeCodeAction = BaseAction & {
+export type TypeCodeAction = {
   type: 'TypeCode';
   position: Position;
   code: string;
@@ -17,7 +11,7 @@ export type TypeCodeAction = BaseAction & {
   };
 };
 
-export type EraseCodeAction = BaseAction & {
+export type EraseCodeAction = {
   type: 'EraseCode';
   start: Position;
   end: Position;
@@ -27,7 +21,6 @@ export type ReplayAction = TypeCodeAction | EraseCodeAction;
 
 export type Replay = {
   actions: ReplayAction[];
-  currentActionIndex: number;
 };
 
 export type DraftPosition = {
@@ -36,6 +29,7 @@ export type DraftPosition = {
 };
 
 export type DraftTypeCodeAction = {
+  type: 'TypeCode';
   position: DraftPosition;
   code: string;
   prepare: {
@@ -45,6 +39,7 @@ export type DraftTypeCodeAction = {
 };
 
 export type DraftEraseCodeAction = {
+  type: 'EraseCode';
   start: DraftPosition;
   end: DraftPosition;
 };
