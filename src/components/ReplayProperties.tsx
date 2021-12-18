@@ -7,6 +7,7 @@ import { useSelector } from '../App';
 import { selectDraftAction } from '../store/slices/editor.selectors';
 import { selectCurrentAction, selectReplay } from '../store/slices/replay.selectors';
 import { selectPropertiesEditionVisible } from '../store/slices/ui.selectors';
+import { moveCursorToInitialPosition } from '../store/usecases/moveCursorToInitialPosition';
 import { setCurrentAction } from '../store/usecases/setCurrentAction';
 
 import { EraseCodeEdition } from './actions/EraseCodeEdition';
@@ -22,7 +23,7 @@ export const ReplayProperties: React.FC = () => {
 
   return (
     <div className="flex flex-row h-full bg-dark">
-      <div className="max-w-sm border-r-4 min-w-sm border-light">
+      <div className="max-w-sm border-r min-w-sm border-light">
         <ActionsList />
       </div>
       <div className="flex-grow">{action && <ReplayActionEdition action={action} />}</div>
@@ -67,6 +68,11 @@ export const ActionsList: React.FC = () => {
   const dispatch = useDispatch();
   const actions = useSelector(selectActionsVM);
 
+  const handleActionClick = (action: PlayedActionData) => () => {
+    dispatch(setCurrentAction(action));
+    dispatch(moveCursorToInitialPosition());
+  };
+
   return (
     <ul className="flex flex-col max-h-full overflow-auto margin-0 bg-dark-alternate gap-[2px]">
       {actions.map((action, n) => (
@@ -78,7 +84,7 @@ export const ActionsList: React.FC = () => {
             action.isCurrent && '!bg-dark-alternate cursor-default text-xl',
             !action.isPlayed && 'text-muted',
           )}
-          onClick={() => dispatch(setCurrentAction(action.action))}
+          onClick={handleActionClick(action.action)}
         >
           <div className="flex-grow overflow-x-hidden">
             <div>{action.type}</div>

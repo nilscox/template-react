@@ -3,7 +3,6 @@ import { editor } from 'monaco-editor';
 
 import { PositionData } from '../domain/Replay';
 
-import { Position } from './Position';
 import { Range } from './Range';
 import { Scheduler } from './Scheduler';
 
@@ -83,12 +82,8 @@ export class TextEditor {
     }
   }
 
-  async erase(until: Position) {
-    while (!this.position.equals(until)) {
-      if (this.position.isBefore(until)) {
-        throw new Error(`current position ${this.position.toString()} is before ${until.toString()}`);
-      }
-
+  async erase([endLine, endColumn]: PositionData) {
+    while (this.position[0] !== endLine || this.position[1] !== endColumn) {
       this.backspace();
       await this.scheduler.wait('betweenCharacters');
     }

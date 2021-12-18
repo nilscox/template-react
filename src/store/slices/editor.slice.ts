@@ -37,7 +37,7 @@ const editorSlice = createSlice({
     diffEditorReady(state) {
       state.diffEditorReady = true;
     },
-    setDraftAction(state, { payload: action }: PayloadAction<DraftAction>) {
+    setDraftAction(state, { payload: action }: PayloadAction<DraftAction | undefined>) {
       state.draftAction = action;
     },
     updateDraftAction(state, { payload: { path, value } }: PayloadAction<{ path: string; value: string }>) {

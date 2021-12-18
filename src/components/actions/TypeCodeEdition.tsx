@@ -63,7 +63,7 @@ export const TypeCodeEdition: React.FC<TypeCodeEditionProps> = ({ action }) => {
           <div className="text-lg">Code</div>
           <textarea
             className="bg-darker"
-            rows={8}
+            rows={6}
             value={action.code}
             spellCheck="false"
             onChange={(e) => handleChange('code', e.target.value)}

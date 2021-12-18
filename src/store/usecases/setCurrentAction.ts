@@ -4,8 +4,13 @@ import { selectReplay } from '../slices/replay.selectors';
 import { setCurrentActionIndex } from '../slices/replay.slice';
 import { ThunkAction } from '../store';
 
-export const setCurrentAction = (action: PlayedActionData): ThunkAction => {
+export const setCurrentAction = (action: PlayedActionData | undefined): ThunkAction => {
   return (dispatch, getState, { editors }) => {
+    if (!action) {
+      dispatch(setDraftAction(undefined));
+      return;
+    }
+
     const replay = selectReplay(getState());
     const index = replay.actions.indexOf(action);
 
@@ -21,14 +26,6 @@ export const setCurrentAction = (action: PlayedActionData): ThunkAction => {
 
     editors.textEditor.value = action.initialCode;
     editors.textEditor.position = action.initialPosition;
-
-    if (action.type === 'TypeCode') {
-      editors.textEditor.position = action.position;
-    }
-
-    if (action.type === 'EraseCode') {
-      editors.textEditor.position = action.end;
-    }
 
     editors.textEditor.focus();
   };

@@ -3,11 +3,17 @@ import { expect } from 'earljs';
 import { EraseCodeActionData, Replay, TypeCodeActionData } from './Replay';
 
 describe('Replay', () => {
+  const defaultPrepare: TypeCodeActionData['prepare'] = {
+    insertLinesAbove: 0,
+    insertLinesBelow: 0,
+  };
+
   it('applies one action', () => {
     const action1: TypeCodeActionData = {
       type: 'TypeCode',
       code: 'hello',
       position: [1, 1],
+      prepare: defaultPrepare,
     };
 
     const replay = Replay.create([action1]);
@@ -23,6 +29,7 @@ describe('Replay', () => {
         initialPosition: [1, 1],
         finalCode: 'hello',
         finalPosition: [1, 6],
+        prepare: defaultPrepare,
       },
     ]);
   });
@@ -32,12 +39,14 @@ describe('Replay', () => {
       type: 'TypeCode',
       code: 'hello',
       position: [1, 1],
+      prepare: defaultPrepare,
     };
 
     const action2: TypeCodeActionData = {
       type: 'TypeCode',
       code: ' the world',
       position: [1, 6],
+      prepare: defaultPrepare,
     };
 
     const action3: EraseCodeActionData = {
@@ -59,6 +68,7 @@ describe('Replay', () => {
         initialPosition: [1, 1],
         finalCode: 'hello',
         finalPosition: [1, 6],
+        prepare: defaultPrepare,
       },
       {
         type: 'TypeCode',
@@ -68,6 +78,7 @@ describe('Replay', () => {
         initialPosition: [1, 6],
         finalCode: 'hello the world',
         finalPosition: [1, 16],
+        prepare: defaultPrepare,
       },
       {
         type: 'EraseCode',

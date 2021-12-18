@@ -8,7 +8,8 @@ import { ReplayActionData } from '../domain/Replay';
 import { ReplayEditor } from './components/ReplayEditor';
 import { ReplayProperties } from './components/ReplayProperties';
 import { ReplayRenderer } from './components/ReplayRenderer';
-import replay from './replay_.json';
+import { ReplayTimeline } from './components/ReplayTimeline';
+import replay from './replay_2.json';
 import { selectAreEditorsReady } from './store/slices/editor.selectors';
 import { selectPropertiesEditionHeight, selectViewHeight } from './store/slices/ui.selectors';
 import { setPropertiesEditionHeight, setViewHeight } from './store/slices/ui.slice';
@@ -52,6 +53,10 @@ export const App: React.FC = () => {
       </div>
 
       <hr ref={ref} className="border-t-4 cursor-row-resize border-light" draggable />
+
+      <div className="border-b border-b-light">
+        <ReplayTimeline />
+      </div>
 
       <div style={{ height: propertiesEditionHeight }}>
         <ReplayProperties />

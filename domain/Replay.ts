@@ -9,9 +9,9 @@ export type TypeCodeActionData = {
   type: TypeCodeAction['type'];
   position: PositionData;
   code: string;
-  prepare?: {
-    insertLinesAbove?: number;
-    insertLinesBelow?: number;
+  prepare: {
+    insertLinesAbove: number;
+    insertLinesBelow: number;
   };
 };
 

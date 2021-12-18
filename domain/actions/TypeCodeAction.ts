@@ -32,26 +32,12 @@ export class TypeCodeAction implements ReplayAction {
   }
 
   get data(): TypeCodeActionData {
-    const data: TypeCodeActionData = {
+    return {
       type: this.type,
       code: this.code,
       position: this.position.values,
+      prepare: Object.assign({}, this.prepare),
     };
-
-    if (this.prepare.insertLinesAbove > 0) {
-      data.prepare = {
-        insertLinesAbove: this.prepare.insertLinesAbove,
-      };
-    }
-
-    if (this.prepare.insertLinesBelow > 0) {
-      data.prepare = {
-        ...data.prepare,
-        insertLinesBelow: this.prepare.insertLinesBelow,
-      };
-    }
-
-    return data;
   }
 
   apply(editor: MemoryEditor): void {
