@@ -23,8 +23,10 @@ export const ReplayEditor: React.FC = () => {
         className="monaco-editor"
         originalLanguage="typescript"
         modifiedLanguage="typescript"
+        language="typescript"
         theme="vs-dark"
         options={{
+          readOnly: true,
           autoClosingBrackets: 'never',
           autoIndent: 'none',
           autoClosingDelete: 'never',

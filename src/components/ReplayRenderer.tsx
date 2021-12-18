@@ -23,7 +23,6 @@ export const ReplayRenderer: React.FC = () => {
         className="monaco-editor"
         language="typescript"
         theme="vs-dark"
-        height="500px"
         options={{
           autoClosingBrackets: 'never',
           autoIndent: 'none',
