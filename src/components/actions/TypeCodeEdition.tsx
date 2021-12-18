@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
 
-import { DraftTypeCodeAction } from '../../store/types/entities';
+import { DraftTypeCodeAction } from '../../store/slices/editor.slice';
 import { updateDraftAction } from '../../store/usecases/updateDraftAction';
 import { CursorPositionInput } from '../CursorPositionInput';
 
@@ -14,6 +14,8 @@ export const TypeCodeEdition: React.FC<TypeCodeEditionProps> = ({ action }) => {
   const handleChange = (path: string, value: string) => {
     dispatch(updateDraftAction(path, value));
   };
+
+  const [line, column] = action.position;
 
   return (
     <div className="flex flex-col h-full p-8 overflow-auto gap-8">
@@ -29,9 +31,9 @@ export const TypeCodeEdition: React.FC<TypeCodeEditionProps> = ({ action }) => {
           <div className="flex flex-col gap-2">
             Start position
             <CursorPositionInput
-              line={action.position.line}
+              line={line}
               onLineChange={(line) => handleChange('position.line', line)}
-              column={action.position.column}
+              column={column}
               onColumnChange={(column) => handleChange('position.column', column)}
             />
           </div>

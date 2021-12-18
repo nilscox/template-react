@@ -1,6 +1,8 @@
 import { Monaco } from '@monaco-editor/react';
 import { editor } from 'monaco-editor';
 
+import { PositionData } from '../domain/Replay';
+
 import { Position } from './Position';
 import { Range } from './Range';
 import { Scheduler } from './Scheduler';
@@ -24,12 +26,18 @@ export class TextEditor {
     this.editor.setValue(value);
   }
 
-  get position(): Position {
-    return Position.fromMonaco(this.editor.getPosition()!);
+  get position(): PositionData {
+    const position = this.editor.getPosition();
+
+    if (position === null) {
+      throw new Error("TextEditor.position: the editor's position is null");
+    }
+
+    return [position.lineNumber, position.column];
   }
 
-  set position(position: Position) {
-    this.editor.setPosition(Position.from(position).toMonaco());
+  set position([line, column]: PositionData) {
+    this.editor.setPosition({ lineNumber: line, column });
   }
 
   set selection(range: Range) {
@@ -56,13 +64,8 @@ export class TextEditor {
     }
   }
 
-  addPositionListener(listener: (position: Position) => void) {
-    this.editor.onDidChangeCursorPosition((e) =>
-      listener({
-        line: e.position.lineNumber,
-        column: e.position.column,
-      }),
-    );
+  addPositionListener(listener: (position: PositionData) => void) {
+    this.editor.onDidChangeCursorPosition((e) => listener([e.position.lineNumber, e.position.column]));
   }
 
   backspace() {

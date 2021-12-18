@@ -2,16 +2,16 @@ import { useEffect, useState } from 'react';
 
 import { useDispatch } from 'react-redux';
 
+import { PositionData } from '../../domain/Replay';
 import { useSelector } from '../App';
 import { selectAreEditorsReady } from '../store/slices/editor.selectors';
 import { Dependencies } from '../store/store';
-import { Position } from '../store/types/entities';
 
 export const StatusBar: React.FC = () => {
   const areEditorsReady = useSelector(selectAreEditorsReady);
   const dispatch = useDispatch();
 
-  const [{ line, column }, setPosition] = useState<Position>({ line: 1, column: 1 });
+  const [[line, column], setPosition] = useState<PositionData>([1, 1]);
 
   useEffect(() => {
     if (areEditorsReady) {

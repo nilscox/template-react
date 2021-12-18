@@ -1,7 +1,6 @@
 import { useDispatch } from 'react-redux';
 
-import { updateDraftAction } from '../../store/slices/editor.slice';
-import { DraftEraseCodeAction } from '../../store/types/entities';
+import { DraftEraseCodeAction, updateDraftAction } from '../../store/slices/editor.slice';
 import { CursorPositionInput } from '../CursorPositionInput';
 
 type EraseCodeEditionProps = {
@@ -15,6 +14,9 @@ export const EraseCodeEdition: React.FC<EraseCodeEditionProps> = ({ action }) =>
     dispatch(updateDraftAction({ path, value }));
   };
 
+  const [startLine, startColumn] = action.start;
+  const [endLine, endColumn] = action.end;
+
   return (
     <div className="flex flex-col h-full p-8 overflow-auto gap-8">
       <div>
@@ -26,9 +28,9 @@ export const EraseCodeEdition: React.FC<EraseCodeEditionProps> = ({ action }) =>
         <div className="flex flex-col gap-2">
           Start position
           <CursorPositionInput
-            line={action.start.line}
+            line={startLine}
             onLineChange={(line) => handleChange('start.line', line)}
-            column={action.start.column}
+            column={startColumn}
             onColumnChange={(column) => handleChange('start.column', column)}
           />
         </div>
@@ -36,9 +38,9 @@ export const EraseCodeEdition: React.FC<EraseCodeEditionProps> = ({ action }) =>
         <div className="flex flex-col gap-2">
           End position
           <CursorPositionInput
-            line={action.end.line}
+            line={endLine}
             onLineChange={(line) => handleChange('end.line', line)}
-            column={action.end.column}
+            column={endColumn}
             onColumnChange={(column) => handleChange('end.column', column)}
           />
         </div>

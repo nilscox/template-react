@@ -1,6 +1,24 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { DraftAction } from '../types/entities';
+export type DraftPosition = [string, string];
+
+export type DraftTypeCodeAction = {
+  type: 'TypeCode';
+  position: DraftPosition;
+  code: string;
+  prepare: {
+    insertLinesAbove: string;
+    insertLinesBelow: string;
+  };
+};
+
+export type DraftEraseCodeAction = {
+  type: 'EraseCode';
+  start: DraftPosition;
+  end: DraftPosition;
+};
+
+export type DraftAction = DraftTypeCodeAction | DraftEraseCodeAction;
 
 type EditorState = {
   diffEditorReady: boolean;
@@ -23,12 +41,16 @@ const editorSlice = createSlice({
       state.draftAction = action;
     },
     updateDraftAction(state, { payload: { path, value } }: PayloadAction<{ path: string; value: string }>) {
+      /* eslint-disable */
+
       const obj = path
         .split('.')
         .slice(0, -1)
         .reduce((state, key) => state[key], state.draftAction as any);
 
       obj[path.split('.').slice(-1)[0]] = value;
+
+      /* eslint-enable */
     },
   },
 });

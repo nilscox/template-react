@@ -1,8 +1,9 @@
-import { InvalidActionError } from '../../domain/InvalidActionError';
 import { selectDraftAction } from '../slices/editor.selectors';
 import { updateDraftAction as updateDraftActionAction } from '../slices/editor.slice';
 import { selectCurrentAction } from '../slices/replay.selectors';
 import { ThunkAction } from '../store';
+
+import { updateCurrentAction } from './updateCurrentAction';
 
 export const updateDraftAction = (path: string, value: string): ThunkAction => {
   return (dispatch, getState) => {
@@ -15,14 +16,10 @@ export const updateDraftAction = (path: string, value: string): ThunkAction => {
       return;
     }
 
-    try {
-      // todo
-    } catch (error) {
-      if (error instanceof InvalidActionError) {
-        return;
-      }
+    // if (!isDraftActionValid(draftAction)) {
+    //   return;
+    // }
 
-      throw error;
-    }
+    // dispatch(updateCurrentAction(actionFormDraft(draftAction)));
   };
 };

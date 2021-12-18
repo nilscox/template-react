@@ -2,11 +2,11 @@ import { createSelector } from '@reduxjs/toolkit';
 import cx from 'classnames';
 import { useDispatch } from 'react-redux';
 
+import { PlayedActionData } from '../../domain/Replay';
 import { useSelector } from '../App';
 import { selectDraftAction } from '../store/slices/editor.selectors';
 import { selectCurrentAction, selectReplay } from '../store/slices/replay.selectors';
 import { selectPropertiesEditionVisible } from '../store/slices/ui.selectors';
-import { DraftEraseCodeAction, DraftTypeCodeAction, ReplayAction } from '../store/types/entities';
 import { setCurrentAction } from '../store/usecases/setCurrentAction';
 
 import { EraseCodeEdition } from './actions/EraseCodeEdition';
@@ -31,23 +31,22 @@ export const ReplayProperties: React.FC = () => {
 };
 
 type ReplayActionEditionProps = {
-  action: ReplayAction;
+  action: PlayedActionData;
 };
 
 const ReplayActionEdition: React.FC<ReplayActionEditionProps> = () => {
-  const currentAction = useSelector(selectCurrentAction);
   const draftAction = useSelector(selectDraftAction);
 
   if (!draftAction) {
     return null;
   }
 
-  switch (currentAction.type) {
+  switch (draftAction.type) {
     case 'TypeCode':
-      return <TypeCodeEdition action={draftAction as DraftTypeCodeAction} />;
+      return <TypeCodeEdition action={draftAction} />;
 
     case 'EraseCode':
-      return <EraseCodeEdition action={draftAction as DraftEraseCodeAction} />;
+      return <EraseCodeEdition action={draftAction} />;
 
     default:
       return null;
@@ -57,6 +56,7 @@ const ReplayActionEdition: React.FC<ReplayActionEditionProps> = () => {
 const selectActionsVM = createSelector(selectReplay, (replay) => {
   return replay.actions.map((action, n) => ({
     ...action,
+    action,
     isCurrent: n === replay.currentActionIndex,
     isPlayed: n <= replay.currentActionIndex,
     summary: action.type === 'TypeCode' ? action.code : '',
@@ -78,7 +78,7 @@ export const ActionsList: React.FC = () => {
             action.isCurrent && '!bg-dark-alternate cursor-default text-xl',
             !action.isPlayed && 'text-muted',
           )}
-          onClick={() => dispatch(setCurrentAction(action.id))}
+          onClick={() => dispatch(setCurrentAction(action.action))}
         >
           <div className="flex-grow overflow-x-hidden">
             <div>{action.type}</div>
