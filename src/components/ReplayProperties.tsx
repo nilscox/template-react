@@ -21,8 +21,8 @@ export const ReplayProperties: React.FC = () => {
   }
 
   return (
-    <div className="flex flex-row h-[400px] bg-dark">
-      <div className="max-w-sm border-r-2 min-w-sm border-light">
+    <div className="flex flex-row h-full bg-dark">
+      <div className="max-w-sm border-r-4 min-w-sm border-light">
         <ActionsList />
       </div>
       <div className="flex-grow">{action && <ReplayActionEdition action={action} />}</div>

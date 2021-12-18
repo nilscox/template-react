@@ -1,12 +1,13 @@
 import { DiffEditor, DiffOnMount } from '@monaco-editor/react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
+import { selectEditorsHeight } from '../store/slices/ui.selectors';
 import { setDiffEditor } from '../store/usecases/setEditors';
-
-import { StatusBar } from './StatusBar';
 
 export const ReplayEditor: React.FC = () => {
   const dispatch = useDispatch();
+
+  const editorsHeight = useSelector(selectEditorsHeight);
 
   const handleMount: DiffOnMount = (editor, monaco) => {
     monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions({
@@ -18,33 +19,31 @@ export const ReplayEditor: React.FC = () => {
   };
 
   return (
-    <>
-      <DiffEditor
-        className="monaco-editor"
-        originalLanguage="typescript"
-        modifiedLanguage="typescript"
-        language="typescript"
-        theme="vs-dark"
-        options={{
-          readOnly: true,
-          autoClosingBrackets: 'never',
-          autoIndent: 'none',
-          autoClosingDelete: 'never',
-          autoClosingOvertype: 'never',
-          autoClosingQuotes: 'never',
-          autoSurround: 'never',
-          formatOnType: false,
-          quickSuggestions: false,
-          codeLens: false,
-          scrollBeyondLastLine: false,
-          hover: { enabled: false },
-          minimap: { enabled: false },
-          lightbulb: { enabled: false },
-          renderOverviewRuler: false,
-        }}
-        onMount={handleMount}
-      />
-      {/* <StatusBar /> */}
-    </>
+    <DiffEditor
+      className="monaco-editor"
+      originalLanguage="typescript"
+      modifiedLanguage="typescript"
+      language="typescript"
+      theme="vs-dark"
+      height={editorsHeight}
+      options={{
+        readOnly: true,
+        autoClosingBrackets: 'never',
+        autoIndent: 'none',
+        autoClosingDelete: 'never',
+        autoClosingOvertype: 'never',
+        autoClosingQuotes: 'never',
+        autoSurround: 'never',
+        formatOnType: false,
+        quickSuggestions: false,
+        codeLens: false,
+        scrollBeyondLastLine: false,
+        hover: { enabled: false },
+        minimap: { enabled: false },
+        lightbulb: { enabled: false },
+        renderOverviewRuler: false,
+      }}
+      onMount={handleMount}
+    />
   );
 };

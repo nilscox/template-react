@@ -7,7 +7,11 @@ import { useSelector } from '../App';
 import { selectAreEditorsReady } from '../store/slices/editor.selectors';
 import { Dependencies } from '../store/store';
 
-export const StatusBar: React.FC = () => {
+type StatusBarProps = {
+  onResize?: (width: number, height: number) => void;
+};
+
+export const StatusBar: React.FC<StatusBarProps> = ({ onResize }) => {
   const areEditorsReady = useSelector(selectAreEditorsReady);
   const dispatch = useDispatch();
 
@@ -22,7 +26,10 @@ export const StatusBar: React.FC = () => {
   }, [areEditorsReady, dispatch]);
 
   return (
-    <div className="px-4 py-1 text-sm text-right bg-dark-alternate">
+    <div
+      ref={(ref) => ref && onResize?.(ref.clientWidth, ref.clientHeight)}
+      className="px-4 py-1 text-sm text-right bg-dark-alternate"
+    >
       Ln {line}, Col {column}
     </div>
   );

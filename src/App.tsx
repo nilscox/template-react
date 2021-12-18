@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 import { Selector } from '@reduxjs/toolkit';
 import { useDispatch, useSelector as useReduxSelector } from 'react-redux';
@@ -10,6 +10,8 @@ import { ReplayProperties } from './components/ReplayProperties';
 import { ReplayRenderer } from './components/ReplayRenderer';
 import replay from './replay_.json';
 import { selectAreEditorsReady } from './store/slices/editor.selectors';
+import { selectPropertiesEditionHeight, selectViewHeight } from './store/slices/ui.selectors';
+import { setPropertiesEditionHeight, setViewHeight } from './store/slices/ui.slice';
 import { State } from './store/store';
 import { loadReplay } from './store/usecases/loadReplay';
 
@@ -23,6 +25,8 @@ export const useSelector = <Result, Params extends unknown[]>(
 export const App: React.FC = () => {
   const dispatch = useDispatch();
   const areEditorsReady = useSelector(selectAreEditorsReady);
+  const viewHeight = useSelector(selectViewHeight);
+  const propertiesEditionHeight = useSelector(selectPropertiesEditionHeight);
 
   useEffect(() => {
     if (areEditorsReady) {
@@ -30,9 +34,15 @@ export const App: React.FC = () => {
     }
   }, [dispatch, areEditorsReady]);
 
+  const ref = useRef<HTMLHRElement>(null);
+
   return (
-    <div className="flex flex-col flex-grow h-full max-h-full overflow-hidden">
-      <div className="flex flex-row flex-grow h-0">
+    <div
+      ref={(ref) => ref && dispatch(setViewHeight(ref.clientHeight))}
+      onDragOver={(e) => dispatch(setPropertiesEditionHeight(viewHeight - e.pageY + 2))}
+      className="flex flex-col flex-grow h-full max-h-full overflow-hidden"
+    >
+      <div className="flex flex-row flex-grow">
         <div className="w-1/2">
           <ReplayEditor />
         </div>
@@ -41,7 +51,11 @@ export const App: React.FC = () => {
         </div>
       </div>
 
-      <ReplayProperties />
+      <hr ref={ref} className="border-t-4 cursor-row-resize border-light" draggable />
+
+      <div style={{ height: propertiesEditionHeight }}>
+        <ReplayProperties />
+      </div>
     </div>
   );
 };
