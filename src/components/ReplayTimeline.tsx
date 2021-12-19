@@ -6,11 +6,11 @@ import { selectReplay } from '../store/slices/replay.selectors';
 import { playCurrentAction } from '../store/usecases/playCurrentAction';
 
 const selectReplayProgress = createSelector(selectReplay, (replay) => {
-  if (!replay.actions.length) {
+  if (!replay.steps.length) {
     return 0;
   }
 
-  return replay.currentActionIndex / replay.actions.length;
+  return replay.currentStepIndex / replay.steps.length;
 });
 
 export const ReplayTimeline: React.FC = () => {

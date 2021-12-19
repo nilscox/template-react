@@ -1,31 +1,21 @@
 import { expect } from 'earljs';
 
-import { EraseCodeActionData, Replay, ReplayActionData, TypeCodeActionData } from './Replay';
+import { PositionData, Replay, ReplayActionData, ReplayStepData, TypeCodeActionData } from './Replay';
 
 describe('Replay', () => {
-  const defaultPrepare: TypeCodeActionData['prepare'] = {
-    insertLinesAbove: 0,
-    insertLinesBelow: 0,
-  };
-
-  const createReplay = (actions: ReplayActionData[]) => {
-    return Replay.create([{ actions }]);
-  };
-
   it('applies one action', () => {
     const action1: TypeCodeActionData = {
       type: 'TypeCode',
       code: 'hello',
-      position: [1, 1],
-      prepare: defaultPrepare,
     };
 
-    const replay = createReplay([action1]);
+    const replay = Replay.create([{ name: 'step', actions: [action1] }]);
 
     const playedSteps = replay.play();
 
     expect(playedSteps).toEqual([
       {
+        name: 'step',
         initialState: {
           code: '',
           position: [1, 1],
@@ -38,69 +28,86 @@ describe('Replay', () => {
           {
             type: 'TypeCode',
             code: 'hello',
-            position: [1, 1],
-            prepare: defaultPrepare,
           },
         ],
       },
     ]);
   });
 
-  it.skip('applies multiple actions', () => {
-    const action1: TypeCodeActionData = {
-      type: 'TypeCode',
-      code: 'hello',
-      position: [1, 1],
-      prepare: defaultPrepare,
-    };
+  const action1: ReplayActionData = {
+    type: 'TypeCode',
+    code: 'hello',
+  };
 
-    const action2: TypeCodeActionData = {
-      type: 'TypeCode',
-      code: ' the world',
-      position: [1, 6],
-      prepare: defaultPrepare,
-    };
+  const action2: ReplayActionData = {
+    type: 'TypeCode',
+    code: ' the world',
+  };
 
-    const action3: EraseCodeActionData = {
-      type: 'EraseCode',
-      start: [1, 6],
-      end: [1, 10],
-    };
+  const action3: ReplayActionData = {
+    type: 'MoveCursor',
+    position: [1, 10],
+  };
 
-    const replay = createReplay([action1, action2, action3]);
+  const action4: ReplayActionData = {
+    type: 'EraseCode',
+    end: [1, 6],
+  };
 
-    const playedActions = replay.play();
+  const actions = [action1, action2, action3, action4];
 
-    expect(playedActions).toEqual([
+  const state = (code: string, position: PositionData) => ({
+    code,
+    position,
+  });
+
+  it('applies multiple actions in a single step', () => {
+    const replay = Replay.create([{ name: 'step', actions }]);
+    const playedSteps = replay.play();
+
+    expect(playedSteps).toEqual([
       {
-        type: 'TypeCode',
-        code: 'hello',
-        position: [1, 1],
-        initialCode: '',
-        initialPosition: [1, 1],
-        finalCode: 'hello',
-        finalPosition: [1, 6],
-        prepare: defaultPrepare,
-      },
-      {
-        type: 'TypeCode',
-        code: ' the world',
-        position: [1, 6],
-        initialCode: 'hello',
-        initialPosition: [1, 6],
-        finalCode: 'hello the world',
-        finalPosition: [1, 16],
-        prepare: defaultPrepare,
-      },
-      {
-        type: 'EraseCode',
-        start: [1, 6],
-        end: [1, 10],
-        initialCode: 'hello the world',
-        initialPosition: [1, 16],
-        finalCode: 'hello world',
-        finalPosition: [1, 6],
+        name: 'step',
+        actions,
+        initialState: state('', [1, 1]),
+        finalState: state('hello world', [1, 6]),
       },
     ]);
+  });
+
+  it('applies multiple steps', () => {
+    const steps: ReplayStepData[] = actions.map((action, n) => ({ name: `step ${n + 1}`, actions: [action] }));
+    const replay = Replay.create(steps);
+    const playedSteps = replay.play();
+
+    expect(playedSteps).toBeAnArrayOfLength(4);
+
+    expect(playedSteps[0]).toEqual({
+      name: 'step 1',
+      actions: [action1],
+      initialState: state('', [1, 1]),
+      finalState: state('hello', [1, 6]),
+    });
+
+    expect(playedSteps[1]).toEqual({
+      name: 'step 2',
+      actions: [action2],
+      initialState: state('hello', [1, 6]),
+      finalState: state('hello the world', [1, 16]),
+    });
+
+    expect(playedSteps[2]).toEqual({
+      name: 'step 3',
+      actions: [action3],
+      initialState: state('hello the world', [1, 16]),
+      finalState: state('hello the world', [1, 10]),
+    });
+
+    expect(playedSteps[3]).toEqual({
+      name: 'step 4',
+      actions: [action4],
+      initialState: state('hello the world', [1, 10]),
+      finalState: state('hello world', [1, 6]),
+    });
   });
 });

@@ -6,26 +6,24 @@ import { EraseCodeActionData, ReplayAction } from '../Replay';
 export class EraseCodeAction implements ReplayAction {
   readonly type = 'EraseCode';
 
-  constructor(private start: CursorPosition, private end: CursorPosition) {
-    if (!this.start.isValid() || !this.end.isValid() || this.start.isAfter(this.end)) {
+  constructor(private end: CursorPosition) {
+    if (!this.end.isValid()) {
       throw new InvalidActionError(this);
     }
   }
 
-  static create(start: [number, number], end: [number, number]) {
-    return new EraseCodeAction(CursorPosition.create(start), CursorPosition.create(end));
+  static create(end: [number, number]) {
+    return new EraseCodeAction(CursorPosition.create(end));
   }
 
   get data(): EraseCodeActionData {
     return {
       type: this.type,
-      start: this.start.values,
       end: this.end.values,
     };
   }
 
   apply(editor: MemoryEditor): void {
-    editor.position = this.end.clone();
-    editor.eraseCode(this.start);
+    editor.eraseCode(this.end);
   }
 }

@@ -13,8 +13,9 @@ describe('EraseCode', () => {
 
   it('erases all the code', () => {
     editor.insertCode('abc');
+    editor.position.set([1, 4]);
 
-    EraseCodeAction.create([1, 1], [1, 4]).apply(editor);
+    EraseCodeAction.create([1, 1]).apply(editor);
 
     expect(editor.code).toEqual('');
     expect(editor.position.values).toEqual([1, 1]);
@@ -22,8 +23,9 @@ describe('EraseCode', () => {
 
   it('erases part of the code on the first line', () => {
     editor.insertCode('abc');
+    editor.position.set([1, 3]);
 
-    EraseCodeAction.create([1, 2], [1, 3]).apply(editor);
+    EraseCodeAction.create([1, 2]).apply(editor);
 
     expect(editor.code).toEqual('ac');
     expect(editor.position.values).toEqual([1, 2]);
@@ -31,8 +33,9 @@ describe('EraseCode', () => {
 
   it('erases part of the code on multiple lines', () => {
     editor.insertCode('123\n456\n789');
+    editor.position.set([3, 2]);
 
-    EraseCodeAction.create([1, 3], [3, 2]).apply(editor);
+    EraseCodeAction.create([1, 3]).apply(editor);
 
     expect(editor.code).toEqual('1289');
     expect(editor.position.values).toEqual([1, 3]);

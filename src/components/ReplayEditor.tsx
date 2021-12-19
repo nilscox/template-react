@@ -1,13 +1,10 @@
 import { DiffEditor, DiffOnMount } from '@monaco-editor/react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-import { selectEditorsHeight } from '../store/slices/ui.selectors';
 import { setDiffEditor } from '../store/usecases/setEditors';
 
 export const ReplayEditor: React.FC = () => {
   const dispatch = useDispatch();
-
-  const editorsHeight = useSelector(selectEditorsHeight);
 
   const handleMount: DiffOnMount = (editor, monaco) => {
     monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions({
@@ -25,7 +22,7 @@ export const ReplayEditor: React.FC = () => {
       modifiedLanguage="typescript"
       language="typescript"
       theme="vs-dark"
-      height={editorsHeight}
+      height={600}
       options={{
         readOnly: true,
         autoClosingBrackets: 'never',

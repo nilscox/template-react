@@ -1,28 +1,36 @@
 import { EraseCodeAction } from './actions/EraseCodeAction';
+import { InsertLinesAction } from './actions/InsertLinesAction';
+import { MoveCursorAction } from './actions/MoveCursorAction';
 import { TypeCodeAction } from './actions/TypeCodeAction';
 import { MemoryEditor } from './MemoryEditor';
 
 export type PositionData = [number, number];
 
+export type MoveCursorActionData = {
+  type: MoveCursorAction['type'];
+  position: PositionData;
+};
+
+export type InsertLinesActionData = {
+  type: InsertLinesAction['type'];
+  above: number;
+  below: number;
+};
+
 export type TypeCodeActionData = {
   type: TypeCodeAction['type'];
-  position: PositionData;
   code: string;
-  prepare: {
-    insertLinesAbove: number;
-    insertLinesBelow: number;
-  };
 };
 
 export type EraseCodeActionData = {
   type: EraseCodeAction['type'];
-  start: PositionData;
   end: PositionData;
 };
 
-export type ReplayActionData = TypeCodeActionData | EraseCodeActionData;
+export type ReplayActionData = TypeCodeActionData | EraseCodeActionData | MoveCursorActionData | InsertLinesActionData;
 
 export type ReplayStepData = {
+  name: string;
   actions: ReplayActionData[];
 };
 
@@ -42,24 +50,31 @@ export interface ReplayAction {
 }
 
 export class ReplayStep {
-  constructor(private actions: ReplayAction[]) {}
+  constructor(private name: string, private actions: ReplayAction[]) {}
 
   static create(step: ReplayStepData): ReplayStep {
-    return new ReplayStep(step.actions.map(ReplayStep.createAction));
+    return new ReplayStep(step.name, step.actions.map(ReplayStep.createAction));
   }
 
   private static createAction(action: ReplayActionData): ReplayAction {
     switch (action.type) {
+      case 'MoveCursor':
+        return MoveCursorAction.create(action.position);
+
+      case 'InsertLines':
+        return InsertLinesAction.create(action);
+
       case 'TypeCode':
-        return TypeCodeAction.create(action.position, action.code, action.prepare);
+        return TypeCodeAction.create(action.code);
 
       case 'EraseCode':
-        return EraseCodeAction.create(action.start, action.end);
+        return EraseCodeAction.create(action.end);
     }
   }
 
   get data(): ReplayStepData {
     return {
+      name: this.name,
       actions: this.actions.map((action) => action.data),
     };
   }
@@ -83,7 +98,7 @@ export class Replay {
     const playedSteps: PlayedStepData[] = [];
 
     for (const step of this.steps) {
-      const initialPosition = editor.position.clone();
+      const initialPosition = editor.position.values;
       const initialCode = editor.code;
 
       step.apply(editor);
@@ -92,7 +107,7 @@ export class Replay {
         ...step.data,
         initialState: {
           code: initialCode,
-          position: initialPosition.values,
+          position: initialPosition,
         },
         finalState: {
           code: editor.code,

@@ -1,15 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { PlayedActionData } from '../../../domain/Replay';
+import { PlayedStepData } from '../../../domain/Replay';
 
 export type ReplayState = {
-  actions: PlayedActionData[];
-  currentActionIndex: number;
+  steps: PlayedStepData[];
+  currentStepIndex: number;
 };
 
 const initialState: ReplayState = {
-  actions: [],
-  currentActionIndex: 0,
+  steps: [],
+  currentStepIndex: 0,
 };
 
 const replaySlice = createSlice({
@@ -19,24 +19,20 @@ const replaySlice = createSlice({
     setReplay(_state, action: PayloadAction<ReplayState>) {
       return action.payload;
     },
-    setActions(state, action: PayloadAction<PlayedActionData[]>) {
-      state.actions = action.payload;
+    setSteps(state, { payload: steps }: PayloadAction<PlayedStepData[]>) {
+      state.steps = steps;
     },
-    addAction(state, action: PayloadAction<PlayedActionData>) {
-      state.actions.push(action.payload);
+    setStepName(state, { payload: { index, name } }: PayloadAction<{ index: number; name: string }>) {
+      state.steps[index].name = name;
     },
-    updateCurrentAction(state, { payload: action }: PayloadAction<PlayedActionData>) {
-      state.actions[state.currentActionIndex] = action;
+    updateSteps(state, { payload: steps }: PayloadAction<Array<PlayedStepData>>) {
+      console.log('updateSteps', steps);
     },
-    updateActions(state, { payload: actions }: PayloadAction<Array<PlayedActionData>>) {
-      console.log('updateActions', actions);
-    },
-    setCurrentActionIndex(state, action: PayloadAction<number>) {
-      state.currentActionIndex = action.payload;
+    setCurrentStepIndex(state, action: PayloadAction<number>) {
+      state.currentStepIndex = action.payload;
     },
   },
 });
 
-export const { setReplay, setActions, addAction, updateCurrentAction, updateActions, setCurrentActionIndex } =
-  replaySlice.actions;
+export const { setReplay, setSteps, setStepName, updateSteps, setCurrentStepIndex } = replaySlice.actions;
 export const replayReducer = replaySlice.reducer;

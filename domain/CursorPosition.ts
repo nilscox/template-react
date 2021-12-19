@@ -3,8 +3,13 @@ import { PositionData } from './Replay';
 export class CursorPosition {
   constructor(public line = 1, public column = 1) {}
 
-  static create([line, column]: [number, number]) {
+  static create([line, column]: PositionData) {
     return new CursorPosition(line, column);
+  }
+
+  set([line, column]: PositionData) {
+    this.line = line;
+    this.column = column;
   }
 
   clone(): CursorPosition {

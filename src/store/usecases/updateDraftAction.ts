@@ -1,32 +1,36 @@
 import { InvalidActionError } from '../../../domain/InvalidActionError';
-import { Replay, ReplayActionData } from '../../../domain/Replay';
-import { selectDraftAction } from '../slices/editor.selectors';
-import { updateDraftAction as updateDraftActionAction } from '../slices/editor.slice';
-import { selectReplay } from '../slices/replay.selectors';
-import { setActions } from '../slices/replay.slice';
+import { Replay, ReplayStepData } from '../../../domain/Replay';
+import { selectDraftStep } from '../slices/editor.selectors';
+import { DraftAction, updateDraftStep } from '../slices/editor.slice';
+import { selectCurrentStep, selectReplay } from '../slices/replay.selectors';
+import { setSteps } from '../slices/replay.slice';
 import { ThunkAction } from '../store';
 
-import { draft, setCurrentAction } from './setCurrentAction';
+import { draft, setCurrentStep } from './setCurrentStep';
 
-export const updateDraftAction = (path: string, value: string): ThunkAction => {
+export const updateDraftAction = (action: DraftAction, path: string, value: string): ThunkAction => {
   return (dispatch, getState) => {
-    dispatch(updateDraftActionAction({ path, value }));
+    const dratStep = selectDraftStep(getState());
+    const index = dratStep?.actions.indexOf(action);
+
+    dispatch(updateDraftStep({ path: `actions.${index}.${path}`, value }));
 
     const replay = selectReplay(getState());
-    const actions: ReplayActionData[] = replay.actions.slice();
-    const draftAction = selectDraftAction(getState());
+    const steps: ReplayStepData[] = replay.steps.slice();
+    const currentStep = selectCurrentStep(getState());
+    const draftAction = selectDraftStep(getState());
 
     if (!draftAction) {
       return;
     }
 
-    actions[replay.currentActionIndex] = draft.transformFromDraft(draftAction);
+    steps[replay.currentStepIndex] = draft.transformStepFromDraft(currentStep.name, draftAction);
 
     try {
-      const playedActions = Replay.create(actions).play();
+      const playedActions = Replay.create(steps).play();
 
-      dispatch(setActions(playedActions));
-      dispatch(setCurrentAction(playedActions[replay.currentActionIndex]));
+      dispatch(setSteps(playedActions));
+      dispatch(setCurrentStep(playedActions[replay.currentStepIndex]));
     } catch (error) {
       if (!(error instanceof InvalidActionError)) {
         throw error;

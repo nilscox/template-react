@@ -1,20 +1,20 @@
-import { Replay, ReplayActionData } from '../../../domain/Replay';
+import { Replay, ReplayStepData } from '../../../domain/Replay';
 import { setReplay } from '../slices/replay.slice';
 import { ThunkAction } from '../store';
 
-import { setCurrentAction } from './setCurrentAction';
+import { setCurrentStep } from './setCurrentStep';
 
-export const loadReplay = (actions: ReplayActionData[]): ThunkAction => {
+export const loadReplay = (steps: ReplayStepData[]): ThunkAction => {
   return (dispatch) => {
-    const playedActions = Replay.create(actions).play();
+    const playedSteps = Replay.create(steps).play();
 
     dispatch(
       setReplay({
-        actions: playedActions,
-        currentActionIndex: 0,
+        steps: playedSteps,
+        currentStepIndex: 0,
       }),
     );
 
-    dispatch(setCurrentAction(playedActions[0]));
+    dispatch(setCurrentStep(playedSteps[0]));
   };
 };

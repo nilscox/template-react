@@ -1,11 +1,17 @@
-import { EraseCodeActionData, ReplayActionData, TypeCodeActionData } from '../../../domain/Replay';
+import {
+  EraseCodeActionData,
+  InsertLinesActionData,
+  MoveCursorActionData,
+  ReplayActionData,
+  TypeCodeActionData,
+} from '../../../domain/Replay';
 import { TextEditor } from '../../Editor';
 import { Scheduler } from '../../Scheduler';
 import { ThunkAction } from '../store';
 
 export const playAction = (action: ReplayActionData): ThunkAction<Promise<void>> => {
-  return async (dispatch, getState, { editors, scheduler }) => {
-    const playFunc = { TypeCode, EraseCode }[action.type];
+  return async (_dispatch, _getState, { editors, scheduler }) => {
+    const playFunc = { TypeCode, EraseCode, InsertLines, MoveCursor }[action.type];
 
     editors.textEditor.focus();
     // @ts-expect-error todo
@@ -13,18 +19,22 @@ export const playAction = (action: ReplayActionData): ThunkAction<Promise<void>>
   };
 };
 
-const TypeCode = async (action: TypeCodeActionData, editor: TextEditor, scheduler: Scheduler) => {
+const MoveCursor = async (action: MoveCursorActionData, editor: TextEditor, scheduler: Scheduler) => {
   if (editor.position[0] !== action.position[0] || editor.position[1] !== action.position[1]) {
     editor.position = action.position;
     await scheduler.wait('afterCursorMovement');
   }
+};
 
-  if (action.prepare.insertLinesAbove > 0 || action.prepare.insertLinesBelow > 0) {
-    await editor.insertLinesAbove(action.prepare.insertLinesAbove);
-    await editor.insertLinesBelow(action.prepare.insertLinesBelow);
+const InsertLines = async (action: InsertLinesActionData, editor: TextEditor, scheduler: Scheduler) => {
+  if (action.above > 0 || action.below > 0) {
+    await editor.insertLinesAbove(action.above);
+    await editor.insertLinesBelow(action.below);
     await scheduler.wait('afterCursorMovement');
   }
+};
 
+const TypeCode = async (action: TypeCodeActionData, editor: TextEditor, scheduler: Scheduler) => {
   if (scheduler.immediate) {
     editor.insert(action.code);
   } else {
@@ -33,8 +43,5 @@ const TypeCode = async (action: TypeCodeActionData, editor: TextEditor, schedule
 };
 
 const EraseCode = async (action: EraseCodeActionData, editor: TextEditor, scheduler: Scheduler) => {
-  editor.position = action.end;
-  await scheduler.wait('afterCursorMovement');
-
-  await editor.erase(action.start);
+  await editor.erase(action.end);
 };

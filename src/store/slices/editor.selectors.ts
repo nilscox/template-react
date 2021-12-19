@@ -19,4 +19,4 @@ export const selectAreEditorsReady = createSelector(
   (isTextEditorReady, isDiffEditorReady) => isTextEditorReady && isDiffEditorReady,
 );
 
-export const selectDraftAction = createSelector(selectEditor, ({ draftAction }) => draftAction);
+export const selectDraftStep = createSelector(selectEditor, ({ draftStep }) => draftStep);

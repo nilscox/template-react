@@ -5,32 +5,41 @@ export type DraftPosition = {
   column: string;
 };
 
+export type DraftMoveCursorAction = {
+  type: 'MoveCursor';
+  position: DraftPosition;
+};
+
+export type DraftInsertLinesAction = {
+  type: 'InsertLines';
+  above: string;
+  below: string;
+};
+
 export type DraftTypeCodeAction = {
   type: 'TypeCode';
-  position: DraftPosition;
   code: string;
-  prepare: {
-    insertLinesAbove: string;
-    insertLinesBelow: string;
-  };
 };
 
 export type DraftEraseCodeAction = {
   type: 'EraseCode';
-  start: DraftPosition;
   end: DraftPosition;
 };
 
-export type DraftAction = DraftTypeCodeAction | DraftEraseCodeAction;
+export type DraftAction = DraftMoveCursorAction | DraftInsertLinesAction | DraftTypeCodeAction | DraftEraseCodeAction;
+
+export type DraftStep = {
+  actions: DraftAction[];
+};
 
 type EditorState = {
   diffEditorReady: boolean;
-  draftAction?: DraftAction;
+  draftStep?: DraftStep;
 };
 
 const initialState: EditorState = {
   diffEditorReady: false,
-  draftAction: undefined,
+  draftStep: undefined,
 };
 
 const editorSlice = createSlice({
@@ -40,16 +49,16 @@ const editorSlice = createSlice({
     diffEditorReady(state) {
       state.diffEditorReady = true;
     },
-    setDraftAction(state, { payload: action }: PayloadAction<DraftAction | undefined>) {
-      state.draftAction = action;
+    setDraftStep(state, { payload: step }: PayloadAction<DraftStep | undefined>) {
+      state.draftStep = step;
     },
-    updateDraftAction(state, { payload: { path, value } }: PayloadAction<{ path: string; value: string }>) {
+    updateDraftStep(state, { payload: { path, value } }: PayloadAction<{ path: string; value: string }>) {
       /* eslint-disable */
 
       const obj = path
         .split('.')
         .slice(0, -1)
-        .reduce((state, key) => state[key], state.draftAction as any);
+        .reduce((state, key) => state[key], state.draftStep as any);
 
       obj[path.split('.').slice(-1)[0]] = value;
 
@@ -58,5 +67,5 @@ const editorSlice = createSlice({
   },
 });
 
-export const { diffEditorReady, setDraftAction, updateDraftAction } = editorSlice.actions;
+export const { diffEditorReady, setDraftStep, updateDraftStep } = editorSlice.actions;
 export const editorReducer = editorSlice.reducer;

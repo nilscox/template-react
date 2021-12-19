@@ -3,6 +3,12 @@ import { ThunkAction } from '../store';
 
 export const moveCursorToInitialPosition = (): ThunkAction => {
   return (_dispatch, getState, { editors }) => {
-    editors.textEditor.position = selectCurrentInitialPosition(getState());
+    const initialPosition = selectCurrentInitialPosition(getState());
+
+    if (initialPosition) {
+      editors.textEditor.position = initialPosition;
+    }
+
+    editors.textEditor.focus();
   };
 };
