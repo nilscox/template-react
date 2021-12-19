@@ -27,14 +27,17 @@ export const setCurrentAction = (action: PlayedActionData | undefined): ThunkAct
     editors.textEditor.value = action.initialCode;
     editors.textEditor.position = action.initialPosition;
 
-    editors.textEditor.focus();
+    // editors.textEditor.focus();
   };
 };
 
-const draft = {
+export const draft = {
   transformToDraft(action: ReplayActionData): DraftAction {
     const positionToDraft = ([line, column]: PositionData): DraftPosition => {
-      return [String(line), String(column)];
+      return {
+        line: String(line),
+        column: String(column),
+      };
     };
 
     switch (action.type) {
@@ -58,7 +61,7 @@ const draft = {
     }
   },
   transformFromDraft(draft: DraftAction): ReplayActionData {
-    const positionFromDraft = ([line, column]: DraftPosition): PositionData => {
+    const positionFromDraft = ({ line, column }: DraftPosition): PositionData => {
       return [Number(line), Number(column)];
     };
 

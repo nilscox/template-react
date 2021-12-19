@@ -18,13 +18,13 @@ export const ReplayTimeline: React.FC = () => {
   const progress = useSelector(selectReplayProgress);
 
   return (
-    <div className="flex flex-row items-center p-4 bg-dark gap-4">
+    <div className="flex flex-row items-center p-2 bg-dark gap-4">
       <button disabled={progress === 1} onClick={() => dispatch(playCurrentAction())}>
         <svg viewBox="0 0 24 24" className="w-8 h-8 fill-muted">
           <path d="M8 5v14l11-7z" />
         </svg>
       </button>
-      <div className="relative flex-grow border rounded-full border-light min-h-[12px]">
+      <div className="relative flex-grow border rounded-full border-light min-h-[8px]">
         <div
           className="absolute h-full rounded-l-full bg-light transition-all duration-75"
           style={{ width: `${progress * 100}%` }}

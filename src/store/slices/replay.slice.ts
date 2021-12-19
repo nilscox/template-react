@@ -19,6 +19,9 @@ const replaySlice = createSlice({
     setReplay(_state, action: PayloadAction<ReplayState>) {
       return action.payload;
     },
+    setActions(state, action: PayloadAction<PlayedActionData[]>) {
+      state.actions = action.payload;
+    },
     addAction(state, action: PayloadAction<PlayedActionData>) {
       state.actions.push(action.payload);
     },
@@ -34,5 +37,6 @@ const replaySlice = createSlice({
   },
 });
 
-export const { setReplay, addAction, updateCurrentAction, updateActions, setCurrentActionIndex } = replaySlice.actions;
+export const { setReplay, setActions, addAction, updateCurrentAction, updateActions, setCurrentActionIndex } =
+  replaySlice.actions;
 export const replayReducer = replaySlice.reducer;

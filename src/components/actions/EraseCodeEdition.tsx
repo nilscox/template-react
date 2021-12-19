@@ -14,9 +14,6 @@ export const EraseCodeEdition: React.FC<EraseCodeEditionProps> = ({ action }) =>
     dispatch(updateDraftAction({ path, value }));
   };
 
-  const [startLine, startColumn] = action.start;
-  const [endLine, endColumn] = action.end;
-
   return (
     <div className="flex flex-col h-full p-8 overflow-auto gap-8">
       <div>
@@ -28,9 +25,9 @@ export const EraseCodeEdition: React.FC<EraseCodeEditionProps> = ({ action }) =>
         <div className="flex flex-col gap-2">
           Start position
           <CursorPositionInput
-            line={startLine}
+            line={action.start.line}
             onLineChange={(line) => handleChange('start.line', line)}
-            column={startColumn}
+            column={action.start.column}
             onColumnChange={(column) => handleChange('start.column', column)}
           />
         </div>
@@ -38,9 +35,9 @@ export const EraseCodeEdition: React.FC<EraseCodeEditionProps> = ({ action }) =>
         <div className="flex flex-col gap-2">
           End position
           <CursorPositionInput
-            line={endLine}
+            line={action.end.line}
             onLineChange={(line) => handleChange('end.line', line)}
-            column={endColumn}
+            column={action.end.column}
             onColumnChange={(column) => handleChange('end.column', column)}
           />
         </div>

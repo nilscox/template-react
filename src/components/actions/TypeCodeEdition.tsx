@@ -15,8 +15,6 @@ export const TypeCodeEdition: React.FC<TypeCodeEditionProps> = ({ action }) => {
     dispatch(updateDraftAction(path, value));
   };
 
-  const [line, column] = action.position;
-
   return (
     <div className="flex flex-col h-full p-8 overflow-auto gap-8">
       <div>
@@ -31,9 +29,9 @@ export const TypeCodeEdition: React.FC<TypeCodeEditionProps> = ({ action }) => {
           <div className="flex flex-col gap-2">
             Start position
             <CursorPositionInput
-              line={line}
+              line={action.position.line}
               onLineChange={(line) => handleChange('position.line', line)}
-              column={column}
+              column={action.position.column}
               onColumnChange={(column) => handleChange('position.column', column)}
             />
           </div>

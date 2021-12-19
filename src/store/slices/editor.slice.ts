@@ -1,6 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export type DraftPosition = [string, string];
+export type DraftPosition = {
+  line: string;
+  column: string;
+};
 
 export type DraftTypeCodeAction = {
   type: 'TypeCode';
