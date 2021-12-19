@@ -1,8 +1,7 @@
 import { CursorPosition } from '../CursorPosition';
 import { InvalidActionError } from '../InvalidActionError';
 import { MemoryEditor } from '../MemoryEditor';
-import { EraseCodeActionData } from '../Replay';
-import { ReplayAction } from '../ReplayAction';
+import { EraseCodeActionData, ReplayAction } from '../Replay';
 
 export class EraseCodeAction implements ReplayAction {
   readonly type = 'EraseCode';

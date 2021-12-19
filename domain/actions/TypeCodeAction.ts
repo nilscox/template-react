@@ -1,8 +1,7 @@
 import { CursorPosition } from '../CursorPosition';
 import { InvalidActionError } from '../InvalidActionError';
 import { MemoryEditor } from '../MemoryEditor';
-import { TypeCodeActionData } from '../Replay';
-import { ReplayAction } from '../ReplayAction';
+import { ReplayAction, TypeCodeActionData } from '../Replay';
 
 export class TypeCodeAction implements ReplayAction {
   readonly type = 'TypeCode';

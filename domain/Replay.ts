@@ -1,7 +1,6 @@
 import { EraseCodeAction } from './actions/EraseCodeAction';
 import { TypeCodeAction } from './actions/TypeCodeAction';
 import { MemoryEditor } from './MemoryEditor';
-import { ReplayAction } from './ReplayAction';
 
 export type PositionData = [number, number];
 
@@ -23,49 +22,85 @@ export type EraseCodeActionData = {
 
 export type ReplayActionData = TypeCodeActionData | EraseCodeActionData;
 
-export type PlayedActionData = ReplayActionData & {
-  initialPosition: PositionData;
-  initialCode: string;
-  finalPosition: PositionData;
-  finalCode: string;
+export type ReplayStepData = {
+  actions: ReplayActionData[];
 };
 
-export class Replay {
+export type EditorState = {
+  code: string;
+  position: PositionData;
+};
+
+export type PlayedStepData = ReplayStepData & {
+  initialState: EditorState;
+  finalState: EditorState;
+};
+
+export interface ReplayAction {
+  get data(): ReplayActionData;
+  apply(editor: MemoryEditor): void;
+}
+
+export class ReplayStep {
   constructor(private actions: ReplayAction[]) {}
 
-  static create(actions: ReplayActionData[]) {
-    return new Replay(
-      actions.map((action) => {
-        switch (action.type) {
-          case 'TypeCode':
-            return TypeCodeAction.create(action.position, action.code, action.prepare);
-
-          case 'EraseCode':
-            return EraseCodeAction.create(action.start, action.end);
-        }
-      }),
-    );
+  static create(step: ReplayStepData): ReplayStep {
+    return new ReplayStep(step.actions.map(ReplayStep.createAction));
   }
 
-  play(): PlayedActionData[] {
-    const editor = new MemoryEditor();
-    const playedActions: PlayedActionData[] = [];
+  private static createAction(action: ReplayActionData): ReplayAction {
+    switch (action.type) {
+      case 'TypeCode':
+        return TypeCodeAction.create(action.position, action.code, action.prepare);
 
+      case 'EraseCode':
+        return EraseCodeAction.create(action.start, action.end);
+    }
+  }
+
+  get data(): ReplayStepData {
+    return {
+      actions: this.actions.map((action) => action.data),
+    };
+  }
+
+  apply(editor: MemoryEditor) {
     for (const action of this.actions) {
+      action.apply(editor);
+    }
+  }
+}
+
+export class Replay {
+  constructor(private steps: ReplayStep[]) {}
+
+  static create(steps: ReplayStepData[]) {
+    return new Replay(steps.map(ReplayStep.create));
+  }
+
+  play(): PlayedStepData[] {
+    const editor = new MemoryEditor();
+    const playedSteps: PlayedStepData[] = [];
+
+    for (const step of this.steps) {
       const initialPosition = editor.position.clone();
       const initialCode = editor.code;
 
-      action.apply(editor);
+      step.apply(editor);
 
-      playedActions.push({
-        ...action.data,
-        initialPosition: initialPosition.values,
-        initialCode,
-        finalPosition: editor.position.values,
-        finalCode: editor.code,
+      playedSteps.push({
+        ...step.data,
+        initialState: {
+          code: initialCode,
+          position: initialPosition.values,
+        },
+        finalState: {
+          code: editor.code,
+          position: editor.position.values,
+        },
       });
     }
 
-    return playedActions;
+    return playedSteps;
   }
 }
