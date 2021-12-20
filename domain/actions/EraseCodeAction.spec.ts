@@ -31,6 +31,26 @@ describe('EraseCode', () => {
     expect(editor.position.values).toEqual([1, 2]);
   });
 
+  it('erases a full line', () => {
+    editor.insertCode('123\n456\n789');
+    editor.position.set([2, 4]);
+
+    EraseCodeAction.create([2, 1]).apply(editor);
+
+    expect(editor.code).toEqual('123\n\n789');
+    expect(editor.position.values).toEqual([2, 1]);
+  });
+
+  it('erases a full line including its line break', () => {
+    editor.insertCode('123\n456\n789');
+    editor.position.set([2, 4]);
+
+    EraseCodeAction.create([1, 4]).apply(editor);
+
+    expect(editor.code).toEqual('123\n789');
+    expect(editor.position.values).toEqual([1, 4]);
+  });
+
   it('erases part of the code on multiple lines', () => {
     editor.insertCode('123\n456\n789');
     editor.position.set([3, 2]);
@@ -39,5 +59,15 @@ describe('EraseCode', () => {
 
     expect(editor.code).toEqual('1289');
     expect(editor.position.values).toEqual([1, 3]);
+  });
+
+  it('erases two full lines', () => {
+    editor.insertCode('123\n456\n789\nabc');
+    editor.position.set([3, 4]);
+
+    EraseCodeAction.create([2, 1]).apply(editor);
+
+    expect(editor.code).toEqual('123\n\nabc');
+    expect(editor.position.values).toEqual([2, 1]);
   });
 });

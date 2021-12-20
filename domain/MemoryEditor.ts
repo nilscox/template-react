@@ -57,7 +57,7 @@ export class MemoryEditor {
       return [this.firstLine.slice(0, position.column - 1)];
     }
 
-    return [...this.linesBeforeCursor, this.currentLine.slice(0, position.column - 1)];
+    return [...this.linesBeforePosition(position), this.currentLine.slice(0, position.column - 1)];
   }
 
   codeAfterPosition(position: CursorPosition) {
@@ -65,7 +65,7 @@ export class MemoryEditor {
       return [this.lastLine.slice(position.column - 1)];
     }
 
-    return [this.currentLine.slice(position.column - 1), ...this.linesAfterCursor];
+    return [this.currentLine.slice(position.column - 1), ...this.linesAfterPosition(position)];
   }
 
   insertLinesAbove(lines: number) {

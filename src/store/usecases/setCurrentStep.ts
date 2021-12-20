@@ -108,4 +108,19 @@ export const draft = {
         };
     }
   },
+  createDraftAction(type: ReplayActionData['type']): DraftAction {
+    switch (type) {
+      case 'MoveCursor':
+        return { type: 'MoveCursor', position: { line: '1', column: '1' } };
+
+      case 'InsertLines':
+        return { type: 'InsertLines', above: '0', below: '0' };
+
+      case 'TypeCode':
+        return { type: 'TypeCode', code: '' };
+
+      case 'EraseCode':
+        return { type: 'EraseCode', end: { line: '1', column: '1' } };
+    }
+  },
 };

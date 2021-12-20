@@ -64,8 +64,16 @@ const editorSlice = createSlice({
 
       /* eslint-enable */
     },
+    addDraftAction(state, { payload: action }: PayloadAction<DraftAction>) {
+      state.draftStep?.actions.push(action);
+    },
+    removeDraftAction(state, { payload: index }: PayloadAction<number>) {
+      state.draftStep?.actions.splice(index, 1);
+    },
   },
 });
 
-export const { diffEditorReady, setDraftStep, updateDraftStep } = editorSlice.actions;
+export const { diffEditorReady, setDraftStep, updateDraftStep, addDraftAction, removeDraftAction } =
+  editorSlice.actions;
+
 export const editorReducer = editorSlice.reducer;

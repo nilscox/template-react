@@ -24,10 +24,10 @@ export const ReplayRenderer: React.FC = () => {
   return (
     <>
       <MonacoEditor
-        className="pb-16 monaco-editor"
+        className="monaco-editor"
         language="typescript"
         theme="vs-dark"
-        height={600 - statusBarHeight}
+        height={440 - statusBarHeight}
         options={{
           autoClosingBrackets: 'never',
           autoIndent: 'none',

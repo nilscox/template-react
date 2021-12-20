@@ -19,6 +19,9 @@ const replaySlice = createSlice({
     setReplay(_state, action: PayloadAction<ReplayState>) {
       return action.payload;
     },
+    addStep(state, { payload: { index, step } }: PayloadAction<{ index: number; step: PlayedStepData }>) {
+      state.steps.splice(index, 0, step);
+    },
     setSteps(state, { payload: steps }: PayloadAction<PlayedStepData[]>) {
       state.steps = steps;
     },
@@ -34,5 +37,5 @@ const replaySlice = createSlice({
   },
 });
 
-export const { setReplay, setSteps, setStepName, updateSteps, setCurrentStepIndex } = replaySlice.actions;
+export const { setReplay, addStep, setSteps, setStepName, updateSteps, setCurrentStepIndex } = replaySlice.actions;
 export const replayReducer = replaySlice.reducer;

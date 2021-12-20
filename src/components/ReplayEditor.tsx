@@ -22,7 +22,7 @@ export const ReplayEditor: React.FC = () => {
       modifiedLanguage="typescript"
       language="typescript"
       theme="vs-dark"
-      height={600}
+      height={440}
       options={{
         readOnly: true,
         autoClosingBrackets: 'never',
