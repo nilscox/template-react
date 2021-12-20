@@ -1,5 +1,5 @@
 import { InvalidActionError } from '../../../../domain/InvalidActionError';
-import { Replay } from '../../../../domain/Replay';
+import { playReplay } from '../../../../domain/Replay';
 import { ReplayStepData } from '../../../../domain/types';
 import { selectCurrentStep, selectReplay } from '../../../store/slices/replay.selectors';
 import { setSteps } from '../../../store/slices/replay.slice';
@@ -29,7 +29,7 @@ export const updateDraftAction = (action: DraftAction, path: string, value: stri
     steps[replay.currentStepIndex] = draft.transformStepFromDraft(currentStep.name, draftAction);
 
     try {
-      const playedActions = Replay.create(steps).play();
+      const playedActions = playReplay(steps);
 
       dispatch(setSteps(playedActions));
       dispatch(setCurrentStep(playedActions[replay.currentStepIndex]));

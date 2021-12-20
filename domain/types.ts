@@ -44,3 +44,8 @@ export type PlayedStepData = ReplayStepData & {
   initialState: EditorState;
   finalState: EditorState;
 };
+
+export type ReplayCommitData = {
+  name: string;
+  steps: ReplayStepData[];
+};

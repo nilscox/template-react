@@ -1,4 +1,4 @@
-import { Replay } from '../../../../domain/Replay';
+import { playReplay } from '../../../../domain/Replay';
 import { ReplayStepData } from '../../../../domain/types';
 import { selectReplay } from '../../../store/slices/replay.selectors';
 import { setSteps } from '../../../store/slices/replay.slice';
@@ -10,7 +10,7 @@ export const updateReplaySteps = (cb: (steps: ReplayStepData[]) => ReplayStepDat
     const currentSteps = replay.steps.slice();
     const updatedSteps = cb(currentSteps);
 
-    const playedSteps = Replay.create(updatedSteps).play();
+    const playedSteps = playReplay(updatedSteps);
 
     dispatch(setSteps(playedSteps));
   };

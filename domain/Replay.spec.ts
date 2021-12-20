@@ -1,7 +1,7 @@
 import { expect } from 'earljs';
 
+import { playReplay, Replay } from './Replay';
 import { ActionType, PositionData, ReplayActionData, ReplayStepData, TypeCodeActionData } from './types';
-import { Replay } from './Replay';
 
 describe('Replay', () => {
   it('applies one action', () => {
@@ -10,9 +10,7 @@ describe('Replay', () => {
       code: 'hello',
     };
 
-    const replay = Replay.create([{ name: 'step', actions: [action1] }]);
-
-    const playedSteps = replay.play();
+    const playedSteps = playReplay([{ name: 'step', actions: [action1] }]);
 
     expect(playedSteps).toEqual([
       {
@@ -63,8 +61,7 @@ describe('Replay', () => {
   });
 
   it('applies multiple actions in a single step', () => {
-    const replay = Replay.create([{ name: 'step', actions }]);
-    const playedSteps = replay.play();
+    const playedSteps = playReplay([{ name: 'step', actions }]);
 
     expect(playedSteps).toEqual([
       {
@@ -78,8 +75,7 @@ describe('Replay', () => {
 
   it('applies multiple steps', () => {
     const steps: ReplayStepData[] = actions.map((action, n) => ({ name: `step ${n + 1}`, actions: [action] }));
-    const replay = Replay.create(steps);
-    const playedSteps = replay.play();
+    const playedSteps = playReplay(steps);
 
     expect(playedSteps).toBeAnArrayOfLength(4);
 

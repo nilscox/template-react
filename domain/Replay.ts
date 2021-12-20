@@ -3,35 +3,39 @@ import { ReplayStep } from './ReplayStep';
 import { PlayedStepData, ReplayStepData } from './types';
 
 export class Replay {
-  constructor(private steps: ReplayStep[]) {}
+  constructor(private steps: ReplayStep[]) {
+    this.play();
+  }
 
   static create(steps: ReplayStepData[]) {
     return new Replay(steps.map(ReplayStep.create));
   }
 
-  play(): PlayedStepData[] {
+  get data() {
+    return {
+      steps: this.steps.map((step) => step.data),
+    };
+  }
+
+  play() {
     const editor = new MemoryEditor();
-    const playedSteps: PlayedStepData[] = [];
 
     for (const step of this.steps) {
-      const initialPosition = editor.position.values;
-      const initialCode = editor.code;
+      step.initialState = {
+        code: editor.code,
+        position: editor.position.values,
+      };
 
       step.apply(editor);
 
-      playedSteps.push({
-        ...step.data,
-        initialState: {
-          code: initialCode,
-          position: initialPosition,
-        },
-        finalState: {
-          code: editor.code,
-          position: editor.position.values,
-        },
-      });
+      step.finalState = {
+        code: editor.code,
+        position: editor.position.values,
+      };
     }
-
-    return playedSteps;
   }
 }
+
+export const playReplay = (steps: ReplayStepData[]): PlayedStepData[] => {
+  return Replay.create(steps).data.steps;
+};

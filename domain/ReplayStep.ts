@@ -4,9 +4,12 @@ import { MoveCursorAction } from './actions/MoveCursorAction';
 import { TypeCodeAction } from './actions/TypeCodeAction';
 import { MemoryEditor } from './MemoryEditor';
 import { ReplayAction } from './ReplayAction';
-import { ActionType, ReplayActionData, ReplayStepData } from './types';
+import { ActionType, EditorState, PlayedStepData, ReplayActionData, ReplayStepData } from './types';
 
 export class ReplayStep {
+  public initialState!: EditorState;
+  public finalState!: EditorState;
+
   constructor(private name: string, private actions: ReplayAction[]) {}
 
   static create(step: ReplayStepData): ReplayStep {
@@ -29,9 +32,11 @@ export class ReplayStep {
     }
   }
 
-  get data(): ReplayStepData {
+  get data(): PlayedStepData {
     return {
       name: this.name,
+      initialState: this.initialState,
+      finalState: this.finalState,
       actions: this.actions.map((action) => action.data),
     };
   }
