@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { useDispatch } from 'react-redux';
 
-import { ReplayActionData } from '../../../domain/Replay';
+import { ActionType, ReplayActionData } from '../../../domain/Replay';
 import { useSelector } from '../../App';
 import { selectCurrentStep, selectReplay } from '../../store/slices/replay.selectors';
 import { setStepName } from '../../store/slices/replay.slice';
@@ -60,8 +60,6 @@ const AddAction: React.FC = () => {
   const dispatch = useDispatch();
   const [displayActionTypeSelection, setDisplayActionTypeSelection] = useState(false);
 
-  const types: Array<ReplayActionData['type']> = ['MoveCursor', 'InsertLines', 'TypeCode', 'EraseCode'];
-
   const handleAddAction = (type: ReplayActionData['type']) => () => {
     dispatch(addAction(type));
     setDisplayActionTypeSelection(false);
@@ -70,7 +68,7 @@ const AddAction: React.FC = () => {
   if (displayActionTypeSelection) {
     return (
       <div className="flex flex-col items-start gap-2">
-        {types.map((type) => (
+        {Object.values(ActionType).map((type) => (
           <button key={type} onClick={handleAddAction(type)}>
             {type}
           </button>

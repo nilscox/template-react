@@ -1,10 +1,8 @@
 import { InvalidActionError } from '../InvalidActionError';
 import { MemoryEditor } from '../MemoryEditor';
-import { InsertLinesActionData, ReplayAction } from '../Replay';
+import { ActionType, InsertLinesActionData, ReplayAction } from '../Replay';
 
 export class InsertLinesAction implements ReplayAction {
-  readonly type = 'InsertLines';
-
   constructor(private above: number, private below: number) {
     if (above < 0 || below < 0) {
       throw new InvalidActionError(this);
@@ -17,7 +15,7 @@ export class InsertLinesAction implements ReplayAction {
 
   get data(): InsertLinesActionData {
     return {
-      type: this.type,
+      type: ActionType.InsertLines,
       above: this.above,
       below: this.below,
     };

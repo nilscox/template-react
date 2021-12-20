@@ -1,28 +1,30 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+import { ActionType } from '../../../domain/Replay';
+
 export type DraftPosition = {
   line: string;
   column: string;
 };
 
 export type DraftMoveCursorAction = {
-  type: 'MoveCursor';
+  type: ActionType.MoveCursor;
   position: DraftPosition;
 };
 
 export type DraftInsertLinesAction = {
-  type: 'InsertLines';
+  type: ActionType.InsertLines;
   above: string;
   below: string;
 };
 
 export type DraftTypeCodeAction = {
-  type: 'TypeCode';
+  type: ActionType.TypeCode;
   code: string;
 };
 
 export type DraftEraseCodeAction = {
-  type: 'EraseCode';
+  type: ActionType.EraseCode;
   end: DraftPosition;
 };
 

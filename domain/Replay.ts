@@ -4,26 +4,33 @@ import { MoveCursorAction } from './actions/MoveCursorAction';
 import { TypeCodeAction } from './actions/TypeCodeAction';
 import { MemoryEditor } from './MemoryEditor';
 
+export enum ActionType {
+  MoveCursor = 'MoveCursor',
+  InsertLines = 'InsertLines',
+  TypeCode = 'TypeCode',
+  EraseCode = 'EraseCode',
+}
+
 export type PositionData = [number, number];
 
 export type MoveCursorActionData = {
-  type: MoveCursorAction['type'];
+  type: ActionType.MoveCursor;
   position: PositionData;
 };
 
 export type InsertLinesActionData = {
-  type: InsertLinesAction['type'];
+  type: ActionType.InsertLines;
   above: number;
   below: number;
 };
 
 export type TypeCodeActionData = {
-  type: TypeCodeAction['type'];
+  type: ActionType.TypeCode;
   code: string;
 };
 
 export type EraseCodeActionData = {
-  type: EraseCodeAction['type'];
+  type: ActionType.EraseCode;
   end: PositionData;
 };
 
@@ -58,16 +65,16 @@ export class ReplayStep {
 
   private static createAction(action: ReplayActionData): ReplayAction {
     switch (action.type) {
-      case 'MoveCursor':
+      case ActionType.MoveCursor:
         return MoveCursorAction.create(action.position);
 
-      case 'InsertLines':
+      case ActionType.InsertLines:
         return InsertLinesAction.create(action);
 
-      case 'TypeCode':
+      case ActionType.TypeCode:
         return TypeCodeAction.create(action.code);
 
-      case 'EraseCode':
+      case ActionType.EraseCode:
         return EraseCodeAction.create(action.end);
     }
   }

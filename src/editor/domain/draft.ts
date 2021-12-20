@@ -1,4 +1,4 @@
-import { PositionData, ReplayActionData, ReplayStepData } from '../../../domain/Replay';
+import { ActionType, PositionData, ReplayActionData, ReplayStepData } from '../../../domain/Replay';
 
 import { DraftAction, DraftPosition, DraftStep } from './editor.slice';
 
@@ -23,28 +23,28 @@ export const draft = {
     };
 
     switch (action.type) {
-      case 'MoveCursor':
+      case ActionType.MoveCursor:
         return {
-          type: 'MoveCursor',
+          type: ActionType.MoveCursor,
           position: positionToDraft(action.position),
         };
 
-      case 'InsertLines':
+      case ActionType.InsertLines:
         return {
-          type: 'InsertLines',
+          type: ActionType.InsertLines,
           above: String(action.above),
           below: String(action.below),
         };
 
-      case 'TypeCode':
+      case ActionType.TypeCode:
         return {
-          type: 'TypeCode',
+          type: ActionType.TypeCode,
           code: action.code,
         };
 
-      case 'EraseCode':
+      case ActionType.EraseCode:
         return {
-          type: 'EraseCode',
+          type: ActionType.EraseCode,
           end: positionToDraft(action.end),
         };
     }
@@ -55,45 +55,45 @@ export const draft = {
     };
 
     switch (draft.type) {
-      case 'MoveCursor':
+      case ActionType.MoveCursor:
         return {
-          type: 'MoveCursor',
+          type: ActionType.MoveCursor,
           position: positionFromDraft(draft.position),
         };
 
-      case 'InsertLines':
+      case ActionType.InsertLines:
         return {
-          type: 'InsertLines',
+          type: ActionType.InsertLines,
           above: Number(draft.above),
           below: Number(draft.below),
         };
 
-      case 'TypeCode':
+      case ActionType.TypeCode:
         return {
-          type: 'TypeCode',
+          type: ActionType.TypeCode,
           code: draft.code,
         };
 
-      case 'EraseCode':
+      case ActionType.EraseCode:
         return {
-          type: 'EraseCode',
+          type: ActionType.EraseCode,
           end: positionFromDraft(draft.end),
         };
     }
   },
   createDraftAction(type: ReplayActionData['type']): DraftAction {
     switch (type) {
-      case 'MoveCursor':
-        return { type: 'MoveCursor', position: { line: '1', column: '1' } };
+      case ActionType.MoveCursor:
+        return { type: ActionType.MoveCursor, position: { line: '1', column: '1' } };
 
-      case 'InsertLines':
-        return { type: 'InsertLines', above: '0', below: '0' };
+      case ActionType.InsertLines:
+        return { type: ActionType.InsertLines, above: '0', below: '0' };
 
-      case 'TypeCode':
-        return { type: 'TypeCode', code: '' };
+      case ActionType.TypeCode:
+        return { type: ActionType.TypeCode, code: '' };
 
-      case 'EraseCode':
-        return { type: 'EraseCode', end: { line: '1', column: '1' } };
+      case ActionType.EraseCode:
+        return { type: ActionType.EraseCode, end: { line: '1', column: '1' } };
     }
   },
 };

@@ -1,9 +1,7 @@
 import { MemoryEditor } from '../MemoryEditor';
-import { ReplayAction, TypeCodeActionData } from '../Replay';
+import { ActionType, ReplayAction, TypeCodeActionData } from '../Replay';
 
 export class TypeCodeAction implements ReplayAction {
-  readonly type = 'TypeCode';
-
   constructor(private code: string) {}
 
   static create(code: string) {
@@ -12,7 +10,7 @@ export class TypeCodeAction implements ReplayAction {
 
   get data(): TypeCodeActionData {
     return {
-      type: this.type,
+      type: ActionType.TypeCode,
       code: this.code,
     };
   }

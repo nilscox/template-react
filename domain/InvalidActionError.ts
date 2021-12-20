@@ -1,7 +1,7 @@
-import { Action } from 'redux';
+import { ReplayAction } from './Replay';
 
 export class InvalidActionError extends Error {
-  constructor(readonly action: Action) {
+  constructor(readonly action: ReplayAction) {
     super('Invalid action');
   }
 }

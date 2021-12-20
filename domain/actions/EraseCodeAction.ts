@@ -1,11 +1,9 @@
 import { CursorPosition } from '../CursorPosition';
 import { InvalidActionError } from '../InvalidActionError';
 import { MemoryEditor } from '../MemoryEditor';
-import { EraseCodeActionData, ReplayAction } from '../Replay';
+import { ActionType, EraseCodeActionData, ReplayAction } from '../Replay';
 
 export class EraseCodeAction implements ReplayAction {
-  readonly type = 'EraseCode';
-
   constructor(private end: CursorPosition) {
     if (!this.end.isValid()) {
       throw new InvalidActionError(this);
@@ -18,7 +16,7 @@ export class EraseCodeAction implements ReplayAction {
 
   get data(): EraseCodeActionData {
     return {
-      type: this.type,
+      type: ActionType.EraseCode,
       end: this.end.values,
     };
   }

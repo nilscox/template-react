@@ -1,11 +1,11 @@
 import { expect } from 'earljs';
 
-import { PositionData, Replay, ReplayActionData, ReplayStepData, TypeCodeActionData } from './Replay';
+import { ActionType, PositionData, Replay, ReplayActionData, ReplayStepData, TypeCodeActionData } from './Replay';
 
 describe('Replay', () => {
   it('applies one action', () => {
     const action1: TypeCodeActionData = {
-      type: 'TypeCode',
+      type: ActionType.TypeCode,
       code: 'hello',
     };
 
@@ -26,7 +26,7 @@ describe('Replay', () => {
         },
         actions: [
           {
-            type: 'TypeCode',
+            type: ActionType.TypeCode,
             code: 'hello',
           },
         ],
@@ -35,22 +35,22 @@ describe('Replay', () => {
   });
 
   const action1: ReplayActionData = {
-    type: 'TypeCode',
+    type: ActionType.TypeCode,
     code: 'hello',
   };
 
   const action2: ReplayActionData = {
-    type: 'TypeCode',
+    type: ActionType.TypeCode,
     code: ' the world',
   };
 
   const action3: ReplayActionData = {
-    type: 'MoveCursor',
+    type: ActionType.MoveCursor,
     position: [1, 10],
   };
 
   const action4: ReplayActionData = {
-    type: 'EraseCode',
+    type: ActionType.EraseCode,
     end: [1, 6],
   };
 

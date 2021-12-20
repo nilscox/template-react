@@ -1,11 +1,9 @@
 import { CursorPosition } from '../CursorPosition';
 import { InvalidActionError } from '../InvalidActionError';
 import { MemoryEditor } from '../MemoryEditor';
-import { MoveCursorActionData, PositionData, ReplayAction } from '../Replay';
+import { ActionType, MoveCursorActionData, PositionData, ReplayAction } from '../Replay';
 
 export class MoveCursorAction implements ReplayAction {
-  readonly type = 'MoveCursor';
-
   constructor(private position: CursorPosition) {
     if (!this.position.isValid()) {
       throw new InvalidActionError(this);
@@ -18,7 +16,7 @@ export class MoveCursorAction implements ReplayAction {
 
   get data(): MoveCursorActionData {
     return {
-      type: this.type,
+      type: ActionType.MoveCursor,
       position: this.position.values,
     };
   }
