@@ -1,4 +1,4 @@
-import { ReplayStepData } from '../../../../domain/Replay';
+import { ReplayStepData } from '../../../../domain/types';
 import { ThunkAction } from '../../../store/store';
 import { selectDraftStep } from '../editor.selectors';
 import { DraftAction, removeDraftAction } from '../editor.slice';

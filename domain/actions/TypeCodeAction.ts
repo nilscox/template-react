@@ -1,5 +1,6 @@
 import { MemoryEditor } from '../MemoryEditor';
-import { ActionType, ReplayAction, TypeCodeActionData } from '../Replay';
+import { ReplayAction } from '../ReplayAction';
+import { ActionType, TypeCodeActionData } from '../types';
 
 export class TypeCodeAction implements ReplayAction {
   constructor(private code: string) {}

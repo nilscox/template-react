@@ -4,7 +4,7 @@ import {
   MoveCursorActionData,
   ReplayActionData,
   TypeCodeActionData,
-} from '../../../../domain/Replay';
+} from '../../../../domain/types';
 import { TextEditor } from '../../../Editor';
 import { Scheduler } from '../../../Scheduler';
 import { ThunkAction } from '../../../store/store';

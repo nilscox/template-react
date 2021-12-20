@@ -1,7 +1,8 @@
 import { CursorPosition } from '../CursorPosition';
 import { InvalidActionError } from '../InvalidActionError';
 import { MemoryEditor } from '../MemoryEditor';
-import { ActionType, EraseCodeActionData, ReplayAction } from '../Replay';
+import { ReplayAction } from '../ReplayAction';
+import { ActionType, EraseCodeActionData } from '../types';
 
 export class EraseCodeAction implements ReplayAction {
   constructor(private end: CursorPosition) {

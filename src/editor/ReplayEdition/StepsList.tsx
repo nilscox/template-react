@@ -4,7 +4,7 @@ import { createSelector } from '@reduxjs/toolkit';
 import cx from 'classnames';
 import { useDispatch } from 'react-redux';
 
-import { PlayedStepData, TypeCodeActionData } from '../../../domain/Replay';
+import { PlayedStepData, TypeCodeActionData } from '../../../domain/types';
 import { useSelector } from '../../App';
 import { selectReplay } from '../../store/slices/replay.selectors';
 import { addStep } from '../domain/usecases/addStep';

@@ -1,4 +1,4 @@
-import { ReplayAction } from './Replay';
+import { ReplayAction } from './ReplayAction';
 
 export class InvalidActionError extends Error {
   constructor(readonly action: ReplayAction) {

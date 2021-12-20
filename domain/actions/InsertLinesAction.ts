@@ -1,6 +1,7 @@
 import { InvalidActionError } from '../InvalidActionError';
 import { MemoryEditor } from '../MemoryEditor';
-import { ActionType, InsertLinesActionData, ReplayAction } from '../Replay';
+import { ReplayAction } from '../ReplayAction';
+import { ActionType, InsertLinesActionData } from '../types';
 
 export class InsertLinesAction implements ReplayAction {
   constructor(private above: number, private below: number) {

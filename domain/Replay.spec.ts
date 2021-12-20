@@ -1,6 +1,7 @@
 import { expect } from 'earljs';
 
-import { ActionType, PositionData, Replay, ReplayActionData, ReplayStepData, TypeCodeActionData } from './Replay';
+import { ActionType, PositionData, ReplayActionData, ReplayStepData, TypeCodeActionData } from './types';
+import { Replay } from './Replay';
 
 describe('Replay', () => {
   it('applies one action', () => {

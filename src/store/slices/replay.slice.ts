@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { PlayedStepData } from '../../../domain/Replay';
+import { PlayedStepData } from '../../../domain/types';
 
 export type ReplayState = {
   steps: PlayedStepData[];

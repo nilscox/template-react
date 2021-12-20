@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { ActionType } from '../../../domain/Replay';
+import { ActionType } from '../../../domain/types';
 
 export type DraftPosition = {
   line: string;

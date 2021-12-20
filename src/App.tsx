@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { createSelector, Selector } from '@reduxjs/toolkit';
 import { useDispatch, useSelector as useReduxSelector } from 'react-redux';
 
-import { ReplayStepData } from '../domain/Replay';
+import { ReplayStepData } from '../domain/types';
 
 import { DiffEditor } from './editor/DiffEditor';
 import { selectIsDiffEditorReady } from './editor/domain/editor.selectors';

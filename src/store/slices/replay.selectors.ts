@@ -1,6 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
 
-import { MoveCursorActionData } from '../../../domain/Replay';
+import { MoveCursorActionData } from '../../../domain/types';
 import { State } from '../store';
 
 export const selectReplay = (state: State) => state.replay;

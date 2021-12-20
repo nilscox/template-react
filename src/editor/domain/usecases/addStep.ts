@@ -1,4 +1,4 @@
-import { ReplayStepData } from '../../../../domain/Replay';
+import { ReplayStepData } from '../../../../domain/types';
 import { selectReplay } from '../../../store/slices/replay.selectors';
 import { ThunkAction } from '../../../store/store';
 

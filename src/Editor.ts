@@ -1,7 +1,7 @@
 import { Monaco } from '@monaco-editor/react';
 import { editor } from 'monaco-editor';
 
-import { PositionData } from '../domain/Replay';
+import { PositionData } from '../domain/types';
 
 import { Scheduler } from './Scheduler';
 

@@ -1,4 +1,4 @@
-import { PlayedStepData } from '../../../../domain/Replay';
+import { PlayedStepData } from '../../../../domain/types';
 import { setCurrentStep as setCurrentRendererStep } from '../../../renderer/domain/usecases/setCurrentStep';
 import { ThunkAction } from '../../../store/store';
 import { draft } from '../draft';

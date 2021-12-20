@@ -1,4 +1,4 @@
-import { PositionData } from './Replay';
+import { PositionData } from './types';
 
 export class CursorPosition {
   constructor(public line = 1, public column = 1) {}

@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { useDispatch } from 'react-redux';
 
-import { ActionType, ReplayActionData } from '../../../domain/Replay';
+import { ActionType, ReplayActionData } from '../../../domain/types';
 import { useSelector } from '../../App';
 import { selectCurrentStep, selectReplay } from '../../store/slices/replay.selectors';
 import { setStepName } from '../../store/slices/replay.slice';

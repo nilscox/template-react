@@ -1,4 +1,4 @@
-import { ActionType, PositionData, ReplayActionData, ReplayStepData } from '../../../domain/Replay';
+import { ActionType, PositionData, ReplayActionData, ReplayStepData } from '../../../domain/types';
 
 import { DraftAction, DraftPosition, DraftStep } from './editor.slice';
 

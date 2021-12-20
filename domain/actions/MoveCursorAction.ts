@@ -1,7 +1,8 @@
 import { CursorPosition } from '../CursorPosition';
 import { InvalidActionError } from '../InvalidActionError';
 import { MemoryEditor } from '../MemoryEditor';
-import { ActionType, MoveCursorActionData, PositionData, ReplayAction } from '../Replay';
+import { ReplayAction } from '../ReplayAction';
+import { ActionType, MoveCursorActionData, PositionData } from '../types';
 
 export class MoveCursorAction implements ReplayAction {
   constructor(private position: CursorPosition) {

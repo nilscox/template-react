@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { useDispatch } from 'react-redux';
 
-import { PositionData } from '../../domain/Replay';
+import { PositionData } from '../../domain/types';
 import { useSelector } from '../App';
 import { Dependencies } from '../store/store';
 

@@ -1,4 +1,4 @@
-import { PlayedStepData } from '../../../../domain/Replay';
+import { PlayedStepData } from '../../../../domain/types';
 import { selectReplay } from '../../../store/slices/replay.selectors';
 import { setCurrentStepIndex } from '../../../store/slices/replay.slice';
 import { ThunkAction } from '../../../store/store';
