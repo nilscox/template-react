@@ -1,8 +1,8 @@
 import { useDispatch } from 'react-redux';
 
-import { DraftAction } from './domain/editor.slice';
-import { removeAction } from './domain/usecases/removeAction';
-import { updateDraftAction } from './domain/usecases/updateDraftAction';
+import { DraftAction } from '../domain/editor.slice';
+import { removeAction } from '../domain/usecases/removeAction';
+import { updateDraftAction } from '../domain/usecases/updateDraftAction';
 
 type ActionEditionProps = {
   action: DraftAction;

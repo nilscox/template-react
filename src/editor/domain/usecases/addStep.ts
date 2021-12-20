@@ -7,24 +7,20 @@ import { updateReplaySteps } from './updateReplaySteps';
 
 export const addStep = (): ThunkAction => {
   return (dispatch, getState) => {
-    const { currentStepIndex } = selectReplay(getState());
-
-    dispatch(updateReplaySteps(updater(currentStepIndex)));
+    dispatch(updateReplaySteps(updater));
 
     const replay = selectReplay(getState());
-    const newStep = replay.steps[currentStepIndex + 1] ?? replay.steps[currentStepIndex];
+    const newStep = replay.steps[replay.steps.length - 1];
 
     dispatch(setCurrentStep(newStep));
   };
 };
 
-const updater =
-  (currentStepIndex: number) =>
-  (steps: ReplayStepData[]): ReplayStepData[] => {
-    steps.splice(currentStepIndex + 1, 0, {
-      name: '',
-      actions: [],
-    });
+const updater = (steps: ReplayStepData[]): ReplayStepData[] => {
+  steps.push({
+    name: '',
+    actions: [],
+  });
 
-    return steps;
-  };
+  return steps;
+};

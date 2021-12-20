@@ -1,9 +1,9 @@
-import { DiffEditor, DiffOnMount } from '@monaco-editor/react';
+import { DiffEditor as MonacoDiffEditor, DiffOnMount } from '@monaco-editor/react';
 import { useDispatch } from 'react-redux';
 
 import { setDiffEditor } from './domain/usecases/setEditors';
 
-export const ReplayEditor: React.FC = () => {
+export const DiffEditor: React.FC = () => {
   const dispatch = useDispatch();
 
   const handleMount: DiffOnMount = (editor, monaco) => {
@@ -16,7 +16,7 @@ export const ReplayEditor: React.FC = () => {
   };
 
   return (
-    <DiffEditor
+    <MonacoDiffEditor
       className="monaco-editor"
       originalLanguage="typescript"
       modifiedLanguage="typescript"

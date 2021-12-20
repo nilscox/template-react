@@ -5,9 +5,9 @@ import { useDispatch, useSelector as useReduxSelector } from 'react-redux';
 
 import { ReplayStepData } from '../domain/Replay';
 
+import { DiffEditor } from './editor/DiffEditor';
 import { selectIsDiffEditorReady } from './editor/domain/editor.selectors';
-import { ReplayEditor } from './editor/ReplayEditor';
-import { ReplayProperties } from './editor/ReplayProperties';
+import { ReplayEdition } from './editor/ReplayEdition/ReplayEdition';
 import { selectIsTextEditorReady } from './renderer/domain/renderer.selectors';
 import { loadReplay } from './renderer/domain/usecases/loadReplay';
 import { ReplayRenderer } from './renderer/ReplayRenderer';
@@ -43,7 +43,7 @@ export const App: React.FC = () => {
     <div className="flex flex-col flex-grow h-full max-h-full overflow-hidden">
       <div className="flex flex-row">
         <div className="w-1/2">
-          <ReplayEditor />
+          <DiffEditor />
         </div>
         <div className="w-1/2">
           <ReplayRenderer />
@@ -54,7 +54,7 @@ export const App: React.FC = () => {
         <ReplayTimeline />
       </div>
 
-      <ReplayProperties />
+      <ReplayEdition />
     </div>
   );
 };

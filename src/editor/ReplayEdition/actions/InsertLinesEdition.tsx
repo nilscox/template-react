@@ -1,5 +1,5 @@
-import { DraftInsertLinesAction } from '../domain/editor.slice';
-import { ActionEdition } from '../ReplayEdition/ActionEdition';
+import { DraftInsertLinesAction } from '../../domain/editor.slice';
+import { ActionEdition } from '../ActionEdition';
 
 type InsertLinesEditionProps = {
   action: DraftInsertLinesAction;

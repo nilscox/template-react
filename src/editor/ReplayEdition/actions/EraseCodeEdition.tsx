@@ -1,6 +1,6 @@
-import { CursorPositionInput } from '../CursorPositionInput';
-import { DraftEraseCodeAction } from '../domain/editor.slice';
-import { ActionEdition } from '../ReplayEdition/ActionEdition';
+import { CursorPositionInput } from '../../CursorPositionInput';
+import { DraftEraseCodeAction } from '../../domain/editor.slice';
+import { ActionEdition } from '../ActionEdition';
 
 type EraseCodeEditionProps = {
   action: DraftEraseCodeAction;

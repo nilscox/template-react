@@ -1,5 +1,5 @@
-import { DraftTypeCodeAction } from '../domain/editor.slice';
-import { ActionEdition } from '../ReplayEdition/ActionEdition';
+import { DraftTypeCodeAction } from '../../domain/editor.slice';
+import { ActionEdition } from '../ActionEdition';
 
 type TypeCodeEditionProps = {
   action: DraftTypeCodeAction;
