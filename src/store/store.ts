@@ -1,10 +1,10 @@
 import { AnyAction, configureStore, ThunkAction as ReduxThunkAction } from '@reduxjs/toolkit';
 
 import { Editors } from '../Editor';
+import { editorReducer } from '../editor/domain/editor.slice';
+import { rendererReducer } from '../renderer/domain/renderer.slice';
 import { Scheduler } from '../Scheduler';
 
-import { editorReducer } from './slices/editor.slice';
-import { rendererReducer } from './slices/renderer.slice';
 import { replayReducer } from './slices/replay.slice';
 import { uiReducer } from './slices/ui.slice';
 

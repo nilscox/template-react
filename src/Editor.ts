@@ -3,7 +3,6 @@ import { editor } from 'monaco-editor';
 
 import { PositionData } from '../domain/Replay';
 
-import { Range } from './Range';
 import { Scheduler } from './Scheduler';
 
 export enum EditorType {
@@ -37,14 +36,6 @@ export class TextEditor {
 
   set position([line, column]: PositionData) {
     this.editor.setPosition({ lineNumber: line, column });
-  }
-
-  set selection(range: Range) {
-    this.editor.setSelection(range.toMonaco());
-  }
-
-  set selections(ranges: Range[]) {
-    this.editor.setSelections(ranges.map((range) => range.toMonaco()));
   }
 
   focus() {

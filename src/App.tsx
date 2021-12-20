@@ -1,18 +1,19 @@
 import { useEffect } from 'react';
 
-import { Selector } from '@reduxjs/toolkit';
+import { createSelector, Selector } from '@reduxjs/toolkit';
 import { useDispatch, useSelector as useReduxSelector } from 'react-redux';
 
 import { ReplayStepData } from '../domain/Replay';
 
-import { ReplayEditor } from './components/ReplayEditor';
-import { ReplayProperties } from './components/ReplayProperties';
-import { ReplayRenderer } from './components/ReplayRenderer';
-import { ReplayTimeline } from './components/ReplayTimeline';
-import replay from './replay_.json';
-import { selectAreEditorsReady } from './store/slices/editor.selectors';
+import { selectIsDiffEditorReady } from './editor/domain/editor.selectors';
+import { ReplayEditor } from './editor/ReplayEditor';
+import { ReplayProperties } from './editor/ReplayProperties';
+import { selectIsTextEditorReady } from './renderer/domain/renderer.selectors';
+import { loadReplay } from './renderer/domain/usecases/loadReplay';
+import { ReplayRenderer } from './renderer/ReplayRenderer';
+import { ReplayTimeline } from './renderer/ReplayTimeline';
+import replay from './replay_4.json';
 import { State } from './store/store';
-import { loadReplay } from './store/usecases/loadReplay';
 
 export const useSelector = <Result, Params extends unknown[]>(
   selector: Selector<State, Result, Params>,
@@ -21,12 +22,19 @@ export const useSelector = <Result, Params extends unknown[]>(
   return useReduxSelector((state: State) => selector(state, ...params));
 };
 
+const selectAreEditorsReady = createSelector(
+  selectIsTextEditorReady,
+  selectIsDiffEditorReady,
+  (isTextEditorReady, isDiffEditorReady) => isTextEditorReady && isDiffEditorReady,
+);
+
 export const App: React.FC = () => {
   const dispatch = useDispatch();
   const areEditorsReady = useSelector(selectAreEditorsReady);
 
   useEffect(() => {
     if (areEditorsReady) {
+      // dispatch(loadReplay([]));
       dispatch(loadReplay(replay.steps as ReplayStepData[]));
     }
   }, [dispatch, areEditorsReady]);
@@ -42,7 +50,7 @@ export const App: React.FC = () => {
         </div>
       </div>
 
-      <div className="border-b border-b-light">
+      <div className="border-y border-light">
         <ReplayTimeline />
       </div>
 

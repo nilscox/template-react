@@ -1,0 +1,44 @@
+{
+  "steps": [
+    {
+      "name": "simple reducer",
+      "actions": [
+        {
+          "type": "TypeCode",
+          "code": "import { AnyAction } from 'redux';\n\nconst reducer = (state = 0, action: AnyAction): number => {\n  if (action.type === 'increment') {\n    return state + 1;\n  }\n\n  return state;\n};\n"
+        }
+      ]
+    },
+    {
+      "name": "create the store",
+      "actions": [
+        { "type": "MoveCursor", "position": [1, 19] },
+        { "type": "TypeCode", "code": ", createStore" },
+        { "type": "MoveCursor", "position": [10, 1] },
+        { "type": "InsertLines", "above": 1, "below": 0 },
+        { "type": "TypeCode", "code": "const store = createStore(reducer);\n" }
+      ]
+    },
+    {
+      "name": "read the state",
+      "actions": [
+        { "type": "InsertLines", "above": 1, "below": 0 },
+        { "type": "TypeCode", "code": "// read the state\nconsole.log(store.getState()); // 0\n" }
+      ]
+    },
+    {
+      "name": "update the state",
+      "actions": [
+        { "type": "InsertLines", "above": 1, "below": 0 },
+        { "type": "TypeCode", "code": "// update the state\nstore.dispatch({ type: 'increment' });\n" }
+      ]
+    },
+    {
+      "name": "read the state again",
+      "actions": [
+        { "type": "InsertLines", "above": 1, "below": 0 },
+        { "type": "TypeCode", "code": "// read the state\nconsole.log(store.getState()); // 1\n" }
+      ]
+    }
+  ]
+}
