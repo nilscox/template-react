@@ -49,3 +49,8 @@ export type ReplayCommitData = {
   name: string;
   steps: ReplayStepData[];
 };
+
+export type PlayedCommitData = {
+  name: string;
+  steps: PlayedStepData[];
+};

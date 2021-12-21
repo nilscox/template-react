@@ -1,38 +1,49 @@
+import produce from 'immer';
+
 import { InvalidActionError } from '../../../../domain/InvalidActionError';
 import { playReplay } from '../../../../domain/Replay';
-import { ReplayStepData } from '../../../../domain/types';
-import { selectCurrentStep, selectReplay } from '../../../store/slices/replay.selectors';
-import { setSteps } from '../../../store/slices/replay.slice';
+import { ReplayCommitData } from '../../../../domain/types';
+import {
+  selectCommits,
+  selectCurrentCommitIndex,
+  selectCurrentStep,
+  selectCurrentStepIndex,
+} from '../../../store/slices/replay.selectors';
+import { setCommits } from '../../../store/slices/replay.slice';
 import { ThunkAction } from '../../../store/store';
 import { draft } from '../draft';
 import { selectDraftStep } from '../editor.selectors';
 import { DraftAction, updateDraftStep } from '../editor.slice';
 
-import { setCurrentStep } from './setCurrentStep';
-
 export const updateDraftAction = (action: DraftAction, path: string, value: string): ThunkAction => {
   return (dispatch, getState) => {
-    const dratStep = selectDraftStep(getState());
-    const index = dratStep?.actions.indexOf(action);
+    const draftStep = selectDraftStep(getState());
 
-    dispatch(updateDraftStep({ path: `actions.${index}.${path}`, value }));
-
-    const replay = selectReplay(getState());
-    const steps: ReplayStepData[] = replay.steps.slice();
-    const currentStep = selectCurrentStep(getState());
-    const draftAction = selectDraftStep(getState());
-
-    if (!draftAction) {
+    if (!draftStep) {
       return;
     }
 
-    steps[replay.currentStepIndex] = draft.transformStepFromDraft(currentStep.name, draftAction);
+    const index = draftStep.actions.indexOf(action);
+
+    dispatch(updateDraftStep({ path: `actions.${index}.${path}`, value }));
+
+    const commits = selectCommits(getState());
+
+    const currentCommitIndex = selectCurrentCommitIndex(getState());
+    const currentStepIndex = selectCurrentStepIndex(getState());
+
+    const currentStep = selectCurrentStep(getState());
+
+    const newStep = draft.transformStepFromDraft(currentStep.name, draftStep);
+
+    const newCommits = produce(commits as ReplayCommitData[], (draftCommits) => {
+      draftCommits[currentCommitIndex].steps[currentStepIndex] = newStep;
+    });
 
     try {
-      const playedActions = playReplay(steps);
+      const playedCommits = playReplay(newCommits);
 
-      dispatch(setSteps(playedActions));
-      dispatch(setCurrentStep(playedActions[replay.currentStepIndex]));
+      dispatch(setCommits(playedCommits));
     } catch (error) {
       if (!(error instanceof InvalidActionError)) {
         throw error;

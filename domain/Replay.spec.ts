@@ -1,110 +1,52 @@
 import { expect } from 'earljs';
 
-import { playReplay, Replay } from './Replay';
-import { ActionType, PositionData, ReplayActionData, ReplayStepData, TypeCodeActionData } from './types';
+import { Replay } from './Replay';
+import {
+  ActionType,
+  PlayedCommitData,
+  PlayedStepData,
+  ReplayCommitData,
+  ReplayStepData,
+  TypeCodeActionData,
+} from './types';
 
 describe('Replay', () => {
-  it('applies one action', () => {
-    const action1: TypeCodeActionData = {
+  it('creates an empty replay', () => {
+    const replay = Replay.create([]);
+
+    expect(replay.data).toEqual({ commits: [] });
+  });
+
+  it('creates a replay containing one commit', () => {
+    const action: TypeCodeActionData = {
       type: ActionType.TypeCode,
       code: 'hello',
     };
 
-    const playedSteps = playReplay([{ name: 'step', actions: [action1] }]);
+    const step: ReplayStepData = {
+      name: 'step',
+      actions: [action],
+    };
 
-    expect(playedSteps).toEqual([
-      {
-        name: 'step',
-        initialState: {
-          code: '',
-          position: [1, 1],
-        },
-        finalState: {
-          code: 'hello',
-          position: [1, 6],
-        },
-        actions: [
-          {
-            type: ActionType.TypeCode,
-            code: 'hello',
-          },
-        ],
-      },
-    ]);
-  });
+    const commit: ReplayCommitData = {
+      name: 'commit',
+      steps: [step],
+    };
 
-  const action1: ReplayActionData = {
-    type: ActionType.TypeCode,
-    code: 'hello',
-  };
+    const replay = Replay.create([commit]);
 
-  const action2: ReplayActionData = {
-    type: ActionType.TypeCode,
-    code: ' the world',
-  };
+    const expectedStep: PlayedStepData = {
+      name: 'step',
+      initialState: { code: '', position: [1, 1] },
+      finalState: { code: 'hello', position: [1, 6] },
+      actions: [action],
+    };
 
-  const action3: ReplayActionData = {
-    type: ActionType.MoveCursor,
-    position: [1, 10],
-  };
+    const expectedCommit: PlayedCommitData = {
+      name: 'commit',
+      steps: [expectedStep],
+    };
 
-  const action4: ReplayActionData = {
-    type: ActionType.EraseCode,
-    end: [1, 6],
-  };
-
-  const actions = [action1, action2, action3, action4];
-
-  const state = (code: string, position: PositionData) => ({
-    code,
-    position,
-  });
-
-  it('applies multiple actions in a single step', () => {
-    const playedSteps = playReplay([{ name: 'step', actions }]);
-
-    expect(playedSteps).toEqual([
-      {
-        name: 'step',
-        actions,
-        initialState: state('', [1, 1]),
-        finalState: state('hello world', [1, 6]),
-      },
-    ]);
-  });
-
-  it('applies multiple steps', () => {
-    const steps: ReplayStepData[] = actions.map((action, n) => ({ name: `step ${n + 1}`, actions: [action] }));
-    const playedSteps = playReplay(steps);
-
-    expect(playedSteps).toBeAnArrayOfLength(4);
-
-    expect(playedSteps[0]).toEqual({
-      name: 'step 1',
-      actions: [action1],
-      initialState: state('', [1, 1]),
-      finalState: state('hello', [1, 6]),
-    });
-
-    expect(playedSteps[1]).toEqual({
-      name: 'step 2',
-      actions: [action2],
-      initialState: state('hello', [1, 6]),
-      finalState: state('hello the world', [1, 16]),
-    });
-
-    expect(playedSteps[2]).toEqual({
-      name: 'step 3',
-      actions: [action3],
-      initialState: state('hello the world', [1, 16]),
-      finalState: state('hello the world', [1, 10]),
-    });
-
-    expect(playedSteps[3]).toEqual({
-      name: 'step 4',
-      actions: [action4],
-      initialState: state('hello the world', [1, 10]),
-      finalState: state('hello world', [1, 6]),
-    });
+    expect(replay.data).toEqual({ commits: [expectedCommit] });
   });
 });

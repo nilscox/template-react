@@ -1,20 +1,21 @@
 import { playReplay } from '../../../../domain/Replay';
-import { ReplayStepData } from '../../../../domain/types';
-import { setCurrentStep } from '../../../editor/domain/usecases/setCurrentStep';
+import { ReplayCommitData } from '../../../../domain/types';
+import { setCurrentCommit } from '../../../editor/domain/usecases/setCurrentCommit';
 import { setReplay } from '../../../store/slices/replay.slice';
 import { ThunkAction } from '../../../store/store';
 
-export const loadReplay = (steps: ReplayStepData[]): ThunkAction => {
+export const loadReplay = (commits: ReplayCommitData[]): ThunkAction => {
   return (dispatch) => {
-    const playedSteps = playReplay(steps);
+    const playedCommits = playReplay(commits);
 
     dispatch(
       setReplay({
-        steps: playedSteps,
+        commits: playedCommits,
+        currentCommitIndex: 0,
         currentStepIndex: 0,
       }),
     );
 
-    dispatch(setCurrentStep(playedSteps[0]));
+    dispatch(setCurrentCommit(playedCommits[playedCommits.length - 1]));
   };
 };

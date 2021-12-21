@@ -1,100 +1,105 @@
 {
-  "steps": [
+  "commits": [
     {
-      "name": "simple reducer",
-      "actions": [
+      "name": "basic redux state",
+      "steps": [
         {
-          "type": "TypeCode",
-          "code": "import { AnyAction } from 'redux';\n\nconst reducer = (state = 0, action: AnyAction): number => {\n  if (action.type === 'increment') {\n    return state + 1;\n  }\n\n  return state;\n};\n"
-        }
-      ]
-    },
-    {
-      "name": "create the store",
-      "actions": [
-        { "type": "MoveCursor", "position": [1, 19] },
-        { "type": "TypeCode", "code": ", createStore" },
-        { "type": "MoveCursor", "position": [10, 1] },
-        { "type": "InsertLines", "above": 1, "below": 0 },
-        { "type": "TypeCode", "code": "const store = createStore(reducer);\n" }
-      ]
-    },
-    {
-      "name": "read the state",
-      "actions": [
-        { "type": "InsertLines", "above": 1, "below": 0 },
-        { "type": "TypeCode", "code": "// read the state\nconsole.log(store.getState()); // 0\n" }
-      ]
-    },
-    {
-      "name": "update the state",
-      "actions": [
-        { "type": "InsertLines", "above": 1, "below": 0 },
-        { "type": "TypeCode", "code": "// update the state\nstore.dispatch({ type: 'increment' });\n" }
-      ]
-    },
-    {
-      "name": "read the state again",
-      "actions": [
-        { "type": "InsertLines", "above": 1, "below": 0 },
-        { "type": "TypeCode", "code": "// read the state\nconsole.log(store.getState()); // 1\n" }
-      ]
-    },
-    {
-      "name": "add action creator",
-      "actions": [
-        { "type": "MoveCursor", "position": [2, 1] },
-        { "type": "InsertLines", "above": 1, "below": 1 },
-        { "type": "TypeCode", "code": "const increment = () => ({\n  type: 'increment',\n});" }
-      ]
-    },
-    {
-      "name": "use action creator",
-      "actions": [
-        { "type": "MoveCursor", "position": [21, 37] },
-        { "type": "EraseCode", "end": [21, 16] },
-        { "type": "TypeCode", "code": "increment()" }
-      ]
-    },
-    {
-      "name": "cleanup",
-      "actions": [
-        { "type": "MoveCursor", "position": [20, 20] },
-        { "type": "EraseCode", "end": [16, 1] },
-        { "type": "MoveCursor", "position": [20, 13] },
-        { "type": "EraseCode", "end": [18, 1] },
-        { "type": "MoveCursor", "position": [18, 18] },
-        { "type": "EraseCode", "end": [18, 17] }
-      ]
-    },
-    {
-      "name": "add incrementByAmount action creator",
-      "actions": [
-        { "type": "MoveCursor", "position": [6, 1] },
-        { "type": "InsertLines", "above": 1, "below": 1 },
+          "name": "simple reducer",
+          "actions": [
+            {
+              "type": "TypeCode",
+              "code": "import { AnyAction } from 'redux';\n\nconst reducer = (state = 0, action: AnyAction): number => {\n  if (action.type === 'increment') {\n    return state + 1;\n  }\n\n  return state;\n};\n"
+            }
+          ]
+        },
         {
-          "type": "TypeCode",
-          "code": "const incrementByAmount = (amount: number) => ({\n  type: 'incrementByAmount',\n  amount,\n});"
-        }
-      ]
-    },
-    {
-      "name": "handle incermentByAmount in reducer",
-      "actions": [
-        { "type": "MoveCursor", "position": [16, 1] },
-        { "type": "InsertLines", "above": 1, "below": 1 },
+          "name": "create the store",
+          "actions": [
+            { "type": "MoveCursor", "position": [1, 19] },
+            { "type": "TypeCode", "code": ", createStore" },
+            { "type": "MoveCursor", "position": [10, 1] },
+            { "type": "InsertLines", "above": 1, "below": 0 },
+            { "type": "TypeCode", "code": "const store = createStore(reducer);\n" }
+          ]
+        },
         {
-          "type": "TypeCode",
-          "code": "  if (action.type === 'incrementByAmount') {\n    return state + action.amount;\n  }"
+          "name": "read the state",
+          "actions": [
+            { "type": "InsertLines", "above": 1, "below": 0 },
+            { "type": "TypeCode", "code": "// read the state\nconsole.log(store.getState()); // 0\n" }
+          ]
+        },
+        {
+          "name": "update the state",
+          "actions": [
+            { "type": "InsertLines", "above": 1, "below": 0 },
+            { "type": "TypeCode", "code": "// update the state\nstore.dispatch({ type: 'increment' });\n" }
+          ]
+        },
+        {
+          "name": "read the state again",
+          "actions": [
+            { "type": "InsertLines", "above": 1, "below": 0 },
+            { "type": "TypeCode", "code": "// read the state\nconsole.log(store.getState()); // 1\n" }
+          ]
+        },
+        {
+          "name": "add action creator",
+          "actions": [
+            { "type": "MoveCursor", "position": [2, 1] },
+            { "type": "InsertLines", "above": 1, "below": 1 },
+            { "type": "TypeCode", "code": "const increment = () => ({\n  type: 'increment',\n});" }
+          ]
+        },
+        {
+          "name": "use action creator",
+          "actions": [
+            { "type": "MoveCursor", "position": [21, 37] },
+            { "type": "EraseCode", "end": [21, 16] },
+            { "type": "TypeCode", "code": "increment()" }
+          ]
+        },
+        {
+          "name": "cleanup",
+          "actions": [
+            { "type": "MoveCursor", "position": [20, 20] },
+            { "type": "EraseCode", "end": [16, 1] },
+            { "type": "MoveCursor", "position": [20, 13] },
+            { "type": "EraseCode", "end": [18, 1] },
+            { "type": "MoveCursor", "position": [18, 18] },
+            { "type": "EraseCode", "end": [18, 17] }
+          ]
+        },
+        {
+          "name": "add incrementByAmount action creator",
+          "actions": [
+            { "type": "MoveCursor", "position": [6, 1] },
+            { "type": "InsertLines", "above": 1, "below": 1 },
+            {
+              "type": "TypeCode",
+              "code": "const incrementByAmount = (amount: number) => ({\n  type: 'incrementByAmount',\n  amount,\n});"
+            }
+          ]
+        },
+        {
+          "name": "handle incermentByAmount in reducer",
+          "actions": [
+            { "type": "MoveCursor", "position": [16, 1] },
+            { "type": "InsertLines", "above": 1, "below": 1 },
+            {
+              "type": "TypeCode",
+              "code": "  if (action.type === 'incrementByAmount') {\n    return state + action.amount;\n  }"
+            }
+          ]
+        },
+        {
+          "name": "dispatch incrementByAmount",
+          "actions": [
+            { "type": "MoveCursor", "position": [28, 1] },
+            { "type": "InsertLines", "above": 1, "below": 0 },
+            { "type": "TypeCode", "code": "store.dispatch(incrementByAmount(5));\nstore.getState(); // 6\n" }
+          ]
         }
-      ]
-    },
-    {
-      "name": "dispatch incrementByAmount",
-      "actions": [
-        { "type": "MoveCursor", "position": [28, 1] },
-        { "type": "InsertLines", "above": 1, "below": 0 },
-        { "type": "TypeCode", "code": "store.dispatch(incrementByAmount(5));\nstore.getState(); // 6\n" }
       ]
     }
   ]

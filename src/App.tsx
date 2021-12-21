@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { createSelector, Selector } from '@reduxjs/toolkit';
 import { useDispatch, useSelector as useReduxSelector } from 'react-redux';
 
-import { ReplayStepData } from '../domain/types';
+import { ReplayCommitData } from '../domain/types';
 
 import { DiffEditor } from './editor/DiffEditor';
 import { selectIsDiffEditorReady } from './editor/domain/editor.selectors';
@@ -35,7 +35,7 @@ export const App: React.FC = () => {
   useEffect(() => {
     if (areEditorsReady) {
       // dispatch(loadReplay([]));
-      dispatch(loadReplay(replay.steps as ReplayStepData[]));
+      dispatch(loadReplay(replay.commits as ReplayCommitData[]));
     }
   }, [dispatch, areEditorsReady]);
 

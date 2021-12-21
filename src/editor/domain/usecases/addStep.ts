@@ -1,26 +1,32 @@
-import { ReplayStepData } from '../../../../domain/types';
-import { selectReplay } from '../../../store/slices/replay.selectors';
+import { PlayedStepData } from '../../../../domain/types';
+import {
+  selectCurrentCommit,
+  selectCurrentCommitIndex,
+  selectFinalState,
+  selectInitialState,
+} from '../../../store/slices/replay.selectors';
+import { setSteps } from '../../../store/slices/replay.slice';
 import { ThunkAction } from '../../../store/store';
 
 import { setCurrentStep } from './setCurrentStep';
-import { updateReplaySteps } from './updateReplaySteps';
 
 export const addStep = (): ThunkAction => {
   return (dispatch, getState) => {
-    dispatch(updateReplaySteps(updater));
+    const commit = selectCurrentCommit(getState());
+    const currentCommitIndex = selectCurrentCommitIndex(getState());
 
-    const replay = selectReplay(getState());
-    const newStep = replay.steps[replay.steps.length - 1];
+    const initialState = selectInitialState(getState());
+    const finalState = selectFinalState(getState());
+
+    const newStep: PlayedStepData = { name: '', actions: [], initialState, finalState };
+
+    dispatch(
+      setSteps({
+        commitIndex: currentCommitIndex,
+        steps: [...commit.steps, newStep],
+      }),
+    );
 
     dispatch(setCurrentStep(newStep));
   };
-};
-
-const updater = (steps: ReplayStepData[]): ReplayStepData[] => {
-  steps.push({
-    name: '',
-    actions: [],
-  });
-
-  return steps;
 };
