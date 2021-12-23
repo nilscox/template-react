@@ -3,12 +3,36 @@ import { ReplayCommit } from './ReplayCommit';
 import { PlayedCommitData, ReplayCommitData } from './types';
 
 export class Replay {
-  constructor(private commits: ReplayCommit[]) {
-    this.play();
+  public commits: ReplayCommit[];
+
+  constructor(public props: { commits: PlayedCommitData[] }) {
+    let previousCommit: ReplayCommit | null = null;
+
+    this.commits = props.commits.map((commit) => {
+      previousCommit = ReplayCommit.create(commit, previousCommit);
+      return previousCommit;
+    });
   }
 
-  static create(steps: ReplayCommitData[]) {
-    return new Replay(steps.map(ReplayCommit.create));
+  static load(commits: ReplayCommitData[]) {
+    const replay = Replay.create(commits as PlayedCommitData[]);
+
+    replay.play();
+
+    return replay;
+  }
+
+  static create(commits: PlayedCommitData[]) {
+    return new Replay({ commits });
+  }
+
+  get lastCommit() {
+    return this.commits[this.commits.length - 1];
+  }
+
+  addCommit() {
+    this.commits.push(ReplayCommit.create({ name: '', steps: [] }, this.lastCommit));
+    this.props.commits.push(this.lastCommit.props);
   }
 
   get data() {
@@ -27,5 +51,9 @@ export class Replay {
 }
 
 export const playReplay = (commits: ReplayCommitData[]): PlayedCommitData[] => {
-  return Replay.create(commits).data.commits;
+  const replay = Replay.create(commits);
+
+  replay.play();
+
+  return replay.data.commits;
 };

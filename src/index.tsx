@@ -5,7 +5,9 @@ import { Provider } from 'react-redux';
 import './index.css';
 
 import { App } from './App';
-import { store } from './store/store';
+import { createStore } from './store/store';
+
+const store = createStore();
 
 (window as any).store = store;
 

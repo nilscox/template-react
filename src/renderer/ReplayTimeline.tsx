@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from '../App';
 import { selectReplay } from '../store/slices/replay.selectors';
 
-import { playCurrentAction } from './domain/usecases/playCurrentAction';
+import { playCurrentStep } from './domain/usecases/playCurrentStep';
 
 const selectReplayProgress = createSelector(selectReplay, (replay) => {
   if (!replay.commits.length) {
@@ -20,7 +20,7 @@ export const ReplayTimeline: React.FC = () => {
 
   return (
     <div className="flex flex-row items-center p-2 bg-dark gap-4">
-      <button disabled={progress === 1} onClick={() => dispatch(playCurrentAction())}>
+      <button disabled={progress === 1} onClick={() => dispatch(playCurrentStep())}>
         <svg viewBox="0 0 24 24" className="w-8 h-8 fill-muted">
           <path d="M8 5v14l11-7z" />
         </svg>

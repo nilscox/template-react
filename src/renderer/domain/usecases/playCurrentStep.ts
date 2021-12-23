@@ -1,16 +1,14 @@
 import { setCurrentStep } from '../../../editor/domain/usecases/setCurrentStep';
-import { selectCurrentStep, selectReplay } from '../../../store/slices/replay.selectors';
+import { selectCurrentStep, selectNextStep } from '../../../store/slices/replay.selectors';
 import { ThunkAction } from '../../../store/store';
 
 import { playAction } from './playActions';
 
-export const playCurrentAction = (): ThunkAction<Promise<void>> => {
+export const playCurrentStep = (): ThunkAction<Promise<void>> => {
   return async (dispatch, getState) => {
-    const replay = selectReplay(getState());
     const currentStep = selectCurrentStep(getState());
-    const currentStepIndex = replay.currentStepIndex;
 
-    if (currentStepIndex === replay.steps.length) {
+    if (!currentStep) {
       return;
     }
 
@@ -18,6 +16,12 @@ export const playCurrentAction = (): ThunkAction<Promise<void>> => {
       await dispatch(playAction(action));
     }
 
-    dispatch(setCurrentStep(replay.steps[currentStepIndex + 1]));
+    const nextStep = selectNextStep(getState());
+
+    if (!nextStep) {
+      throw new Error('todo');
+    }
+
+    dispatch(setCurrentStep(nextStep));
   };
 };

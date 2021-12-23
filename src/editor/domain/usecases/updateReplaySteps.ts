@@ -14,12 +14,12 @@ export const updateReplaySteps = (cb: (steps: ReplayStepData[]) => ReplayStepDat
 
     const updatedSteps = cb(commits[currentCommitIndex].steps.slice());
 
-    const playedCommits = playReplay([
-      ...commits.slice(0, currentCommitIndex),
-      { ...currentCommit, steps: updatedSteps },
-      ...commits.slice(currentCommitIndex + 1),
-    ]);
+    // const playedCommits = playReplay([
+    //   ...commits.slice(0, currentCommitIndex),
+    //   { ...currentCommit, steps: updatedSteps },
+    //   ...commits.slice(currentCommitIndex + 1),
+    // ]);
 
-    dispatch(setCommits(playedCommits));
+    // dispatch(setCommits(playedCommits));
   };
 };

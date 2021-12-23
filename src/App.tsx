@@ -7,12 +7,13 @@ import { ReplayCommitData } from '../domain/types';
 
 import { DiffEditor } from './editor/DiffEditor';
 import { selectIsDiffEditorReady } from './editor/domain/editor.selectors';
+import { setCurrentCommit } from './editor/domain/usecases/setCurrentCommit';
 import { ReplayEdition } from './editor/ReplayEdition/ReplayEdition';
 import { selectIsTextEditorReady } from './renderer/domain/renderer.selectors';
-import { loadReplay } from './renderer/domain/usecases/loadReplay';
 import { ReplayRenderer } from './renderer/ReplayRenderer';
 import { ReplayTimeline } from './renderer/ReplayTimeline';
 import replay from './replay_4.json';
+import { loadReplay } from './store/slices/replay.slice';
 import { State } from './store/store';
 
 export const useSelector = <Result, Params extends unknown[]>(
@@ -36,6 +37,7 @@ export const App: React.FC = () => {
     if (areEditorsReady) {
       // dispatch(loadReplay([]));
       dispatch(loadReplay(replay.commits as ReplayCommitData[]));
+      dispatch(setCurrentCommit(replay.commits[0]));
     }
   }, [dispatch, areEditorsReady]);
 

@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { PlayedCommitData, PlayedStepData } from '../../../domain/types';
+import { Replay } from '../../../domain/Replay';
+import { PlayedCommitData, PlayedStepData, ReplayCommitData } from '../../../domain/types';
 
 export type ReplayState = {
   commits: PlayedCommitData[];
@@ -18,20 +19,23 @@ const replaySlice = createSlice({
   name: 'replay',
   initialState,
   reducers: {
-    setReplay(_state, action: PayloadAction<ReplayState>) {
-      return action.payload;
+    loadReplay(state, { payload: commits }: PayloadAction<ReplayCommitData[]>) {
+      const replay = Replay.load(commits);
+
+      state.commits = replay.data.commits;
     },
-    addCommit(state, { payload: commit }: PayloadAction<PlayedCommitData>) {
-      state.commits.push(commit);
+    addCommit(state) {
+      const replay = Replay.create(state.commits);
+
+      replay.addCommit();
     },
-    setCommits(state, { payload: commits }: PayloadAction<PlayedCommitData[]>) {
-      state.commits = commits;
+    addStep(state) {
+      const replay = Replay.create(state.commits);
+
+      replay.commits[state.currentCommitIndex].addStep();
     },
     setCurrentCommitName(state, { payload: name }: PayloadAction<string>) {
       state.commits[state.currentCommitIndex].name = name;
-    },
-    addStep(state, { payload: { commitIndex, step } }: PayloadAction<{ commitIndex: number; step: PlayedStepData }>) {
-      state.commits[commitIndex].steps.push(step);
     },
     setSteps(
       state,
@@ -39,35 +43,27 @@ const replaySlice = createSlice({
     ) {
       state.commits[commitIndex].steps = steps;
     },
-    setStepName(
-      state,
-      {
-        payload: { commitIndex, stepIndex, name },
-      }: PayloadAction<{ commitIndex: number; stepIndex: number; name: string }>,
-    ) {
-      state.commits[commitIndex].steps[stepIndex].name = name;
+    setCurrentStepName(state, { payload: name }: PayloadAction<string>) {
+      const { currentCommitIndex, currentStepIndex } = state;
+
+      state.commits[currentCommitIndex].steps[currentStepIndex].name = name;
     },
-    updateSteps(state, { payload: steps }: PayloadAction<Array<PlayedStepData>>) {
-      console.log('updateSteps', steps);
+    setCurrentCommitIndex(state, { payload: index }: PayloadAction<number>) {
+      state.currentCommitIndex = index;
     },
-    setCurrentCommitIndex(state, action: PayloadAction<number>) {
-      state.currentCommitIndex = action.payload;
-    },
-    setCurrentStepIndex(state, action: PayloadAction<number>) {
-      state.currentStepIndex = action.payload;
+    setCurrentStepIndex(state, { payload: index }: PayloadAction<number>) {
+      state.currentStepIndex = index;
     },
   },
 });
 
 export const {
-  setReplay,
+  loadReplay,
   addCommit,
-  setCommits,
-  setCurrentCommitName,
   addStep,
+  setCurrentCommitName,
   setSteps,
-  setStepName,
-  updateSteps,
+  setCurrentStepName,
   setCurrentCommitIndex,
   setCurrentStepIndex,
 } = replaySlice.actions;

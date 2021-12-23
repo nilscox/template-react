@@ -101,6 +101,10 @@
           ]
         }
       ]
+    },
+    {
+      "name": "actions typings",
+      "steps": []
     }
   ]
 }

@@ -25,6 +25,20 @@ export const selectCurrentStep = createSelector(
   },
 );
 
+export const selectAllSteps = createSelector(selectCommits, (commits) => {
+  return commits.flatMap(({ steps }) => steps);
+});
+
+export const selectNextStep = createSelector(selectAllSteps, selectCurrentStep, (allSteps, currentStep) => {
+  const index = allSteps.indexOf(currentStep as PlayedStepData);
+
+  if (index < 0) {
+    return allSteps[0];
+  }
+
+  return allSteps[index + 1];
+});
+
 export const selectCurrentInitialPosition = createSelector(selectCurrentStep, (step) => {
   const firstMoveCursor = step?.actions.find(({ type }) => type === 'MoveCursor') as MoveCursorActionData;
 

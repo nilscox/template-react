@@ -43,7 +43,7 @@ export const updateDraftAction = (action: DraftAction, path: string, value: stri
     try {
       const playedCommits = playReplay(newCommits);
 
-      dispatch(setCommits(playedCommits));
+      // dispatch(setCommits(playedCommits));
     } catch (error) {
       if (!(error instanceof InvalidActionError)) {
         throw error;

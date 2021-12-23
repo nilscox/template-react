@@ -4,16 +4,32 @@ import { MoveCursorAction } from './actions/MoveCursorAction';
 import { TypeCodeAction } from './actions/TypeCodeAction';
 import { MemoryEditor } from './MemoryEditor';
 import { ReplayAction } from './ReplayAction';
-import { ActionType, EditorState, PlayedStepData, ReplayActionData, ReplayStepData } from './types';
+import { ActionType, EditorState, PlayedStepData, ReplayActionData } from './types';
+
+const defaultState: EditorState = {
+  code: '',
+  position: [1, 1],
+};
 
 export class ReplayStep {
-  public initialState!: EditorState;
-  public finalState!: EditorState;
+  public initialState = defaultState;
+  public finalState = defaultState;
 
-  constructor(private name: string, private actions: ReplayAction[]) {}
+  public actions: ReplayAction[];
 
-  static create(step: ReplayStepData): ReplayStep {
-    return new ReplayStep(step.name, step.actions.map(ReplayStep.createAction));
+  constructor(private props: PlayedStepData) {
+    this.actions = props.actions.map(ReplayStep.createAction);
+  }
+
+  static create(props: PlayedStepData): ReplayStep {
+    const step = new ReplayStep(props);
+
+    if ('initialState' in props) {
+      step.initialState = props.initialState;
+      step.finalState = props.finalState;
+    }
+
+    return step;
   }
 
   private static createAction(action: ReplayActionData): ReplayAction {
@@ -33,17 +49,22 @@ export class ReplayStep {
   }
 
   get data(): PlayedStepData {
-    return {
-      name: this.name,
-      initialState: this.initialState,
-      finalState: this.finalState,
-      actions: this.actions.map((action) => action.data),
-    };
+    return this.props;
   }
 
   apply(editor: MemoryEditor) {
+    this.props.initialState = {
+      code: editor.code,
+      position: editor.position.values,
+    };
+
     for (const action of this.actions) {
       action.apply(editor);
     }
+
+    this.props.finalState = {
+      code: editor.code,
+      position: editor.position.values,
+    };
   }
 }

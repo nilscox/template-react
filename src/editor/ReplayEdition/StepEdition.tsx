@@ -4,12 +4,8 @@ import { useDispatch } from 'react-redux';
 
 import { ActionType, ReplayActionData } from '../../../domain/types';
 import { useSelector } from '../../App';
-import {
-  selectCurrentCommitIndex,
-  selectCurrentStep,
-  selectCurrentStepIndex,
-} from '../../store/slices/replay.selectors';
-import { setStepName } from '../../store/slices/replay.slice';
+import { selectCurrentCommitIndex, selectCurrentStep } from '../../store/slices/replay.selectors';
+import { setCurrentStepName } from '../../store/slices/replay.slice';
 import { selectDraftStep } from '../domain/editor.selectors';
 import { DraftAction } from '../domain/editor.slice';
 import { addAction } from '../domain/usecases/addAction';
@@ -26,7 +22,6 @@ export const StepEdition: React.FC = () => {
   const currentStep = useSelector(selectCurrentStep);
 
   const currentCommitIndex = useSelector(selectCurrentCommitIndex);
-  const currentStepIndex = useSelector(selectCurrentStepIndex);
 
   if (!draftStep) {
     return null;
@@ -34,12 +29,7 @@ export const StepEdition: React.FC = () => {
 
   return (
     <div className="flex flex-col flex-grow h-full max-h-full p-4 overflow-y-auto gap-4">
-      <StepNameInput
-        name={currentStep.name}
-        onChange={(name) =>
-          dispatch(setStepName({ commitIndex: currentCommitIndex, stepIndex: currentStepIndex, name }))
-        }
-      />
+      <StepNameInput name={currentStep?.name ?? ''} onChange={(name) => dispatch(setCurrentStepName(name))} />
 
       {draftStep.actions.map((action, n) => (
         <ActionEdition key={n} action={action} />

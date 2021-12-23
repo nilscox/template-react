@@ -18,24 +18,28 @@ const dependencies = {
   scheduler,
 };
 
-export const store = configureStore({
-  reducer: {
-    replay: replayReducer,
-    renderer: rendererReducer,
-    editor: editorReducer,
-    ui: uiReducer,
-  },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      thunk: {
-        extraArgument: dependencies,
-      },
-    }),
-});
+export const createStore = () => {
+  return configureStore({
+    reducer: {
+      replay: replayReducer,
+      renderer: rendererReducer,
+      editor: editorReducer,
+      ui: uiReducer,
+    },
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware({
+        thunk: {
+          extraArgument: dependencies,
+        },
+      }),
+  });
+};
 
-export type GetState = typeof store.getState;
+export type Store = ReturnType<typeof createStore>;
+
+export type GetState = Store['getState'];
 export type State = ReturnType<GetState>;
 
-export type Dispatch = typeof store.dispatch;
+export type Dispatch = Store['dispatch'];
 
 export type ThunkAction<ReturnType = void> = ReduxThunkAction<ReturnType, State, Dependencies, AnyAction>;

@@ -7,8 +7,7 @@ import { useDispatch } from 'react-redux';
 import { PlayedStepData, TypeCodeActionData } from '../../../domain/types';
 import { useSelector } from '../../App';
 import { selectCurrentCommit, selectCurrentStepIndex } from '../../store/slices/replay.selectors';
-import { setCurrentCommitName } from '../../store/slices/replay.slice';
-import { addStep } from '../domain/usecases/addStep';
+import { addStep, setCurrentCommitName } from '../../store/slices/replay.slice';
 import { moveCursorToInitialPosition } from '../domain/usecases/moveCursorToInitialPosition';
 import { setCurrentStep } from '../domain/usecases/setCurrentStep';
 
