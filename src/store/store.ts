@@ -3,9 +3,9 @@ import { AnyAction, configureStore, ThunkAction as ReduxThunkAction } from '@red
 import { Editors } from '../Editor';
 import { editorReducer } from '../editor/domain/editor.slice';
 import { rendererReducer } from '../renderer/domain/renderer.slice';
+import { replayReducer } from '../replay/replay.slice';
 import { Scheduler } from '../Scheduler';
 
-import { replayReducer } from './slices/replay.slice';
 import { uiReducer } from './slices/ui.slice';
 
 export type Dependencies = typeof dependencies;
