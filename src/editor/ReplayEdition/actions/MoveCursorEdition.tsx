@@ -1,5 +1,6 @@
 import { CursorPositionInput } from '../../CursorPositionInput';
 import { DraftMoveCursorAction } from '../../domain/editor.slice';
+import { ActionField } from '../../domain/usecases/updateDraftAction';
 import { ActionEdition } from '../ActionEdition';
 
 type MoveCursorEditionProps = {
@@ -11,9 +12,9 @@ export const MoveCursorEdition: React.FC<MoveCursorEditionProps> = ({ action }) 
     {(onChange) => (
       <CursorPositionInput
         line={action.position.line}
-        onLineChange={(line) => onChange('position.line', line)}
+        onLineChange={(line) => onChange(ActionField.moveCursorLine, line)}
         column={action.position.column}
-        onColumnChange={(column) => onChange('position.column', column)}
+        onColumnChange={(column) => onChange(ActionField.moveCursorColumn, column)}
       />
     )}
   </ActionEdition>

@@ -5,7 +5,7 @@ import { createStore, Store } from '../store/store';
 import { selectReplay } from './replay.selectors';
 import { addCommit, CommitData, loadReplay, ReplayAction, StepData } from './replay.slice';
 
-describe.only('replay slice', () => {
+describe('replay slice', () => {
   let store: Store;
 
   beforeEach(() => {

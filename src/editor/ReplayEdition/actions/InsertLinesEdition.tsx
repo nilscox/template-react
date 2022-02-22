@@ -1,4 +1,5 @@
 import { DraftInsertLinesAction } from '../../domain/editor.slice';
+import { ActionField } from '../../domain/usecases/updateDraftAction';
 import { ActionEdition } from '../ActionEdition';
 
 type InsertLinesEditionProps = {
@@ -11,13 +12,21 @@ export const InsertLinesEdition: React.FC<InsertLinesEditionProps> = ({ action }
       <div>
         <label className="flex flex-row items-center gap-4">
           Insert
-          <input type="number" value={action.above} onChange={(e) => onChange('above', e.target.value)} />
+          <input
+            type="number"
+            value={action.above}
+            onChange={(e) => onChange(ActionField.insertLinesAbove, e.target.value)}
+          />
           line(s) above the cursor
         </label>
 
         <label className="flex flex-row items-center gap-4">
           Insert
-          <input type="number" value={action.below} onChange={(e) => onChange('below', e.target.value)} />
+          <input
+            type="number"
+            value={action.below}
+            onChange={(e) => onChange(ActionField.insertLinesBelow, e.target.value)}
+          />
           line(s) below the cursor
         </label>
       </div>

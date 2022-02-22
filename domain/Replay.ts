@@ -49,11 +49,3 @@ export class Replay {
     }
   }
 }
-
-export const playReplay = (commits: ReplayCommitData[]): PlayedCommitData[] => {
-  const replay = Replay.create(commits);
-
-  replay.play();
-
-  return replay.data.commits;
-};

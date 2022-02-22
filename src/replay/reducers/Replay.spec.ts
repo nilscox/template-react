@@ -2,7 +2,7 @@ import { expect } from 'earljs';
 
 import { Replay } from './Replay';
 
-describe.only('Replay', () => {
+describe('Replay', () => {
   describe('addCommit', () => {
     it('adds a commit to a replay', () => {
       const replay = Replay.create({ commits: [] });

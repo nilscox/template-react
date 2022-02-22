@@ -2,20 +2,20 @@ import { useDispatch } from 'react-redux';
 
 import { DraftAction } from '../domain/editor.slice';
 import { removeAction } from '../domain/usecases/removeAction';
-import { updateDraftAction } from '../domain/usecases/updateDraftAction';
+import { ActionField, updateDraftAction } from '../domain/usecases/updateDraftAction';
 
 type ActionEditionProps = {
   action: DraftAction;
   name: string;
   description: string;
-  children: (onChange: (path: string, value: string) => void) => React.ReactNode;
+  children: (onChange: (field: ActionField, value: string) => void) => React.ReactNode;
 };
 
 export const ActionEdition: React.FC<ActionEditionProps> = ({ action, name, description, children }) => {
   const dispatch = useDispatch();
 
-  const handleChange = (path: string, value: string) => {
-    dispatch(updateDraftAction(action, path, value));
+  const handleChange = (field: ActionField, value: string) => {
+    dispatch(updateDraftAction(action, field, value));
   };
 
   return (

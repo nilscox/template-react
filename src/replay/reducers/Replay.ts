@@ -1,4 +1,4 @@
-import { CommitData, Replay as ReplayProps, ReplayData } from '../replay.slice';
+import { CommitData, Replay as ReplayProps, ReplayAction, ReplayData, StepData } from '../replay.slice';
 
 import { Commit } from './Commit';
 import { MemoryEditor } from './MemoryEditor';
@@ -36,6 +36,10 @@ export class Replay {
   }
 
   addCommit(commitData: CommitData) {
+    this.insertCommit(this.commits.length, commitData);
+  }
+
+  insertCommit(index: number, commitData: CommitData) {
     const commit = new Commit({
       name: commitData.name,
       steps: [],
@@ -45,9 +49,19 @@ export class Replay {
       commit.addStep(step);
     }
 
-    this.commits.push(commit);
-    this.props.commits.push(commit.props);
+    this.commits.splice(index, 0, commit);
+    this.props.commits.splice(index, 0, commit.props);
 
+    this.play();
+  }
+
+  insertStep(commitIndex: number, stepIndex: number, stepData: StepData) {
+    this.commits[commitIndex].insertStep(stepIndex, stepData);
+    this.play();
+  }
+
+  insertAction(commitIndex: number, stepIndex: number, actionIndex: number, actionData: ReplayAction) {
+    this.commits[commitIndex].insertAction(stepIndex, actionIndex, actionData);
     this.play();
   }
 }

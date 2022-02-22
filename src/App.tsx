@@ -10,6 +10,7 @@ import { selectIsDiffEditorReady } from './editor/domain/editor.selectors';
 import { setCurrentCommit } from './editor/domain/usecases/setCurrentCommit';
 import { ReplayEdition } from './editor/ReplayEdition/ReplayEdition';
 import { selectIsTextEditorReady } from './renderer/domain/renderer.selectors';
+import { setCurrentStep } from './renderer/domain/usecases/setCurrentStep';
 import { ReplayRenderer } from './renderer/ReplayRenderer';
 import { ReplayTimeline } from './renderer/ReplayTimeline';
 import replay from './replay_4.json';
@@ -35,9 +36,10 @@ export const App: React.FC = () => {
 
   useEffect(() => {
     if (areEditorsReady) {
-      // dispatch(loadReplay([]));
-      dispatch(loadReplay(replay.commits as ReplayCommitData[]));
-      dispatch(setCurrentCommit(replay.commits[0]));
+      dispatch(loadReplay([]));
+      // dispatch(loadReplay(replay.commits as ReplayCommitData[]));
+      // dispatch(setCurrentCommit(replay.commits[1]));
+      // dispatch(setCurrentStep(replay.commits[1].steps[5]));
     }
   }, [dispatch, areEditorsReady]);
 

@@ -10,7 +10,6 @@ export class TypeCodeAction implements ReplayAction {
   constructor(public props: TypeCodeProps) {}
 
   apply(editor: MemoryEditor): void {
-    editor.code = this.props.code;
-    editor.position.set(1, this.props.code.length + 1);
+    editor.insertCode(this.props.code);
   }
 }

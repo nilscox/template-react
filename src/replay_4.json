@@ -104,7 +104,93 @@
     },
     {
       "name": "actions typings",
-      "steps": []
+      "steps": [
+        {
+          "name": "add increment action types",
+          "actions": [
+            { "type": "MoveCursor", "position": [2, 1] },
+            { "type": "InsertLines", "above": 1, "below": 1 },
+            { "type": "TypeCode", "code": "type IncrementAction = {\n  type: 'increment';\n};" },
+            { "type": "MoveCursor", "position": [7, 21] },
+            { "type": "TypeCode", "code": ": IncrementAction" }
+          ]
+        },
+        {
+          "name": "add incrementByAmount action types",
+          "actions": [
+            { "type": "MoveCursor", "position": [10, 1] },
+            { "type": "InsertLines", "above": 1, "below": 1 },
+            {
+              "type": "TypeCode",
+              "code": "type IncrementByAmountAction = {\n  type: 'increment';\n  amount: number;\n};"
+            },
+            { "type": "MoveCursor", "position": [16, 43] },
+            { "type": "TypeCode", "code": ": IncrementByAmountAction" }
+          ]
+        },
+        {
+          "name": "declare app actions",
+          "actions": [
+            { "type": "MoveCursor", "position": [20, 1] },
+            { "type": "InsertLines", "above": 1, "below": 1 },
+            { "type": "TypeCode", "code": "type Action = IncrementAction | IncrementByAmountAction;" }
+          ]
+        },
+        {
+          "name": "replace AnyAction with Action",
+          "actions": [
+            { "type": "MoveCursor", "position": [23, 40] },
+            { "type": "EraseCode", "end": [23, 37] }
+          ]
+        },
+        {
+          "name": "add the createAction function",
+          "actions": [
+            { "type": "MoveCursor", "position": [2, 1] },
+            { "type": "InsertLines", "above": 1, "below": 1 },
+            {
+              "type": "TypeCode",
+              "code": "type Action<Type extends string, Payload> = { type: Type } & Payload;\n\nfunction createAction<Type extends string, Payload>(type: Type, payload?: Payload): Action<Type, Payload> {\n  return { type, ...payload } as Action<Type, Payload>;\n}"
+            }
+          ]
+        },
+        {
+          "name": "use createAction",
+          "actions": [
+            { "type": "MoveCursor", "position": [15, 3] },
+            { "type": "EraseCode", "end": [13, 21] },
+            { "type": "TypeCode", "code": " => {\n  return createAction('increment')\n}" }
+          ]
+        },
+        {
+          "name": "",
+          "actions": []
+        },
+        {
+          "name": "",
+          "actions": []
+        },
+        {
+          "name": "",
+          "actions": []
+        },
+        {
+          "name": "",
+          "actions": []
+        },
+        {
+          "name": "",
+          "actions": []
+        },
+        {
+          "name": "",
+          "actions": []
+        },
+        {
+          "name": "",
+          "actions": []
+        }
+      ]
     }
   ]
 }

@@ -1,4 +1,5 @@
 import { DraftTypeCodeAction } from '../../domain/editor.slice';
+import { ActionField } from '../../domain/usecases/updateDraftAction';
 import { ActionEdition } from '../ActionEdition';
 
 type TypeCodeEditionProps = {
@@ -13,7 +14,7 @@ export const TypeCodeEdition: React.FC<TypeCodeEditionProps> = ({ action }) => (
         rows={4}
         value={action.code}
         spellCheck="false"
-        onChange={(e) => onChange('code', e.target.value)}
+        onChange={(e) => onChange(ActionField.typeCodeCode, e.target.value)}
       />
     )}
   </ActionEdition>

@@ -1,4 +1,4 @@
-import { Commit as CommitProps, StepData } from '../replay.slice';
+import { Commit as CommitProps, ReplayAction, StepData } from '../replay.slice';
 
 import { MemoryEditor } from './MemoryEditor';
 import { Step } from './Step';
@@ -23,6 +23,10 @@ export class Commit {
   }
 
   addStep(stepData: StepData) {
+    this.insertStep(this.steps.length, stepData);
+  }
+
+  insertStep(index: number, stepData: StepData) {
     const step = new Step({
       name: stepData.name,
       actions: stepData.actions,
@@ -30,10 +34,12 @@ export class Commit {
       finalState: { code: '', position: [1, 1] },
     });
 
-    this.steps.push(step);
-    this.props.steps.push(step.props);
+    this.steps.splice(index, 0, step);
+    this.props.steps.splice(index, 0, step.props);
+  }
 
-    this.apply(new MemoryEditor(this.steps[0].props.initialState));
+  insertAction(stepIndex: number, actionIndex: number, actionData: ReplayAction) {
+    this.steps[stepIndex].insertAction(actionIndex, actionData);
   }
 
   apply(editor: MemoryEditor) {

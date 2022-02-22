@@ -1,5 +1,6 @@
 import { CursorPositionInput } from '../../CursorPositionInput';
 import { DraftEraseCodeAction } from '../../domain/editor.slice';
+import { ActionField } from '../../domain/usecases/updateDraftAction';
 import { ActionEdition } from '../ActionEdition';
 
 type EraseCodeEditionProps = {
@@ -13,9 +14,9 @@ export const EraseCodeEdition: React.FC<EraseCodeEditionProps> = ({ action }) =>
         End position
         <CursorPositionInput
           line={action.end.line}
-          onLineChange={(line) => onChange('end.line', line)}
+          onLineChange={(line) => onChange(ActionField.eraseCodeEndLine, line)}
           column={action.end.column}
-          onColumnChange={(column) => onChange('end.column', column)}
+          onColumnChange={(column) => onChange(ActionField.eraseCodeEndLine, column)}
         />
       </div>
     )}

@@ -28,13 +28,11 @@ export class Step {
     }
   }
 
-  addAction(actionProps: ReplayActionProps) {
+  insertAction(index: number, actionProps: ReplayActionProps) {
     const action = Step.instantiateAction(actionProps);
 
-    this.actions.push(action);
-    this.props.actions.push(action.props);
-
-    this.apply(new MemoryEditor(this.props.initialState));
+    this.actions.splice(index, 0, action);
+    this.props.actions.splice(index, 0, action.props);
   }
 
   apply(editor: MemoryEditor) {

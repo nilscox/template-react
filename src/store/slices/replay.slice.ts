@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { Replay } from '../../../domain/Replay';
 import { PlayedCommitData, PlayedStepData, ReplayCommitData } from '../../../domain/types';
+import { ActionField } from '../../editor/domain/usecases/updateDraftAction';
 
 export type ReplayState = {
   commits: PlayedCommitData[];
@@ -13,6 +14,12 @@ const initialState: ReplayState = {
   commits: [],
   currentCommitIndex: 0,
   currentStepIndex: 0,
+};
+
+type UpdateStepActionPayload = {
+  actionIndex: number;
+  field: ActionField;
+  value: string;
 };
 
 const replaySlice = createSlice({
@@ -36,6 +43,11 @@ const replaySlice = createSlice({
     },
     setCurrentCommitName(state, { payload: name }: PayloadAction<string>) {
       state.commits[state.currentCommitIndex].name = name;
+    },
+    tryUpdateStepAction(state, { payload }: PayloadAction<UpdateStepActionPayload>) {
+      const { actionIndex, field, value } = payload;
+
+      console.log(actionIndex, field, value);
     },
     setSteps(
       state,
@@ -62,6 +74,7 @@ export const {
   addCommit,
   addStep,
   setCurrentCommitName,
+  tryUpdateStepAction,
   setSteps,
   setCurrentStepName,
   setCurrentCommitIndex,
