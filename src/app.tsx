@@ -1,1 +1,3 @@
-export const App: React.FC = () => <>app</>;
+export const App = () => {
+  return <>app</>;
+};
