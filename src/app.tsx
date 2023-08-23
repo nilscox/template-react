@@ -1,3 +1,3 @@
-export const App = () => {
+export function App() {
   return <>app</>;
-};
+}

@@ -10,7 +10,7 @@ export default defineConfig({
     watch: false,
     globals: true,
     reporters: ['verbose'],
-    setupFiles: ['vitest.setup.ts'],
+    setupFiles: ['src/vitest.setup.ts'],
     environment: 'happy-dom',
   },
 });

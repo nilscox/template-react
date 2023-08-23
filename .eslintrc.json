@@ -5,6 +5,9 @@
     "sourceType": "module"
   },
 
+  "root": true,
+  "ignorePatterns": ["dist"],
+
   "extends": [
     "eslint:recommended",
     "plugin:import/recommended",
